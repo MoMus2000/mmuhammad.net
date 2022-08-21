@@ -27,11 +27,19 @@ func main() {
 
 	staticC := controllers.NewStaticController()
 
+	postalC := controllers.NewPostalController(postService)
+
+	adminC := controllers.NewAdminController()
+
 	r.Handle("/", staticC.Homepage)
 
 	r.Handle("/about", staticC.About)
 
 	r.Handle("/contact", staticC.Contact)
+
+	r.HandleFunc("/posts", postalC.GetAllPost)
+
+	r.HandleFunc("/admin", adminC.Login)
 
 	http.ListenAndServe(":3000", r)
 }

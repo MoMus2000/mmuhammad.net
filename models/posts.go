@@ -32,6 +32,25 @@ func (p *PostService) Create(post *Post) error {
 	return p.db.Create(post).Error
 }
 
+func (p *PostService) GetAllPost() ([]string, error) {
+	posts := []Post{}
+	postString := []string{}
+	results := p.db.Find(&posts)
+	for _, post := range posts {
+		postString = append(postString, string(post.Topic))
+		postString = append(postString, string(post.Content))
+		postString = append(postString, string(post.Date))
+		postString = append(postString, string(post.Summary))
+	}
+	err := results.Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return postString, nil
+}
+
 type Post struct {
 	gorm.Model
 	Topic   string `gorm:"not null"`
