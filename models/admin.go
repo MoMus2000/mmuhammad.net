@@ -11,6 +11,19 @@ type Admin struct {
 	Password string `gorm:"not_null"`
 }
 
+func (a *AdminService) AutoMigrate() {
+	a.db.AutoMigrate(&Admin{})
+}
+
+func (a *AdminService) ByEmail(email string) (*Admin, error) {
+	admin := Admin{}
+	err := a.db.Where("email = ?", email).First(&admin).Error
+	if err != nil {
+		return nil, err
+	}
+	return &admin, nil
+}
+
 // I need token functions
 // I need hashing functions
 // I need password lookup

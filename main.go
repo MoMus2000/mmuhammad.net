@@ -31,15 +31,13 @@ func main() {
 
 	adminC := controllers.NewAdminController()
 
-	r.Handle("/", staticC.Homepage)
+	r.Handle("/", staticC.Homepage).Methods("GET")
+	r.Handle("/about", staticC.About).Methods("GET")
+	r.Handle("/contact", staticC.Contact).Methods("GET")
+	r.Handle("/admin", adminC.LoginPage).Methods("GET")
 
-	r.Handle("/about", staticC.About)
-
-	r.Handle("/contact", staticC.Contact)
-
-	r.HandleFunc("/posts", postalC.GetAllPost)
-
-	r.HandleFunc("/admin", adminC.Login)
+	r.HandleFunc("/admin", adminC.Login).Methods("POST")
+	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }
