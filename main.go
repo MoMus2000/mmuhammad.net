@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"mustafa_m/controllers"
+	"mustafa_m/models"
 	"net"
 	"net/http"
 
@@ -14,9 +15,9 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// postService := models.NewPostService("../learn_go/db/lenslocked_dev.db")
+	postService := models.NewPostService("../learn_go/db/lenslocked_dev.db")
 
-	// postService.AutoMigrate()
+	postService.AutoMigrate()
 
 	ipAddress := getLocalIpAddress()
 
