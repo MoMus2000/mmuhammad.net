@@ -16,8 +16,10 @@ func main() {
 	r := mux.NewRouter()
 
 	postService := models.NewPostService("../learn_go/db/lenslocked_dev.db")
+	adminService := models.NewAdminService("../learn_go/db/lenslocked_dev.db")
 
 	postService.AutoMigrate()
+	adminService.AutoMigrate()
 
 	ipAddress := getLocalIpAddress()
 
@@ -29,15 +31,20 @@ func main() {
 
 	postalC := controllers.NewPostalController(postService)
 
-	adminC := controllers.NewAdminController()
+	adminC := controllers.NewAdminController(adminService, postService)
+
+	// adminService.Create(&models.Admin{Email: "muhammadmustafa4000@gmail.com",
+	// 	Password: "mustafa"})
 
 	r.Handle("/", staticC.Homepage).Methods("GET")
 	r.Handle("/about", staticC.About).Methods("GET")
 	r.Handle("/contact", staticC.Contact).Methods("GET")
 	r.Handle("/admin", adminC.LoginPage).Methods("GET")
 
-	r.HandleFunc("/admin", adminC.Login).Methods("POST")
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
+	r.HandleFunc("/admin", adminC.Login).Methods("POST")
+	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
+	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
 
 	http.ListenAndServe(":3000", r)
 }

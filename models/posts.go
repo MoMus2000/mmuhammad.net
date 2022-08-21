@@ -32,6 +32,10 @@ func (p *PostService) Create(post *Post) error {
 	return p.db.Create(post).Error
 }
 
+func (ps *PostService) CreatePost(p *Post) error {
+	return ps.db.Create(p).Error
+}
+
 func (p *PostService) GetAllPost() ([]string, error) {
 	posts := []Post{}
 	postString := []string{}
@@ -53,8 +57,9 @@ func (p *PostService) GetAllPost() ([]string, error) {
 
 type Post struct {
 	gorm.Model
-	Topic   string `gorm:"not null"`
-	Content string `gorm:"not null"`
-	Date    string `gorm:"not null"`
-	Summary string `gorm:"not null"`
+	Topic     string `gorm:"not null"`
+	Content   string `gorm:"not null"`
+	Imgur_URL string `gorm:""`
+	Summary   string `gorm:"not null"`
+	Date      string `gorm:""`
 }
