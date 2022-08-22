@@ -36,15 +36,17 @@ func (ps *PostService) CreatePost(p *Post) error {
 	return ps.db.Create(p).Error
 }
 
-func (p *PostService) GetAllPost() ([]string, error) {
+func (p *PostService) GetAllPost() ([][]string, error) {
 	posts := []Post{}
-	postString := []string{}
+	postString := [][]string{}
 	results := p.db.Find(&posts)
 	for _, post := range posts {
-		postString = append(postString, string(post.Topic))
-		postString = append(postString, string(post.Content))
-		postString = append(postString, string(post.Date))
-		postString = append(postString, string(post.Summary))
+		postString = append(postString, []string{
+			post.Topic,
+			post.Content,
+			post.Summary,
+			post.Imgur_URL,
+			post.Date})
 	}
 	err := results.Error
 

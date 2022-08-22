@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"mustafa_m/models"
 	"net/http"
@@ -22,6 +23,6 @@ func (post *Post) GetAllPost(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		panic(err)
 	}
-	fmt.Println(posts)
-	fmt.Fprintln(w, posts)
+	jsonEncoding, err := json.Marshal(posts)
+	fmt.Fprintln(w, string(jsonEncoding))
 }

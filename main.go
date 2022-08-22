@@ -15,8 +15,8 @@ func main() {
 
 	r := mux.NewRouter()
 
-	postService := models.NewPostService("../learn_go/db/lenslocked_dev.db")
-	adminService := models.NewAdminService("../learn_go/db/lenslocked_dev.db")
+	postService := models.NewPostService("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
+	adminService := models.NewAdminService("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
 
 	postService.AutoMigrate()
 	adminService.AutoMigrate()
@@ -33,10 +33,12 @@ func main() {
 
 	adminC := controllers.NewAdminController(adminService, postService)
 
+	homeC := controllers.NewHomeController()
+
 	// adminService.Create(&models.Admin{Email: "muhammadmustafa4000@gmail.com",
 	// 	Password: "mustafa"})
 
-	r.Handle("/", staticC.Homepage).Methods("GET")
+	r.Handle("/", homeC.HomePage).Methods("GET")
 	r.Handle("/about", staticC.About).Methods("GET")
 	r.Handle("/contact", staticC.Contact).Methods("GET")
 	r.Handle("/admin", adminC.LoginPage).Methods("GET")

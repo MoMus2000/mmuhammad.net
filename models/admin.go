@@ -52,7 +52,7 @@ func (a *AdminService) Create(admin *Admin) error {
 	return a.db.Create(admin).Error
 }
 
-// I need token functions
-// I need hashing functions
-// I need password lookup
-// I need email lookup
+// Alter existing API to take in a file as well
+// Parse through the file and link with the created blogpost
+
+// Need another API to view the contents of the clicked link

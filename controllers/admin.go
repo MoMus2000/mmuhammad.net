@@ -125,7 +125,7 @@ func validateJWT(r *http.Request) bool {
 }
 
 func refreshJWT() {
-	//:TODO
+	//TODO:
 }
 
 func parseForm(r *http.Request, f interface{}) {

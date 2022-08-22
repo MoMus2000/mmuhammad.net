@@ -1,0 +1,44 @@
+{{define "yield"}}
+<div class = "container">
+<br>
+
+<script>
+async function getPosts(){
+  let response  = await fetch("/posts");
+  let data = await response.json();
+  for (let i=0; i<data.length; i++){
+    let topic = data[i][0]
+    let summary = data[i][1]
+    let content = data[i][2]
+    createPost(topic, summary, content)
+  }
+}
+
+function createPost(topic, summary, content){
+  html = `
+  <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://i.imgur.com/3gZeLEzs.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">${topic}</h5>
+    <p class="card-text">${summary}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  </div>`
+
+  g= document.createElement('div');
+  g.id = topic;
+  postTag = document.getElementById("posts")
+  postTag.appendChild(g);
+  document.getElementById(g.id).innerHTML=html;
+}
+
+getPosts()
+</script>
+
+<div class="card-group" id="posts">
+
+</div>
+
+</div>
+
+{{end}}

@@ -8,7 +8,7 @@ import (
 	"path"
 )
 
-//go:embed layouts static admin
+//go:embed layouts static admin home
 var Res embed.FS
 
 type View struct {
@@ -62,7 +62,8 @@ func getAllFilenames(fs *embed.FS, dir string) (out []string, err error) {
 		return nil, err
 	}
 	for _, entry := range entries {
-		if entry.Name() == "static" || entry.Name() == "admin" {
+		if entry.Name() == "static" || entry.Name() == "admin" ||
+			entry.Name() == "home" {
 			continue
 		}
 		fp := path.Join(dir, entry.Name())
