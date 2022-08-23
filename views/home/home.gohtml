@@ -16,12 +16,12 @@ async function getPosts(){
 
 function createPost(topic, summary, content){
   html = `
-  <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://i.imgur.com/3gZeLEzs.jpg" alt="Card image cap">
+  <div class="card" style="width: 12rem;">
+  <img class="card-img-top" src="https://i.imgur.com/YwWrqoz.png" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${topic}</h5>
     <p class="card-text">${summary}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <a href="/posts/${topic}" class="btn btn-primary">Go to the article</a>
   </div>
   </div>`
 
