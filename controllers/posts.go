@@ -6,6 +6,8 @@ import (
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Post struct {
@@ -34,7 +36,14 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	// TODO:
 	// Provide the render page with the data from the database to create the
 	// article and view it
-	err := post.postPage.Render(w, nil)
+	arr := strings.Split(r.URL.Path, "/")
+	id := arr[len(arr)-2]
+	idToUint, err := strconv.ParseUint(id, 0, 64)
+	if err != nil {
+		panic(err)
+	}
+	data := post.postalService.GetPost(uint(idToUint)).Summary
+	err = post.postPage.Render(w, data)
 	if err != nil {
 		panic(err)
 	}

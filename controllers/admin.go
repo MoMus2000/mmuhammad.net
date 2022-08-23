@@ -33,9 +33,10 @@ type LoginForm struct {
 }
 
 type BlogForm struct {
-	Topic   string `schema:"Topic"`
-	Summary string `schema:"Summary"`
-	Content string `schema:"Content"`
+	Topic     string `schema:"Topic"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
+	Content   string `schema:"File"`
 }
 
 var jwtKey = []byte("my_secret_key")
@@ -66,6 +67,8 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	form := BlogForm{}
 	parseForm(r, &form)
+	// TODO: Change to take in the IMGUR URL and the uploaded file
+	// Save the file content into the database
 	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary}
 	err := admin.PostService.Create(&post)
 	if err != nil {

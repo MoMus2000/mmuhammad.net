@@ -9,19 +9,19 @@ async function getPosts(){
   for (let i=0; i<data.length; i++){
     let topic = data[i][0]
     let summary = data[i][1]
-    let content = data[i][2]
-    createPost(topic, summary, content)
+    let id = data[i][4]
+    createPost(topic, summary, id)
   }
 }
 
-function createPost(topic, summary, content){
+function createPost(topic, summary, id){
   html = `
   <div class="card" style="width: 12rem;">
   <img class="card-img-top" src="https://i.imgur.com/YwWrqoz.png" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${topic}</h5>
     <p class="card-text">${summary}</p>
-    <a href="/posts/${topic}" class="btn btn-primary">Go to the article</a>
+    <a href="/posts/${id}/${topic}" class="btn btn-primary">Go to the article</a>
   </div>
   </div>`
 

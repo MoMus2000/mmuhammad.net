@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strconv"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -36,6 +38,12 @@ func (ps *PostService) CreatePost(p *Post) error {
 	return ps.db.Create(p).Error
 }
 
+func (ps *PostService) GetPost(id uint) *Post {
+	post := Post{}
+	ps.db.First(&post, id)
+	return &post
+}
+
 func (p *PostService) GetAllPost() ([][]string, error) {
 	posts := []Post{}
 	postString := [][]string{}
@@ -43,10 +51,11 @@ func (p *PostService) GetAllPost() ([][]string, error) {
 	for _, post := range posts {
 		postString = append(postString, []string{
 			post.Topic,
-			post.Content,
 			post.Summary,
 			post.Imgur_URL,
-			post.Date})
+			post.Date,
+			strconv.FormatUint(uint64(post.ID), 10),
+		})
 	}
 	err := results.Error
 
