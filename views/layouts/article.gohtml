@@ -1,4 +1,4 @@
-{{define "bootstrap"}}
+{{define "article"}}
 <!doctype html>
 <html lang="en">
   <head>
@@ -16,9 +16,18 @@
 
     <div class = "container-fluid">
 
-    {{template "yield"}}
+    {{template "post"}}
+
+    <article>
+
+    <h1> {{.Topic}} </h1>
+
+    <h2> {{.Summary}} </h2>
+
+    <h3> {{.Content}} </h3>
     
-    
+    </article>
+
     </div>
     
 

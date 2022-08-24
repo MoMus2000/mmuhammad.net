@@ -13,7 +13,7 @@
 {{end}}
 
 {{define "login"}}
-<form action="/admin/create" method="POST">
+<form action="/admin/create" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <label for="Topic">Topic</label>
     <input type="text" name="Topic" class="form-control" id="Topic" aria-describedby="emailHelp" placeholder="Blog Topic">
@@ -26,9 +26,9 @@
     <label for="Imgur">Imgur URL</label>
     <input type="text" name="Imgur" class="form-control" id="Imgur" placeholder="Imgur URL">
   </div>
-  <div class="mb-3">
+  <div class="form-group">
     <label for="File" class="form-label">Upload your HTML formatted article</label>
-    <input class="form-control" type="file" id="File">
+    <input class="file" type="file" id="File" name="File">
   </div>
   <br>
   <button type="submit" class="btn btn-primary">Create Post</button>

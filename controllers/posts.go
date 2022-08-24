@@ -18,7 +18,7 @@ type Post struct {
 func NewPostalController(postalService *models.PostService) *Post {
 	return &Post{
 		postalService: postalService,
-		postPage:      views.NewView("bootstrap", "static/content/post.gohtml"),
+		postPage:      views.NewView("article", "static/content/post.gohtml"),
 	}
 }
 
@@ -42,8 +42,21 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	data := post.postalService.GetPost(uint(idToUint)).Summary
-	err = post.postPage.Render(w, data)
+
+	type Data struct {
+		Topic   string
+		Summary string
+		Content string
+	}
+
+	data := post.postalService.GetPost(uint(idToUint))
+
+	dataObject := &Data{
+		Topic:   data.Topic,
+		Summary: data.Summary,
+		Content: data.Content}
+
+	err = post.postPage.Render(w, dataObject)
 	if err != nil {
 		panic(err)
 	}

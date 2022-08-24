@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"io/ioutil"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
@@ -36,7 +37,7 @@ type BlogForm struct {
 	Topic     string `schema:"Topic"`
 	Summary   string `schema:"Summary"`
 	Imgur_URL string `schema:"Imgur"`
-	Content   string `schema:"File"`
+	Content   string
 }
 
 var jwtKey = []byte("my_secret_key")
@@ -66,10 +67,14 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 
 func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	form := BlogForm{}
-	parseForm(r, &form)
+	content := parseForm(r, &form)
+	form.Content = content
+	fmt.Println("OK123")
+	fmt.Println(form)
 	// TODO: Change to take in the IMGUR URL and the uploaded file
 	// Save the file content into the database
-	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary}
+	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary,
+		Imgur_URL: form.Imgur_URL}
 	err := admin.PostService.Create(&post)
 	if err != nil {
 		panic(err)
@@ -131,19 +136,40 @@ func refreshJWT() {
 	//TODO:
 }
 
-func parseForm(r *http.Request, f interface{}) {
-	err := r.ParseForm()
-	if err != nil {
-		panic(err)
+func parseForm(r *http.Request, f interface{}) string {
+	var text string
+	encoding := r.Header.Get("Content-Type")
+	if encoding == "application/x-www-form-urlencoded" {
+		r.ParseForm()
+	} else {
+		err := r.ParseMultipartForm(10000000000)
+		if err != nil {
+			panic(err)
+		}
+		files := r.MultipartForm.File["File"]
+		for _, file := range files {
+			fileContent, err := file.Open()
+			if err != nil {
+				fmt.Println("Error opening the file")
+			}
+			byteContainer, err := ioutil.ReadAll(fileContent)
+			if err != nil {
+				fmt.Println("Error reading the file")
+			}
+			defer fileContent.Close()
+			text = string(byteContainer)
+		}
 	}
 
 	decoder := schema.NewDecoder()
 
-	err = decoder.Decode(f, r.PostForm)
+	err := decoder.Decode(f, r.PostForm)
+
+	fmt.Println(r.PostForm)
 
 	if err != nil {
 		panic(err)
 	}
 
-	return
+	return text
 }

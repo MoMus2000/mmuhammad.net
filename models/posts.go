@@ -70,7 +70,7 @@ type Post struct {
 	gorm.Model
 	Topic     string `gorm:"not null"`
 	Content   string `gorm:"not null"`
-	Imgur_URL string `gorm:""`
+	Imgur_URL string `gorm:"not null"`
 	Summary   string `gorm:"not null"`
 	Date      string `gorm:""`
 }
