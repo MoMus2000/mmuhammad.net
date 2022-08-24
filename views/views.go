@@ -17,8 +17,6 @@ type View struct {
 }
 
 func (v *View) Render(w http.ResponseWriter, data interface{}) error {
-	fmt.Println(v.layout)
-	fmt.Println(v.template.Name())
 	return v.template.ExecuteTemplate(w, v.layout, data)
 }
 

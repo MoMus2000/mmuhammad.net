@@ -6,6 +6,8 @@ import (
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Post struct {
@@ -16,7 +18,7 @@ type Post struct {
 func NewPostalController(postalService *models.PostService) *Post {
 	return &Post{
 		postalService: postalService,
-		postPage:      views.NewView("bootstrap", "static/content/post.gohtml"),
+		postPage:      views.NewView("article", "static/content/post.gohtml"),
 	}
 }
 
@@ -34,7 +36,27 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	// TODO:
 	// Provide the render page with the data from the database to create the
 	// article and view it
-	err := post.postPage.Render(w, nil)
+	arr := strings.Split(r.URL.Path, "/")
+	id := arr[len(arr)-2]
+	idToUint, err := strconv.ParseUint(id, 0, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	type Data struct {
+		Topic   string
+		Summary string
+		Content string
+	}
+
+	data := post.postalService.GetPost(uint(idToUint))
+
+	dataObject := &Data{
+		Topic:   data.Topic,
+		Summary: data.Summary,
+		Content: data.Content}
+
+	err = post.postPage.Render(w, dataObject)
 	if err != nil {
 		panic(err)
 	}

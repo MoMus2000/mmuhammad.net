@@ -47,7 +47,7 @@ func main() {
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")
 	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
-	r.HandleFunc("/posts/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
+	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }
