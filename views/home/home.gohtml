@@ -6,18 +6,38 @@
 async function getPosts(){
   let response  = await fetch("/posts");
   let data = await response.json();
+  html = ""
   for (let i=0; i<data.length; i++){
     let topic = data[i][0]
     let summary = data[i][1]
     let imgur = data[i][2]
     let id = data[i][4]
-    createPost(topic, summary, id, imgur)
+    html += createPost(topic, summary, id, imgur)
+    if(i%2 == 0){
+      g= document.createElement('div');
+      g.id = topic;
+      g.className = "row"
+      postTag = document.getElementById("posts")
+      postTag.appendChild(g);
+      document.getElementById(g.id).innerHTML=html;
+    }
+    else{
+      html = createPost(topic, summary, id, imgur)
+    }
+  }
+  if(i % data.Length != 0){
+    g= document.createElement('div');
+    g.id = topic;
+    g.className = "row"
+    postTag = document.getElementById("posts")
+    postTag.appendChild(g);
+    document.getElementById(g.id).innerHTML=html;
   }
 }
 
 function createPost(topic, summary, id, imgur){
   html = `
-  <div class="card" style="width: 256px;">
+  <div class="card col-sm-6">
   <img class="card-img-top" src="${imgur}" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${topic}</h5>
@@ -26,18 +46,13 @@ function createPost(topic, summary, id, imgur){
   </div>
   </div>
   <br>`
-
-  g= document.createElement('div');
-  g.id = topic;
-  postTag = document.getElementById("posts")
-  postTag.appendChild(g);
-  document.getElementById(g.id).innerHTML=html;
+  return html
 }
 
 getPosts()
 </script>
 
-<div class="card-group" id="posts">
+<div id="posts">
 
 </div>
 
