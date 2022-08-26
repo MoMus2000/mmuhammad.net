@@ -41,12 +41,15 @@ func main() {
 	r.Handle("/", homeC.HomePage).Methods("GET")
 	r.Handle("/about", staticC.About).Methods("GET")
 	r.Handle("/contact", staticC.Contact).Methods("GET")
-	r.Handle("/admin", adminC.LoginPage).Methods("GET")
+	r.NotFoundHandler = staticC.PageNotFound
 
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")
+	r.HandleFunc("/admin", adminC.GetLoginPage).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
+	r.HandleFunc("/admin/delete", adminC.GetDeletePage).Methods("GET")
+	r.HandleFunc("/admin/delete", adminC.SubmitDeleteRequest).Methods("POST")
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	http.ListenAndServe(":3000", r)

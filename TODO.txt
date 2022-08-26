@@ -1,7 +1,6 @@
-- Need an API to delete written posts and front end
 - Ability to add comments under the post 
 - Fix bug where it will show posts when the number of posts are even
-- Redirect to create post when token is valid
-- Function to refresh token and validate token
+- Function to refresh token
 - Add pagination to the homepage
-- Add date to the post
+- Add date to the post // Need to store with correct format in DB, currently a string
+- Improve error handling

@@ -22,20 +22,20 @@ func NewPostService(connectionInfo string) *PostService {
 	}
 }
 
-func (p *PostService) AutoMigrate() error {
-	err := p.db.AutoMigrate(&Post{}).Error
+func (ps *PostService) AutoMigrate() error {
+	err := ps.db.AutoMigrate(&Post{}).Error
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *PostService) Create(post *Post) error {
-	return p.db.Create(post).Error
-}
-
 func (ps *PostService) CreatePost(p *Post) error {
 	return ps.db.Create(p).Error
+}
+
+func (ps *PostService) DeletePost(id uint) error {
+	return ps.db.Delete(&Post{}, id).Error
 }
 
 func (ps *PostService) GetPost(id uint) *Post {
@@ -44,10 +44,10 @@ func (ps *PostService) GetPost(id uint) *Post {
 	return &post
 }
 
-func (p *PostService) GetAllPost() ([][]string, error) {
+func (ps *PostService) GetAllPost() ([][]string, error) {
 	posts := []Post{}
 	postString := [][]string{}
-	results := p.db.Find(&posts)
+	results := ps.db.Find(&posts).Order("Date DESC")
 	for _, post := range posts {
 		postString = append(postString, []string{
 			post.Topic,

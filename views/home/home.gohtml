@@ -7,7 +7,8 @@ async function getPosts(){
   let response  = await fetch("/posts");
   let data = await response.json();
   html = ""
-  for (let i=0; i<data.length; i++){
+  let i = 0
+  for (i=0; i<data.length; i++){
     let topic = data[i][0]
     let summary = data[i][1]
     let imgur = data[i][2]

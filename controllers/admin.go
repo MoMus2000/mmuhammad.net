@@ -6,6 +6,7 @@ import (
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -17,6 +18,7 @@ type Admin struct {
 	AdminService *models.AdminService
 	PostService  *models.PostService
 	BlogForm     *views.View
+	DeleteForm   *views.View
 }
 
 func NewAdminController(adminService *models.AdminService, ps *models.PostService) *Admin {
@@ -25,6 +27,7 @@ func NewAdminController(adminService *models.AdminService, ps *models.PostServic
 		AdminService: adminService,
 		PostService:  ps,
 		BlogForm:     views.NewView("bootstrap", "admin/blogForm.gohtml"),
+		DeleteForm:   views.NewView("bootstrap", "admin/deleteForm.gohtml"),
 	}
 }
 
@@ -38,6 +41,10 @@ type BlogForm struct {
 	Summary   string `schema:"Summary"`
 	Imgur_URL string `schema:"Imgur"`
 	Content   string
+}
+
+type DeleteForm struct {
+	Id string `schema:"Id"`
 }
 
 var jwtKey = []byte("my_secret_key")
@@ -74,12 +81,27 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	// TODO: Change to take in the IMGUR URL and the uploaded file
 	// Save the file content into the database
 	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary,
-		Imgur_URL: form.Imgur_URL}
-	err := admin.PostService.Create(&post)
+		Imgur_URL: form.Imgur_URL, Date: time.Now().String()}
+	err := admin.PostService.CreatePost(&post)
 	if err != nil {
 		panic(err)
 	}
 	http.Redirect(w, r, "/admin/create", http.StatusFound)
+}
+
+func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) {
+	form := DeleteForm{}
+	parseForm(r, &form)
+	fmt.Println(form)
+	idToUint, err := strconv.ParseUint(form.Id, 0, 64)
+	if err != nil {
+		panic(err)
+	}
+	err = admin.PostService.DeletePost(uint(idToUint))
+	if err != nil {
+		panic(err)
+	}
+	http.Redirect(w, r, "/admin/delete", http.StatusFound)
 }
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
@@ -88,6 +110,20 @@ func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	admin.BlogForm.Render(w, nil)
+}
+
+func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
+	if validateJWT(r) {
+		http.Redirect(w, r, "/admin/create", http.StatusFound)
+	}
+	admin.LoginPage.Render(w, nil)
+}
+
+func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		http.Redirect(w, r, "/", http.StatusForbidden)
+	}
+	admin.DeleteForm.Render(w, nil)
 }
 
 func createJWT(w http.ResponseWriter, admin *models.Admin) {
