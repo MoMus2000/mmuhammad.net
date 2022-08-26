@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
@@ -46,7 +47,7 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	type Data struct {
 		Topic   string
 		Summary string
-		Content string
+		Content template.HTML
 	}
 
 	data := post.postalService.GetPost(uint(idToUint))
@@ -54,7 +55,7 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	dataObject := &Data{
 		Topic:   data.Topic,
 		Summary: data.Summary,
-		Content: data.Content}
+		Content: template.HTML(data.Content)}
 
 	err = post.postPage.Render(w, dataObject)
 	if err != nil {
