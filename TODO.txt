@@ -1,5 +1,4 @@
 - Ability to add comments under the post 
-- Fix bug where it will show posts when the number of posts are even
 - Function to refresh token
 - Add pagination to the homepage
 - Add date to the post // Need to store with correct format in DB, currently a string

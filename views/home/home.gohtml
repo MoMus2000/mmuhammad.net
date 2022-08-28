@@ -3,18 +3,24 @@
 <br>
 
 <script>
+let currentPage = 1
 async function getPosts(){
-  let response  = await fetch("/posts");
+  let response  = await fetch("/posts?page=${currentPage}");
   let data = await response.json();
+  console.log(data)
   html = ""
+  let topic = ""
+  let summary = ""
+  let imgur = ""
+  let id = ""
   let i = 0
   for (i=0; i<data.length; i++){
-    let topic = data[i][0]
-    let summary = data[i][1]
-    let imgur = data[i][2]
-    let id = data[i][4]
+    topic = data[i][0]
+    summary = data[i][1]
+    imgur = data[i][2]
+    id = data[i][4]
     html += createPost(topic, summary, id, imgur)
-    if(i%2 == 0){
+    if((i+1)%2 == 0){
       g= document.createElement('div');
       g.id = topic;
       g.className = "row"
@@ -26,7 +32,7 @@ async function getPosts(){
       html = createPost(topic, summary, id, imgur)
     }
   }
-  if(i % data.Length != 0){
+  if(i+1 % 2 != 0){
     g= document.createElement('div');
     g.id = topic;
     g.className = "row"

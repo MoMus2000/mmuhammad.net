@@ -126,7 +126,7 @@ func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
 	admin.DeleteForm.Render(w, nil)
 }
 
-func createJWT(w http.ResponseWriter, admin *models.Admin) {
+func createJWT(w http.ResponseWriter, admin *models.Admin) error {
 	expirationTime := time.Now().Add(60 * time.Minute)
 	claims := &Claims{
 		Username: admin.Email,
@@ -137,14 +137,15 @@ func createJWT(w http.ResponseWriter, admin *models.Admin) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	http.SetCookie(w, &http.Cookie{
 		Name:    "token",
 		Value:   tokenString,
 		Expires: expirationTime,
 	})
-	return
+
+	return nil
 }
 
 func validateJWT(r *http.Request) bool {
@@ -168,8 +169,9 @@ func validateJWT(r *http.Request) bool {
 	return true
 }
 
-func refreshJWT() {
-	//TODO:
+func refreshJWT(w http.ResponseWriter, r *http.Request) error {
+	// TODO :
+	return nil
 }
 
 func parseForm(r *http.Request, f interface{}) string {
