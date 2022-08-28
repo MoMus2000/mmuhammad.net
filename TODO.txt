@@ -3,3 +3,4 @@
 - Add pagination to the homepage
 - Add date to the post // Need to store with correct format in DB, currently a string
 - Improve error handling
+- Add functionality / button to be able to download resume
