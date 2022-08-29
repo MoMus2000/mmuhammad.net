@@ -7,3 +7,6 @@
 - Write HTML Templating using the builer design pattern in the views folder
 - Page for session/token timeout
 - Page for forbidden rather than the text
+- Explore HTTPS and Caddy
+- Create a build script or search if you need one for deployment
+- Edit API to modify existing articles
