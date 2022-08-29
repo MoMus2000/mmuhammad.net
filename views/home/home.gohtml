@@ -4,8 +4,9 @@
 
 <script>
 let currentPage = 1
+let apiRequestURL = `/posts?page=${currentPage}`
 async function getPosts(){
-  let response  = await fetch("/posts?page=${currentPage}");
+  let response  = await fetch(apiRequestURL);
   let data = await response.json();
   console.log(data)
   html = ""

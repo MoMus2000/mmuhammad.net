@@ -73,33 +73,39 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
+	internalServerError := InternalServerError()
 	form := BlogForm{}
-	content := parseForm(r, &form)
+	content, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
 	form.Content = content
-	fmt.Println("OK123")
-	fmt.Println(form)
 	// TODO: Change to take in the IMGUR URL and the uploaded file
 	// Save the file content into the database
 	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary,
 		Imgur_URL: form.Imgur_URL, Date: time.Now().String()}
-	err := admin.PostService.CreatePost(&post)
+	err = admin.PostService.CreatePost(&post)
 	if err != nil {
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 	http.Redirect(w, r, "/admin/create", http.StatusFound)
 }
 
 func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) {
 	form := DeleteForm{}
-	parseForm(r, &form)
+	internalServerError := InternalServerError()
+	_, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
 	fmt.Println(form)
 	idToUint, err := strconv.ParseUint(form.Id, 0, 64)
 	if err != nil {
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 	err = admin.PostService.DeletePost(uint(idToUint))
 	if err != nil {
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 	http.Redirect(w, r, "/admin/delete", http.StatusFound)
 }
@@ -174,7 +180,7 @@ func refreshJWT(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func parseForm(r *http.Request, f interface{}) string {
+func parseForm(r *http.Request, f interface{}) (string, error) {
 	var text string
 	encoding := r.Header.Get("Content-Type")
 	if encoding == "application/x-www-form-urlencoded" {
@@ -182,17 +188,20 @@ func parseForm(r *http.Request, f interface{}) string {
 	} else {
 		err := r.ParseMultipartForm(10000000000)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			return "", err
 		}
 		files := r.MultipartForm.File["File"]
 		for _, file := range files {
 			fileContent, err := file.Open()
 			if err != nil {
 				fmt.Println("Error opening the file")
+				return "", err
 			}
 			byteContainer, err := ioutil.ReadAll(fileContent)
 			if err != nil {
 				fmt.Println("Error reading the file")
+				return "", err
 			}
 			defer fileContent.Close()
 			text = string(byteContainer)
@@ -206,8 +215,8 @@ func parseForm(r *http.Request, f interface{}) string {
 	fmt.Println(r.PostForm)
 
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	return text
+	return text, nil
 }
