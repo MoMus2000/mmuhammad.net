@@ -2,11 +2,9 @@
 - Function to refresh token -- Not super important
 - Add pagination to the homepage -- Medium priority - need to look into a proper API
 - Add date to the post // Need to store with correct format in DB, currently a string -- Not enough articles to warrant this
-- Improve error handling -- High priority -- Need to redirect to error 500 page
 - Add functionality / button to be able to download resume
 - Write HTML Templating using the builer design pattern in the views folder
 - Page for session/token timeout
-- Page for forbidden rather than the text
 - Explore HTTPS and Caddy
 - Create a build script or search if you need one for deployment
-- Edit API to modify existing articles
+- Edit API to modify existing articles -- High priority

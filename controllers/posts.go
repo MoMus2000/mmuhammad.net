@@ -25,9 +25,10 @@ func NewPostalController(postalService *models.PostService) *Post {
 
 func (post *Post) GetAllPost(w http.ResponseWriter, r *http.Request) {
 	posts, err := post.postalService.GetAllPost()
+	internalServerError := InternalServerError()
 	if err != nil {
 		fmt.Println(err)
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 	jsonEncoding, err := json.Marshal(posts)
 	fmt.Fprintln(w, string(jsonEncoding))
@@ -37,11 +38,12 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 	// TODO:
 	// Provide the render page with the data from the database to create the
 	// article and view it
+	internalServerError := InternalServerError()
 	arr := strings.Split(r.URL.Path, "/")
 	id := arr[len(arr)-2]
 	idToUint, err := strconv.ParseUint(id, 0, 64)
 	if err != nil {
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 
 	type Data struct {
@@ -59,6 +61,6 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 
 	err = post.postPage.Render(w, dataObject)
 	if err != nil {
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 }

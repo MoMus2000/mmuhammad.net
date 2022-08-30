@@ -13,10 +13,16 @@ import (
 
 func main() {
 
-	r := mux.NewRouter()
+	r := mux.NewRouter().StrictSlash(true)
 
-	postService := models.NewPostService("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
-	adminService := models.NewAdminService("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
+	db, err := models.NewDataBaseConnection("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
+
+	if err != nil {
+		panic(err)
+	}
+
+	postService := models.NewPostService(db)
+	adminService := models.NewAdminService(db)
 
 	postService.AutoMigrate()
 	adminService.AutoMigrate()

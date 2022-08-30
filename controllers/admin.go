@@ -56,6 +56,7 @@ type Claims struct {
 
 func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("POST request recieved")
+	internalServerError := InternalServerError()
 	form := LoginForm{}
 	parseForm(r, &form)
 	fmt.Println(form)
@@ -63,7 +64,7 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 	result, err := admin.AdminService.ByEmail(&adminTemp)
 	if err != nil {
 		fmt.Println(err)
-		panic(err)
+		internalServerError.Render(w, nil)
 	}
 	fmt.Println(result)
 
@@ -73,6 +74,10 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
 	internalServerError := InternalServerError()
 	form := BlogForm{}
 	content, err := parseForm(r, &form)
@@ -92,6 +97,10 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
 	form := DeleteForm{}
 	internalServerError := InternalServerError()
 	_, err := parseForm(r, &form)
@@ -112,7 +121,7 @@ func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) 
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
-		http.Redirect(w, r, "/", http.StatusForbidden)
+		ForbiddenError().Render(w, nil)
 		return
 	}
 	admin.BlogForm.Render(w, nil)
@@ -127,7 +136,8 @@ func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 
 func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
-		http.Redirect(w, r, "/", http.StatusForbidden)
+		ForbiddenError().Render(w, nil)
+		return
 	}
 	admin.DeleteForm.Render(w, nil)
 }

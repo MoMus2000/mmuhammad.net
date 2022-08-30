@@ -11,12 +11,7 @@ type PostService struct {
 	db *gorm.DB
 }
 
-func NewPostService(connectionInfo string) *PostService {
-	db, err := gorm.Open("sqlite3", connectionInfo)
-	if err != nil {
-		panic(err)
-	}
-	db.LogMode(true)
+func NewPostService(db *gorm.DB) *PostService {
 	return &PostService{
 		db: db,
 	}

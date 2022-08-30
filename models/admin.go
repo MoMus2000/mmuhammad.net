@@ -20,12 +20,7 @@ func (a *AdminService) AutoMigrate() {
 	a.db.AutoMigrate(&Admin{})
 }
 
-func NewAdminService(connectionInfo string) *AdminService {
-	db, err := gorm.Open("sqlite3", connectionInfo)
-	if err != nil {
-		panic(err)
-	}
-	db.LogMode(true)
+func NewAdminService(db *gorm.DB) *AdminService {
 	return &AdminService{db: db}
 }
 
@@ -46,7 +41,7 @@ func (a *AdminService) Create(admin *Admin) error {
 	passwordBytes := []byte(admin.Password + pepper)
 	hashedBytes, err := bcrypt.GenerateFromPassword(passwordBytes, bcrypt.DefaultCost)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	admin.Password = string(hashedBytes)
 	return a.db.Create(admin).Error
