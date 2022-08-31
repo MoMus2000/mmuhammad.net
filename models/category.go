@@ -8,3 +8,19 @@ type Category struct {
 	CreationDate string
 	Imgur_URL    string
 }
+
+type CategoryService struct {
+	db *gorm.DB
+}
+
+func NewCategoryService(db *gorm.DB) *CategoryService {
+	return &CategoryService{db: db}
+}
+
+func (cs *CategoryService) AutoMigrate() error {
+	return cs.db.AutoMigrate(&Category{}).Error
+}
+
+func (cs *CategoryService) Create(cat *Category) error {
+	return cs.db.Create(cat).Error
+}

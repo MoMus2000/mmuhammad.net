@@ -162,6 +162,12 @@ func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/edit", http.StatusFound)
 }
 
+func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
+	// parse form
+	// save to database
+	// TODO:
+}
+
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		ForbiddenError().Render(w, nil)

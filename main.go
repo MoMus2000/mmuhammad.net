@@ -23,9 +23,11 @@ func main() {
 
 	postService := models.NewPostService(db)
 	adminService := models.NewAdminService(db)
+	categoryService := models.NewCategoryService(db)
 
 	postService.AutoMigrate()
 	adminService.AutoMigrate()
+	categoryService.AutoMigrate()
 
 	ipAddress := getLocalIpAddress()
 
