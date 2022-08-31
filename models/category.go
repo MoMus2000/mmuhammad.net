@@ -4,9 +4,10 @@ import "github.com/jinzhu/gorm"
 
 type Category struct {
 	*gorm.Model
-	CategoryName string
-	CreationDate string
-	Imgur_URL    string
+	CategoryName    string
+	CategorySummary string
+	CreationDate    string
+	Imgur_URL       string
 }
 
 type CategoryService struct {

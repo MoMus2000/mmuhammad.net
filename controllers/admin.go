@@ -14,24 +14,27 @@ import (
 )
 
 type Admin struct {
-	LoginPage    *views.View
-	AdminService *models.AdminService
-	PostService  *models.PostService
-	BlogForm     *views.View
-	DeleteForm   *views.View
-	EditForm     *views.View
-	CategoryForm *views.View
+	LoginPage       *views.View
+	AdminService    *models.AdminService
+	PostService     *models.PostService
+	CategoryService *models.CategoryService
+	BlogForm        *views.View
+	DeleteForm      *views.View
+	EditForm        *views.View
+	CategoryForm    *views.View
 }
 
-func NewAdminController(adminService *models.AdminService, ps *models.PostService) *Admin {
+func NewAdminController(adminService *models.AdminService, ps *models.PostService,
+	cs *models.CategoryService) *Admin {
 	return &Admin{
-		LoginPage:    views.NewView("bootstrap", "admin/login.gohtml"),
-		AdminService: adminService,
-		PostService:  ps,
-		BlogForm:     views.NewView("bootstrap", "admin/blogForm.gohtml"),
-		DeleteForm:   views.NewView("bootstrap", "admin/deleteForm.gohtml"),
-		EditForm:     views.NewView("bootstrap", "admin/editForm.gohtml"),
-		CategoryForm: views.NewView("bootstrap", "admin/categoryForm.gohtml"),
+		LoginPage:       views.NewView("bootstrap", "admin/login.gohtml"),
+		AdminService:    adminService,
+		PostService:     ps,
+		CategoryService: cs,
+		BlogForm:        views.NewView("bootstrap", "admin/blogForm.gohtml"),
+		DeleteForm:      views.NewView("bootstrap", "admin/deleteForm.gohtml"),
+		EditForm:        views.NewView("bootstrap", "admin/editForm.gohtml"),
+		CategoryForm:    views.NewView("bootstrap", "admin/categoryForm.gohtml"),
 	}
 }
 
@@ -163,9 +166,23 @@ func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
-	// parse form
-	// save to database
-	// TODO:
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	internalServerError := InternalServerError()
+	form := CategoryForm{}
+	_, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	cat := models.Category{CategoryName: form.Category, Imgur_URL: form.Imgur_URL,
+		CategorySummary: form.Summary, CreationDate: time.Now().String()}
+	err = admin.CategoryService.Create(&cat)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	http.Redirect(w, r, "/admin/category", http.StatusFound)
 }
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {

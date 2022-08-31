@@ -39,7 +39,7 @@ func main() {
 
 	postalC := controllers.NewPostalController(postService)
 
-	adminC := controllers.NewAdminController(adminService, postService)
+	adminC := controllers.NewAdminController(adminService, postService, categoryService)
 
 	homeC := controllers.NewHomeController()
 
@@ -63,6 +63,7 @@ func main() {
 	r.HandleFunc("/admin/edit", adminC.GetEditPage).Methods("GET")
 	r.HandleFunc("/admin/edit", adminC.SubmitEditRequest).Methods("POST")
 	r.HandleFunc("/admin/category", adminC.GetCategoryPage).Methods("GET")
+	r.HandleFunc("/admin/category", adminC.SubmitCategoryFrom).Methods("POST")
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
