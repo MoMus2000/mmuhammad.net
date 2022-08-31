@@ -1,0 +1,10 @@
+package models
+
+import "github.com/jinzhu/gorm"
+
+type Category struct {
+	*gorm.Model
+	CategoryName string
+	CreationDate string
+	Imgur_URL    string
+}

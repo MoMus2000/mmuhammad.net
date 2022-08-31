@@ -44,7 +44,6 @@ func NewView(layout string, files ...string) *View {
 
 func getFilesFromLayout() []string {
 	file_paths, err := getAllFilenames(&Res, ".")
-	fmt.Println(file_paths)
 	if err != nil {
 		panic(err)
 	}

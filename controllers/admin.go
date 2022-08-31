@@ -20,6 +20,7 @@ type Admin struct {
 	BlogForm     *views.View
 	DeleteForm   *views.View
 	EditForm     *views.View
+	CategoryForm *views.View
 }
 
 func NewAdminController(adminService *models.AdminService, ps *models.PostService) *Admin {
@@ -30,6 +31,7 @@ func NewAdminController(adminService *models.AdminService, ps *models.PostServic
 		BlogForm:     views.NewView("bootstrap", "admin/blogForm.gohtml"),
 		DeleteForm:   views.NewView("bootstrap", "admin/deleteForm.gohtml"),
 		EditForm:     views.NewView("bootstrap", "admin/editForm.gohtml"),
+		CategoryForm: views.NewView("bootstrap", "admin/categoryForm.gohtml"),
 	}
 }
 
@@ -52,6 +54,12 @@ type DeleteForm struct {
 type EditForm struct {
 	Id        string `schema:"ID"`
 	Topic     string `schema:"Topic"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
+}
+
+type CategoryForm struct {
+	Category  string `schema:"Cat"`
 	Summary   string `schema:"Summary"`
 	Imgur_URL string `schema:"Imgur"`
 }
@@ -184,6 +192,15 @@ func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	admin.EditForm.Render(w, nil)
+}
+
+func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+
+	admin.CategoryForm.Render(w, nil)
 }
 
 func createJWT(w http.ResponseWriter, admin *models.Admin) error {
