@@ -8,3 +8,5 @@
 - Explore HTTPS and Caddy
 - Create a build script or search if you need one for deployment
 - Edit API to modify existing articles -- High priority
+- Add categories onto the homepage that the user selects to go into the articles
+- Add category creation API

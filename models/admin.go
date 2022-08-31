@@ -1,6 +1,9 @@
 package models
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -47,7 +50,31 @@ func (a *AdminService) Create(admin *Admin) error {
 	return a.db.Create(admin).Error
 }
 
-// Alter existing API to take in a file as well
-// Parse through the file and link with the created blogpost
-
-// Need another API to view the contents of the clicked link
+func (a *AdminService) UpdateChangesFromEdit(post *Post, id string) error {
+	fmt.Println(post)
+	if id == "" {
+		return errors.New("Id has to be provided")
+	}
+	if post.Imgur_URL != "" {
+		err := a.db.Model(&post).Where("id = ?", id).
+			Update("imgur_url", post.Imgur_URL).Error
+		if err != nil {
+			return err
+		}
+	}
+	if post.Topic != "" {
+		err := a.db.Model(&post).Where("id = ?", id).
+			Update("topic", post.Topic).Error
+		if err != nil {
+			return err
+		}
+	}
+	if post.Summary != "" {
+		err := a.db.Model(&post).Where("id = ?", id).
+			Update("summary", post.Summary).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -19,6 +19,7 @@ type Admin struct {
 	PostService  *models.PostService
 	BlogForm     *views.View
 	DeleteForm   *views.View
+	EditForm     *views.View
 }
 
 func NewAdminController(adminService *models.AdminService, ps *models.PostService) *Admin {
@@ -28,6 +29,7 @@ func NewAdminController(adminService *models.AdminService, ps *models.PostServic
 		PostService:  ps,
 		BlogForm:     views.NewView("bootstrap", "admin/blogForm.gohtml"),
 		DeleteForm:   views.NewView("bootstrap", "admin/deleteForm.gohtml"),
+		EditForm:     views.NewView("bootstrap", "admin/editForm.gohtml"),
 	}
 }
 
@@ -45,6 +47,13 @@ type BlogForm struct {
 
 type DeleteForm struct {
 	Id string `schema:"Id"`
+}
+
+type EditForm struct {
+	Id        string `schema:"ID"`
+	Topic     string `schema:"Topic"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
 }
 
 var jwtKey = []byte("my_secret_key")
@@ -106,17 +115,43 @@ func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) 
 	_, err := parseForm(r, &form)
 	if err != nil {
 		internalServerError.Render(w, nil)
+		return
 	}
 	fmt.Println(form)
 	idToUint, err := strconv.ParseUint(form.Id, 0, 64)
 	if err != nil {
 		internalServerError.Render(w, nil)
+		return
 	}
 	err = admin.PostService.DeletePost(uint(idToUint))
 	if err != nil {
 		internalServerError.Render(w, nil)
+		return
 	}
 	http.Redirect(w, r, "/admin/delete", http.StatusFound)
+}
+
+func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	form := EditForm{}
+	internalServerError := InternalServerError()
+	_, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+		return
+	}
+	post := models.Post{Topic: form.Topic, Summary: form.Summary,
+		Imgur_URL: form.Imgur_URL}
+	err = admin.AdminService.UpdateChangesFromEdit(&post, form.Id)
+	if err != nil {
+		fmt.Println("Error I got back ", err)
+		internalServerError.Render(w, nil)
+		return
+	}
+	http.Redirect(w, r, "/admin/edit", http.StatusFound)
 }
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
@@ -130,6 +165,7 @@ func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 	if validateJWT(r) {
 		http.Redirect(w, r, "/admin/create", http.StatusFound)
+		return
 	}
 	admin.LoginPage.Render(w, nil)
 }
@@ -140,6 +176,14 @@ func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	admin.DeleteForm.Render(w, nil)
+}
+
+func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	admin.EditForm.Render(w, nil)
 }
 
 func createJWT(w http.ResponseWriter, admin *models.Admin) error {

@@ -58,6 +58,8 @@ func main() {
 	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
 	r.HandleFunc("/admin/delete", adminC.GetDeletePage).Methods("GET")
 	r.HandleFunc("/admin/delete", adminC.SubmitDeleteRequest).Methods("POST")
+	r.HandleFunc("/admin/edit", adminC.GetEditPage).Methods("GET")
+	r.HandleFunc("/admin/edit", adminC.SubmitEditRequest).Methods("POST")
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
