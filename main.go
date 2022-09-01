@@ -43,6 +43,10 @@ func main() {
 
 	homeC := controllers.NewHomeController()
 
+	catC := controllers.NewCategoryController(categoryService)
+
+	artC := controllers.NewArticlesController()
+
 	// adminService.Create(&models.Admin{Email: "muhammadmustafa4000@gmail.com",
 	// 	Password: "mustafa"})
 
@@ -54,6 +58,7 @@ func main() {
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
+	r.HandleFunc("/categories", catC.GetAllCategories).Methods("GET")
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")
 	r.HandleFunc("/admin", adminC.GetLoginPage).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
@@ -65,6 +70,9 @@ func main() {
 	r.HandleFunc("/admin/category", adminC.GetCategoryPage).Methods("GET")
 	r.HandleFunc("/admin/category", adminC.SubmitCategoryFrom).Methods("POST")
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
+
+	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
+	r.HandleFunc("/postByCat", postalC.GetPostsByCategory).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }

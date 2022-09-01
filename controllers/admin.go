@@ -44,10 +44,11 @@ type LoginForm struct {
 }
 
 type BlogForm struct {
-	Topic     string `schema:"Topic"`
-	Summary   string `schema:"Summary"`
-	Imgur_URL string `schema:"Imgur"`
-	Content   string
+	Topic      string `schema:"Topic"`
+	Summary    string `schema:"Summary"`
+	Imgur_URL  string `schema:"Imgur"`
+	Content    string
+	CategoryId string `schema:"CID"`
 }
 
 type DeleteForm struct {
@@ -108,7 +109,7 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	// TODO: Change to take in the IMGUR URL and the uploaded file
 	// Save the file content into the database
 	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary,
-		Imgur_URL: form.Imgur_URL, Date: time.Now().String()}
+		Imgur_URL: form.Imgur_URL, Date: time.Now().String(), CategoryId: form.CategoryId}
 	err = admin.PostService.CreatePost(&post)
 	if err != nil {
 		internalServerError.Render(w, nil)

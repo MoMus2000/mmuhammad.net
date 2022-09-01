@@ -50,6 +50,30 @@ func (ps *PostService) GetAllPost() ([][]string, error) {
 			post.Imgur_URL,
 			post.Date,
 			strconv.FormatUint(uint64(post.ID), 10),
+			post.CategoryId,
+		})
+	}
+	err := results.Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return postString, nil
+}
+
+func (ps *PostService) GetAllPostByCategory(cid string) ([][]string, error) {
+	posts := []Post{}
+	postString := [][]string{}
+	results := ps.db.Where("category_id = ?", cid).Find(&posts)
+	for _, post := range posts {
+		postString = append(postString, []string{
+			post.Topic,
+			post.Summary,
+			post.Imgur_URL,
+			post.Date,
+			strconv.FormatUint(uint64(post.ID), 10),
+			post.CategoryId,
 		})
 	}
 	err := results.Error
@@ -63,9 +87,10 @@ func (ps *PostService) GetAllPost() ([][]string, error) {
 
 type Post struct {
 	gorm.Model
-	Topic     string `gorm:"not null"`
-	Content   string `gorm:"not null"`
-	Imgur_URL string `gorm:"not null"`
-	Summary   string `gorm:"not null"`
-	Date      string `gorm:""`
+	Topic      string `gorm:"not null"`
+	Content    string `gorm:"not null"`
+	Imgur_URL  string `gorm:"not null"`
+	Summary    string `gorm:"not null"`
+	Date       string `gorm:""`
+	CategoryId string `gorm:"not null"`
 }
