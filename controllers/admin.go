@@ -14,22 +14,27 @@ import (
 )
 
 type Admin struct {
-	LoginPage    *views.View
-	AdminService *models.AdminService
-	PostService  *models.PostService
-	BlogForm     *views.View
-	DeleteForm   *views.View
-	EditForm     *views.View
+	LoginPage       *views.View
+	AdminService    *models.AdminService
+	PostService     *models.PostService
+	CategoryService *models.CategoryService
+	BlogForm        *views.View
+	DeleteForm      *views.View
+	EditForm        *views.View
+	CategoryForm    *views.View
 }
 
-func NewAdminController(adminService *models.AdminService, ps *models.PostService) *Admin {
+func NewAdminController(adminService *models.AdminService, ps *models.PostService,
+	cs *models.CategoryService) *Admin {
 	return &Admin{
-		LoginPage:    views.NewView("bootstrap", "admin/login.gohtml"),
-		AdminService: adminService,
-		PostService:  ps,
-		BlogForm:     views.NewView("bootstrap", "admin/blogForm.gohtml"),
-		DeleteForm:   views.NewView("bootstrap", "admin/deleteForm.gohtml"),
-		EditForm:     views.NewView("bootstrap", "admin/editForm.gohtml"),
+		LoginPage:       views.NewView("bootstrap", "admin/login.gohtml"),
+		AdminService:    adminService,
+		PostService:     ps,
+		CategoryService: cs,
+		BlogForm:        views.NewView("bootstrap", "admin/blogForm.gohtml"),
+		DeleteForm:      views.NewView("bootstrap", "admin/deleteForm.gohtml"),
+		EditForm:        views.NewView("bootstrap", "admin/editForm.gohtml"),
+		CategoryForm:    views.NewView("bootstrap", "admin/categoryForm.gohtml"),
 	}
 }
 
@@ -39,10 +44,11 @@ type LoginForm struct {
 }
 
 type BlogForm struct {
-	Topic     string `schema:"Topic"`
-	Summary   string `schema:"Summary"`
-	Imgur_URL string `schema:"Imgur"`
-	Content   string
+	Topic      string `schema:"Topic"`
+	Summary    string `schema:"Summary"`
+	Imgur_URL  string `schema:"Imgur"`
+	Content    string
+	CategoryId string `schema:"CID"`
 }
 
 type DeleteForm struct {
@@ -52,6 +58,12 @@ type DeleteForm struct {
 type EditForm struct {
 	Id        string `schema:"ID"`
 	Topic     string `schema:"Topic"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
+}
+
+type CategoryForm struct {
+	Category  string `schema:"Cat"`
 	Summary   string `schema:"Summary"`
 	Imgur_URL string `schema:"Imgur"`
 }
@@ -97,7 +109,7 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	// TODO: Change to take in the IMGUR URL and the uploaded file
 	// Save the file content into the database
 	post := models.Post{Topic: form.Topic, Content: form.Content, Summary: form.Summary,
-		Imgur_URL: form.Imgur_URL, Date: time.Now().String()}
+		Imgur_URL: form.Imgur_URL, Date: time.Now().String(), CategoryId: form.CategoryId}
 	err = admin.PostService.CreatePost(&post)
 	if err != nil {
 		internalServerError.Render(w, nil)
@@ -154,6 +166,26 @@ func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/edit", http.StatusFound)
 }
 
+func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	internalServerError := InternalServerError()
+	form := CategoryForm{}
+	_, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	cat := models.Category{CategoryName: form.Category, Imgur_URL: form.Imgur_URL,
+		CategorySummary: form.Summary, CreationDate: time.Now().String()}
+	err = admin.CategoryService.Create(&cat)
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	http.Redirect(w, r, "/admin/category", http.StatusFound)
+}
+
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		ForbiddenError().Render(w, nil)
@@ -184,6 +216,15 @@ func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	admin.EditForm.Render(w, nil)
+}
+
+func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+
+	admin.CategoryForm.Render(w, nil)
 }
 
 func createJWT(w http.ResponseWriter, admin *models.Admin) error {

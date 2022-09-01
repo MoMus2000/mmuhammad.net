@@ -64,3 +64,17 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 		internalServerError.Render(w, nil)
 	}
 }
+
+func (post *Post) GetPostsByCategory(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("I am finally here")
+	cid := r.URL.Query().Get("cid")
+	posts, err := post.postalService.GetAllPostByCategory(cid)
+	internalServerError := InternalServerError()
+	if err != nil {
+		fmt.Println(err)
+		internalServerError.Render(w, nil)
+	}
+
+	jsonEncoding, err := json.Marshal(posts)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
