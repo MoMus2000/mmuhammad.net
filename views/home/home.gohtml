@@ -3,63 +3,6 @@
 <br>
 
 <script>
-/*
-let currentPage = 1
-let apiRequestURL = `/posts?page=${currentPage}`
-async function getPosts(){
-  let response  = await fetch(apiRequestURL);
-  let data = await response.json();
-  console.log(data)
-  html = ""
-  let topic = ""
-  let summary = ""
-  let imgur = ""
-  let id = ""
-  let i = 0
-  for (i=0; i<data.length; i++){
-    topic = data[i][0]
-    summary = data[i][1]
-    imgur = data[i][2]
-    id = data[i][4]
-    html += createPost(topic, summary, id, imgur)
-    if((i+1)%2 == 0){
-      g= document.createElement('div');
-      g.id = topic;
-      g.className = "row"
-      postTag = document.getElementById("posts")
-      postTag.appendChild(g);
-      document.getElementById(g.id).innerHTML=html;
-    }
-    else{
-      html = createPost(topic, summary, id, imgur)
-    }
-  }
-  if(i+1 % 2 != 0){
-    g= document.createElement('div');
-    g.id = topic;
-    g.className = "row"
-    postTag = document.getElementById("posts")
-    postTag.appendChild(g);
-    document.getElementById(g.id).innerHTML=html;
-  }
-}
-
-function createPost(topic, summary, id, imgur){
-  html = `
-  <div class="card col-sm-6">
-  <img class="card-img-top" src="${imgur}" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">${topic}</h5>
-    <p class="card-text">${summary}</p>
-    <a href="/posts/${id}/${topic}" class="btn btn-primary">Go to the article</a>
-  </div>
-  </div>
-  <br>`
-  return html
-}
-
-getPosts()
-*/
 let apiRequestURL = `/categories`
 async function getCats(){
   let response  = await fetch(apiRequestURL);
