@@ -1,10 +1,8 @@
 - Ability to add comments under the post 
 - Function to refresh token -- Not super important
 - Add pagination to the homepage -- Medium priority - need to look into a proper API
-- Add date to the post // Need to store with correct format in DB, currently a string -- Not enough articles to warrant this
 - Add functionality / button to be able to download resume
 - Write HTML Templating using the builer design pattern in the views folder
-- Page for session/token timeout
 - Explore HTTPS and Caddy
 - Create a build script or search if you need one for deployment
 - Create comments and documentation for the entire app
@@ -13,3 +11,4 @@
 - Add ability to assign articles to multiple categories
 - Add better method to send data to template for session/ JWT management
 - Better error handling as some errors go silent
+- Nested structure for admin dropdown, posts, categories, etc to handle the API's
