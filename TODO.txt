@@ -12,3 +12,4 @@
 - Add better method to send data to template for session/ JWT management
 - Better error handling as some errors go silent
 - Nested structure for admin dropdown, posts, categories, etc to handle the API's
+- Prepare a sample article to upload every time, can have latin text for placeholder
