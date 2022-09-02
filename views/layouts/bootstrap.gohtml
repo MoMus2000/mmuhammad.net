@@ -12,7 +12,13 @@
     <title>momus2000.io</title>
   </head>
   <body>
-    {{template "navbar"}}
+
+    {{if eq .LoggedIn "true"}}
+      {{template "navbarAdmin"}}
+    {{else}}
+      {{template "navbar"}}
+    {{end}}
+    
 
     <div class = "container-fluid">
 

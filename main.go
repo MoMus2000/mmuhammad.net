@@ -50,13 +50,13 @@ func main() {
 	// adminService.Create(&models.Admin{Email: "muhammadmustafa4000@gmail.com",
 	// 	Password: "mustafa"})
 
-	r.Handle("/", homeC.HomePage).Methods("GET")
 	r.Handle("/about", staticC.About).Methods("GET")
 	r.Handle("/contact", staticC.Contact).Methods("GET")
 
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
+	r.HandleFunc("/", homeC.GetHomePage).Methods("GET")
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
 	r.HandleFunc("/categories", catC.GetAllCategories).Methods("GET")
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")

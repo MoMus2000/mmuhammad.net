@@ -11,3 +11,4 @@
 - Add abiliy to delete categories
 - Add ability to edit post category
 - Add ability to assign articles to multiple categories
+- Show if logged in as admin and all the functionality available
