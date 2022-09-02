@@ -275,6 +275,18 @@ func refreshJWT(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
+func (admin *Admin) SignoutJWT(w http.ResponseWriter, r *http.Request) {
+	internalServerError := InternalServerError()
+	if !validateJWT(r) {
+		internalServerError.Render(w, nil)
+	}
+	c := http.Cookie{
+		Name:   "token",
+		MaxAge: -1}
+	http.SetCookie(w, &c)
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
 func parseForm(r *http.Request, f interface{}) (string, error) {
 	var text string
 	encoding := r.Header.Get("Content-Type")

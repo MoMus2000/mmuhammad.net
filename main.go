@@ -73,6 +73,7 @@ func main() {
 
 	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
 	r.HandleFunc("/postByCat", postalC.GetPostsByCategory).Methods("GET")
+	r.HandleFunc("/signout", adminC.SignoutJWT).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }
