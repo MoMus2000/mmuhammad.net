@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"mustafa_m/views"
 	"net/http"
 )
@@ -19,7 +20,10 @@ func (articles *Articles) GetArticleLandingPage(w http.ResponseWriter, r *http.R
 	cid := r.URL.Query().Get("cid")
 	// Now send over the cid to the child template
 	type Data struct {
-		cid string
+		LoggedIn string
+		cid      string
 	}
-	articles.ArticleLanding.Render(w, cid)
+	data := &Data{cid: cid}
+	err := articles.ArticleLanding.Render(w, data)
+	fmt.Println(err)
 }

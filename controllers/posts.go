@@ -67,6 +67,7 @@ func (post *Post) GetPostFromTopic(w http.ResponseWriter, r *http.Request) {
 
 func (post *Post) GetPostsByCategory(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("I am finally here")
+	fmt.Println("I am here")
 	cid := r.URL.Query().Get("cid")
 	posts, err := post.postalService.GetAllPostByCategory(cid)
 	internalServerError := InternalServerError()

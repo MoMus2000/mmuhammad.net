@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/jinzhu/gorm"
@@ -63,6 +64,7 @@ func (ps *PostService) GetAllPost() ([][]string, error) {
 }
 
 func (ps *PostService) GetAllPostByCategory(cid string) ([][]string, error) {
+	fmt.Println("We are here")
 	posts := []Post{}
 	postString := [][]string{}
 	results := ps.db.Where("category_id = ?", cid).Find(&posts)
@@ -82,6 +84,7 @@ func (ps *PostService) GetAllPostByCategory(cid string) ([][]string, error) {
 		return nil, err
 	}
 
+	fmt.Println(postString)
 	return postString, nil
 }
 

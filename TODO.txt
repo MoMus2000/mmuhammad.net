@@ -11,3 +11,5 @@
 - Add abiliy to delete categories
 - Add ability to edit post category
 - Add ability to assign articles to multiple categories
+- Add better method to send data to template for session/ JWT management
+- Better error handling as some errors go silent
