@@ -1,3 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<style>
+pre {
+white-space: pre-line;
+word-wrap: break-word;
+}
+</style>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<title> {{.Topic}} </title>
+</head>
+<body>
+
+<div class = "container-fluid">
+
 <pre>
 <style>
 .gist {overflow:auto;}
@@ -30,8 +52,15 @@ Let us first discuss what a backdoor is:</h3></pre>
 <pre><h6><ol><li>Create a slave server and client server</li><li>The client server would be programmed to listen to incoming connections</li><li>The slave server would try and connect to the the client (C&C) machine</li><li>Once the connection is establised, the possibilities are only limited to the what was programmed onto the slave server before being planted in the victim PC.</li></ol></h6>
 </pre><pre><h3>Why does this work?</h3></pre>
 <pre><h3>While firewalls typically block unrequested incoming traffic, in this particular case the slave server is the one that initiates the request hence the request is conidered to be legitimate and is allowed to go through.</h3></pre>
-<pre><h3>Programming languages like python, Go (Golang) and many others provide the ability to run shell commands via their standard library, hence these are mostly used to control the victim PC</h3></pre>
+<pre><h3>Programming languages like python, Go (Golang) and many others provide the ability to run shell commands via their standard library, hence these are mostly used to control the victim PC</pre></h3>
 <pre><h3>While the steps in creating a backdoor seem easy, the hard part is planting the malicous code, hence this is what is meant by hacking consisting a large part of social engineering, rather than technical ability</h3></pre>
 <pre><h3>In conclusion here are some helpful tips to avoid falling victim to a trojan virus:</h3></pre>
 <pre><h6><ol><li>Vetting the files that you download from the internet.</li><li>Monitor your running processes to see if there's anything unexpected, the same goes for checking the network to see some anomalous requests originating from your computer.</li></ol></h6></pre>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
