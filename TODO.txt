@@ -13,3 +13,4 @@
 - Better error handling as some errors go silent
 - Nested structure for admin dropdown, posts, categories, etc to handle the API's
 - Ability to edit post content
+- move javascript into a seperate file
