@@ -29,10 +29,10 @@ func NewAdminController(adminService *models.AdminService, ps *models.PostServic
 		AdminService:    adminService,
 		PostService:     ps,
 		CategoryService: cs,
-		BlogForm:        views.NewView("bootstrap", "admin/blogForm.gohtml"),
-		DeleteForm:      views.NewView("bootstrap", "admin/deleteForm.gohtml"),
-		EditForm:        views.NewView("bootstrap", "admin/editForm.gohtml"),
-		CategoryForm:    views.NewView("bootstrap", "admin/categoryForm.gohtml"),
+		BlogForm:        views.NewView("bootstrap", "admin/post/blogForm.gohtml"),
+		DeleteForm:      views.NewView("bootstrap", "admin/post/deleteForm.gohtml"),
+		EditForm:        views.NewView("bootstrap", "admin/post/editForm.gohtml"),
+		CategoryForm:    views.NewView("bootstrap", "admin/category/categoryForm.gohtml"),
 	}
 }
 
