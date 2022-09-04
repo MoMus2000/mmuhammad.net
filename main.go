@@ -56,7 +56,7 @@ func main() {
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
-	r.HandleFunc("/", homeC.GetHomePage).Methods("GET")
+	r.HandleFunc("/", controllers.WrapIPHandler(homeC.GetHomePage)).Methods("GET")
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
 	r.HandleFunc("/categories", catC.GetAllCategories).Methods("GET")
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")
