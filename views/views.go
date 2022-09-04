@@ -31,7 +31,6 @@ func (v *View) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func NewView(layout string, files ...string) *View {
 	files = append(files, getFilesFromLayout()...)
 	t, err := template.ParseFS(Res, files...)
-
 	if err != nil {
 		panic(err)
 	}

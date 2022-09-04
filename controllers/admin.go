@@ -150,13 +150,14 @@ func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	form := EditForm{}
 	internalServerError := InternalServerError()
-	_, err := parseForm(r, &form)
+	content, err := parseForm(r, &form)
 	if err != nil {
+		fmt.Println("Error is here 2", err)
 		internalServerError.Render(w, nil)
 		return
 	}
 	post := models.Post{Topic: form.Topic, Summary: form.Summary,
-		Imgur_URL: form.Imgur_URL}
+		Imgur_URL: form.Imgur_URL, Content: content}
 	err = admin.AdminService.UpdateChangesFromEdit(&post, form.Id)
 	if err != nil {
 		fmt.Println("Error I got back ", err)
@@ -295,33 +296,40 @@ func parseForm(r *http.Request, f interface{}) (string, error) {
 	} else {
 		err := r.ParseMultipartForm(10000000000)
 		if err != nil {
-			fmt.Println(err)
 			return "", err
 		}
 		files := r.MultipartForm.File["File"]
-		for _, file := range files {
-			fileContent, err := file.Open()
-			if err != nil {
-				fmt.Println("Error opening the file")
-				return "", err
+		if len(files) > 0 {
+			for _, file := range files {
+				fileContent, err := file.Open()
+				if err != nil {
+					fmt.Println("Error opening the file")
+					return "", err
+				}
+				byteContainer, err := ioutil.ReadAll(fileContent)
+				if err != nil {
+					fmt.Println("Error reading the file")
+					return "", err
+				}
+				defer fileContent.Close()
+				text = string(byteContainer)
 			}
-			byteContainer, err := ioutil.ReadAll(fileContent)
-			if err != nil {
-				fmt.Println("Error reading the file")
-				return "", err
-			}
-			defer fileContent.Close()
-			text = string(byteContainer)
+		} else {
+			fmt.Println("HERE")
+			r.ParseForm()
 		}
 	}
 
 	decoder := schema.NewDecoder()
-
+	decoder.IgnoreUnknownKeys(true)
+	fmt.Println(r.PostForm)
 	err := decoder.Decode(f, r.PostForm)
 
 	fmt.Println(r.PostForm)
 
 	if err != nil {
+		fmt.Println(err)
+		fmt.Println("ERROR NUMBER 3")
 		return "", err
 	}
 

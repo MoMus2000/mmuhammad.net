@@ -76,5 +76,12 @@ func (a *AdminService) UpdateChangesFromEdit(post *Post, id string) error {
 			return err
 		}
 	}
+	if post.Content != "" {
+		err := a.db.Model(&post).Where("id = ?", id).
+			Update("content", post.Content).Error
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
