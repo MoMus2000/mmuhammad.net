@@ -12,3 +12,5 @@
 - Better error handling as some errors go silent
 - move javascript into a seperate file
 - Look into preventing sql injection
+- add back button functionality
+- start doing leetcode and figure out a code format for easier article put up
