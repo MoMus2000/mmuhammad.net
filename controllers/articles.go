@@ -18,10 +18,13 @@ func NewArticlesController() *Articles {
 
 func (articles *Articles) GetArticleLandingPage(w http.ResponseWriter, r *http.Request) {
 	cid := r.URL.Query().Get("cid")
+	offset := r.URL.Query().Get("offset")
+	fmt.Println(offset)
 	// Now send over the cid to the child template
 	type Data struct {
 		LoggedIn string
 		cid      string
+		offset   string
 	}
 	data := &Data{cid: cid}
 	err := articles.ArticleLanding.Render(w, data)

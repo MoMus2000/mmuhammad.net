@@ -63,11 +63,11 @@ func (ps *PostService) GetAllPost() ([][]string, error) {
 	return postString, nil
 }
 
-func (ps *PostService) GetAllPostByCategory(cid string) ([][]string, error) {
+func (ps *PostService) GetAllPostByCategory(cid string, offset string) ([][]string, error) {
 	fmt.Println("We are here")
 	posts := []Post{}
 	postString := [][]string{}
-	results := ps.db.Where("category_id = ?", cid).Find(&posts)
+	results := ps.db.Limit(4).Offset(offset).Where("category_id = ?", cid).Find(&posts)
 	for _, post := range posts {
 		postString = append(postString, []string{
 			post.Topic,

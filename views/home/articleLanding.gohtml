@@ -8,11 +8,21 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
   get: (searchParams, prop) => searchParams.get(prop),
 });
 let cidValue = params.cid; // "some_value"
-let apiRequestURL = `/postByCat?cid=${cidValue}`
+let offset = parseInt(params.offset) // "offset value"
+let apiRequestURL = `/postByCat?cid=${cidValue}&offset=${offset}`
+let apiRequestURLNext = `/postByCat?cid=${cidValue}&offset=${offset+4}`
 console.log(apiRequestURL)
 async function getArticlesInCat(){
   let response  = await fetch(apiRequestURL);
   let data = await response.json();
+
+  let nextresponse = await fetch(apiRequestURLNext);
+  let nextdata = await nextresponse.json();
+
+  nextButton = document.getElementById("Next")
+  if(nextdata.length != 0){
+    nextButton.style.display='block';
+  }
   console.log(data)
   html = ""
   let topic = ""
@@ -63,11 +73,29 @@ function createPost(topic, summary, id, imgur){
 }
 
 getArticlesInCat()
+
+window.onload = function(){
+  nextButton = document.getElementById("Next")
+  nextButton.addEventListener('click', function(){
+    let offset = params.offset
+    console.log('click')
+    offset = parseInt(offset)
+    offset += 4
+    window.location.href = `/articles?cid=${cidValue}&offset=${offset}`
+  })
+}
 </script>
 
 <div id="posts">
 
 </div>
+
+<br>
+<nav aria-label="Page navigation example">
+<ul class="pagination">
+<li class="page-item"><button class="btn btn-secondary" style="display: none;" id="Next">Next</button></li>
+</ul>
+</nav>
 
 </div>
 

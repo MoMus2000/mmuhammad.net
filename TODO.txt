@@ -1,6 +1,5 @@
 - Ability to add comments under the post 
 - Function to refresh token -- Not super important
-- Add pagination to the homepage -- Medium priority - need to look into a proper API
 - Add functionality / button to be able to download resume
 - Write HTML Templating using the builer design pattern in the views folder
 - Explore HTTPS and Caddy

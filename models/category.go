@@ -33,7 +33,7 @@ func (cs *CategoryService) Create(cat *Category) error {
 func (cs *CategoryService) GetAllCategories() ([][]string, error) {
 	categories := []Category{}
 	categoryString := [][]string{}
-	results := cs.db.Find(&categories).Order("Date DESC")
+	results := cs.db.Find(&categories).Order("created_at DESC")
 	for _, cat := range categories {
 		categoryString = append(categoryString, []string{
 			cat.CategoryName,
