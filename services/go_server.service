@@ -1,0 +1,11 @@
+[Unit]
+Description=Run backend GO server
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/root/mustafa_m/
+ExecStart=/usr/bin/go run main.go
+
+[Install]
+WantedBy=multi-user.target
