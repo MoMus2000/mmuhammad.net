@@ -14,3 +14,4 @@
 - Look into preventing sql injection
 - add back button functionality
 - start doing leetcode and figure out a code format for easier article put up
+- ADD IN MORE ARTICLES TO MAKE WEBSITE READY FOR DEPLOYMENT
