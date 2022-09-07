@@ -15,7 +15,7 @@ func main() {
 
 	r := mux.NewRouter().StrictSlash(true)
 
-	db, err := models.NewDataBaseConnection("/Users/a./Desktop/go/learn_go/db/lenslocked_dev.db")
+	db, err := models.NewDataBaseConnection("./db/lenslocked_dev.db")
 
 	if err != nil {
 		panic(err)

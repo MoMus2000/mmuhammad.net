@@ -1,0 +1,7 @@
+mmuhammad.net {
+    reverse_proxy localhost:3000
+}
+   
+www.mmuhammad.net {
+    reverse_proxy localhost:3000
+}
