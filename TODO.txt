@@ -2,7 +2,6 @@
 - Function to refresh token -- Not super important
 - Add functionality / button to be able to download resume
 - Write HTML Templating using the builer design pattern in the views folder
-- Explore HTTPS and Caddy
 - Create a build script or search if you need one for deployment
 - Create comments and documentation for the entire app
 - Add abiliy to delete categories
@@ -12,6 +11,5 @@
 - Better error handling as some errors go silent
 - move javascript into a seperate file
 - Look into preventing sql injection
-- add back button functionality
 - start doing leetcode and figure out a code format for easier article put up
 - ADD IN MORE ARTICLES TO MAKE WEBSITE READY FOR DEPLOYMENT
