@@ -11,27 +11,27 @@
 <div class="centered">
 <pre><h2><strong>How backdoors work on computers ...</strong></h2></pre>
 <pre><h6><strong>By Mustafa Muhammad</strong></h6></pre>
-<pre><h3>In this article I will discuss backdoors, especially from the perspective of web developers who are well experienced with the server client architecture.
+<pre><h3>In this write up I will discuss backdoors, especially from my perspective as a web developer who is experienced with the client - server architecture.
 </h3></pre>
-<pre><strong>I would like to stress that the following article is for learning only and I do not accept any liability if the reader uses the gained knowledge for malicious purposes.</strong></pre>
+<pre><strong>I would like to stress that the following article is for learning only and I do not accept any liability if the reader misuses gained knowledge for malicious purposes.</strong></pre>
 <pre><h3>
 Let us first discuss what a backdoor is:</h3></pre>
-<pre><h3>A backdoor is a program that allows an unauthorized user to gain control of your system with out the user or system being aware of it. Usually backdoors are utilized for malicious perposes hence are also commonly referred to as a trojan virus.
+<pre><h3>A backdoor is a program that allows an unauthorized user to gain control of your system without the user or system being aware of it. Usually backdoors are utilized for malicious purposes hence are also commonly referred to as the trojan virus.
 </h3></pre>
-<pre><h3>Essentially its shell/terminal access gained by a user operating from a Command and Control (C&C) server.</h3></pre>
-<pre><h3>These backdoors are typically found bundled into software that from a bird's eye view look pretty safe out of the box.</h3></pre>
-<pre><h3>Most of us developers rely on open source code to cut down on development time and prevent reinventing the wheel from scratch, however there is a level of trust involved when using these libraries of code found on the internet.</h3></pre>
-<pre><h3>What makes it scary is if the libraries that we usually trust to be safe conatiner a backdoor that would be added into our code upon building/compiling the project.</h3></pre>
-<pre><h3>A pretty well known example of this is the ken thompson hack, it talks about adding in backdoor into a C compiler, this would mean that every compiled C binary would contain a backdoor to be able to accessed by the attacker/unauthorized user.</h3></pre>
+<pre><h3>Essentially its shell/terminal access gained by an attacker operating from a Command and Control (C&C) server.</h3></pre>
+<pre><h3>These backdoors are typically found bundled into software that from a bird's eyeview look pretty safe out of the box.</h3></pre>
+<pre><h3>A pretty ingenious example involving the use of backdoors is the <a href="https://wiki.c2.com/?TheKenThompsonHack"> Ken Thompson Hack.</a></h3></pre>
+<pre><h3>It involves adding malicious code inside of a compiler, which will proceed to write backdoors into all the binaries that are created using it.</h3></pre>
+<pre><h3></h3></pre>
 <pre><h2>How does a backdoor work?</h2></pre>
 <img src="https://i.imgur.com/bMDguCJ.png?1" class="img-fluid" alt="...">
 <pre>A graphic that explains the architecture involved in a backdoor</pre>
 <pre><h3>So how would one write this in code ?</h3></pre>
-<pre><h6><ol><li>Create a slave server and client server</li><li>The client server would be programmed to listen to incoming connections</li><li>The slave server would try and connect to the the client (C&C) machine</li><li>Once the connection is establised, the possibilities are only limited to the what was programmed onto the slave server before being planted in the victim PC.</li></ol></h6>
+<pre><h6><ol><li>Create a slave server and client server.</li><li>The client server would be programmed to listen to incoming connections.</li><li>The slave server would try and connect to the the client (C&C) machine.</li><li>Once the connection is establised, the possibilities are only limited to the what was programmed onto the slave server before being planted in the victim PC.</li></ol></h6>
 </pre><pre><h3>Why does this work?</h3></pre>
-<pre><h3>While firewalls typically block unrequested incoming traffic, in this particular case the slave server is the one that initiates the request hence the request is conidered to be legitimate and is allowed to go through.</h3></pre>
-<pre><h3>Programming languages like python, Go (Golang) and many others provide the ability to run shell commands via their standard library, hence these are mostly used to control the victim PC</h3></pre>
-<pre><h3>While the steps in creating a backdoor seem easy, the hard part is planting the malicous code, hence this is what is meant by hacking consisting a large part of social engineering, rather than technical ability</h3></pre>
+<pre><h3>While firewalls typically block unrequested incoming traffic, in the case of a backdoor the slave server is the one that initiates the request hence the request is conidered to be legitimate and is allowed to go through.</h3></pre>
+<pre><h3>Programming languages like python, GO, etc. provide the ability to run shell commands via their standard library (os), hence these are mostly used to control the victim PC.</h3></pre>
+<pre><h3>While the steps in creating a backdoor may seem easy, the hard part is being able to plant malicous code into the victim computer. This leads to the famous phrase "Humans being the weakest link in the cyber security chain", since attackers will try to exploit humans via social engineering to accomplish their malicious agenda.</h3></pre>
 <pre><h3>In conclusion here are some helpful tips to avoid falling victim to a trojan virus:</h3></pre>
 <pre><h6><ol><li>Vetting the files that you download from the internet.</li><li>Monitor your running processes to see if there's anything unexpected, the same goes for checking the network to see some anomalous requests originating from your computer.</li></ol></h6></pre>
 </div>

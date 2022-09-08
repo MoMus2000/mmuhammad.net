@@ -1,0 +1,30 @@
+<pre>
+<style>
+.gist {overflow:auto;}
+.gist .blob-wrapper.data {max-height:350px;overflow:auto;}
+.centered { margin: 0 auto; width: 50%; }
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) 
+{ .centered{margin: 0 auto; width: 100%;}}
+</style>
+</pre>
+
+<div class="centered">
+<pre><h2><strong>Writing services with systemd ...</strong></h2></pre>
+<pre><h6><strong>By Mustafa Muhammad</strong></h6></pre>
+<pre><h3>Systemd is an init system, that replaces SysVInit and upstart. It was created at red hat. Upon scouring the internet to prepare content for this write up, I've come to learn that it's also very polarizing to some sys-admins and developers.</h3></pre>
+<pre><h3>However my write up is not related to the init system, nor the controversies regarding the use of systemd.</h3></pre>
+<pre><h3>I simply find it to be a simple way to schedule my scripts and programs to run as services on an Ubuntu VM.</h3></pre>
+<pre><h3>For me, the whole point of systemd is to be able to effectively manage services which are also referred to as units or daemons.</h3></pre>
+<pre><h3><strong>Some useful systemctl commands:</strong></h3></pre>
+<script src="https://gist.github.com/MoMus2000/13d239642aebab18b29e87e03be06cd0.js"></script>
+<pre><h3><strong>Creating our own service file:</strong></h3></pre>
+<pre><h3>If you navigate to /etc/systemd/system (Ubuntu) or equivalent on your system, you will see a plethora of service files, these are what contain the information that is needed to be able to launch the processes as daemon when systemctl gets run.</h3></pre>
+<pre><h3>In this particular example I will share the service file that I created to get my Go server running using systemd.</h3></pre>
+<script src="https://gist.github.com/MoMus2000/b2cd9991b30456b912860169a7b807fb.js"></script>
+<pre><h3>Run these series of commands:</h3></pre>
+<pre><ul><li>systemctl daemon-reload (to load go_server.service file)</li><li>systemctl enable go_server.service</li><li>systemctl start go_server.service</li></ul></pre>
+<pre><h3>To check service logs we make use of a utility called journalctl.</h3></pre>
+<pre><h3>I usually make use of this command here to get output from specific services.</h3></pre>
+<script src="https://gist.github.com/MoMus2000/aab6f8a9522ae7a9daeafb8cc9f15f2c.js"></script>
+<pre><h3>In conclusion systemd is a very versatile service for software developers that helps to manage applications that require services to be up, running and constantly communicating with one another. It also allows the functionality to be able to restart on errors or create timer files that trigger services based on certain criteria (for e.g time), but more on that some other time.</h3></pre>
+</div>

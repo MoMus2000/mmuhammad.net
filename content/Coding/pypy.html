@@ -1,0 +1,39 @@
+<pre>
+<style>
+.gist {overflow:auto;}
+.gist .blob-wrapper.data {max-height:350px;overflow:auto;}
+.centered { margin: 0 auto; width: 50%; }
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) 
+{ .centered{margin: 0 auto; width: 100%;}}
+</style>
+</pre>
+
+<div class="centered">
+<pre><h2><strong>Writing performance critical code in Python ...</strong></h2></pre>
+<pre><h6><strong>By Mustafa Muhammad</strong></h6></pre>
+<pre><h3>In the words of his Holiness Guido Van Rossum: </h3></pre>
+<pre><h3>"If you want your code to run faster, you should probably use PyPy."</h3></pre>
+<pre><h6><a href="https://www.pypy.org/features.html">Adapated from the PyPy website.</a></h6></pre>
+<pre><h3>PyPy is a replacement for CPython. It is built using the RPython language that was co-developed with it. The main reason to use it instead of CPython is speed.</h3></pre>
+<pre><h3>At the time of writing, PyPy implements Python 2.7.18, and 3.7.10. It supports all of the core language, passing the Python 2.7 test suite and almost all of the 3.7 test suite (with minor modifications) It supports most of the commonly used Python standard library modules.</h3></pre>
+<pre><h3>PyPy's x86 (Intel) version runs on several operating systems, such as Linux (32/64 bits), Mac OS X (64 bits), Windows (32 bits), OpenBSD, FreeBSD. All non-x86 versions are only supported on Linux.</h3></pre>
+<pre><h2>The main features of PyPy:</h2></pre>
+<pre><h3><strong>Speed:</strong></h3></pre>
+<pre><h3>The main executable comes with a Just-in-Time compiler. It is really fast in running most benchmarks—including very large and complicated Python applications, not just 10-liners.</h3></pre>
+<pre><h3>There are two cases that you should be aware where PyPy will not be able to speed up your code:</h3></pre>
+<pre><ul><li>Short-running processes: if it doesn't run for at least a few seconds, then the JIT compiler won't have enough time to warm up.</li><li>If all the time is spent in run-time libraries (i.e. in C functions), and not actually running Python code, the JIT compiler will not help.</li></ul></pre>
+<pre><h3>So the case where PyPy works best is when executing long-running programs where a significant fraction of the time is spent executing Python code.</h3></pre>
+<pre><h3><strong>Memory usage:</strong></h3></pre>
+<pre><h3>Memory-hungry Python programs (several hundreds of MBs or more) might end up taking less space than they do in CPython. It is not always the case, though, as it depends on a lot of details. Also note that the baseline is higher than CPython's.</h3></pre>
+<pre><h3><strong>Stackless</strong></h3></pre>
+<pre><h3>Support for Stackless and greenlets are now integrated in the normal PyPy.</h3></pre>
+<pre><h3>Stackless Python is an enhanced version of the Python programming language. It allows programmers to reap the benefits of thread-based programming without the performance and complexity problems associated with conventional threads. The microthreads that Stackless adds to Python are a cheap and lightweight convenience which can if used properly, give the following benefits:</h3></pre>
+<pre><ul><li>Improved program structure.</li><li>More readable code.</li><li>Increased programmer productivity.</li></ul></pre>
+<pre><h6><a href="https://github.com/stackless-dev/stackless/wiki/">For further info. on Stackless.</a></h6></pre>
+<pre><h3>Downloading PyPy:</h3></pre>
+<pre><h3>There are several options to download PyPy:</h3></pre>
+<pre><ul><li>Package managers like brew (Mac), chocolatey (Windows) and apt-get (Linux).</li><li>Creating a venv using conda and using PyPy as the interpreter.</li><li>Downloading a pre built binary for your OS and setting the execution path.</li></ul></pre>
+<pre><h3>Some things to be aware of before making the jump to use PyPy:</h3></pre>
+<pre><ul><li>Most machine learning libraries, which are the majority use case for python are not supported.</li><li>This is because the C API is currently not fully compatible with PyPy and creating C modules for PyPy is a big hassle.</li></ul></pre>
+<pre><strong><h6><a href="http://packages.pypy.org/">This site hosts a list of packages currently compatible with PyPy.</a></strong></h6></pre>
+</div>

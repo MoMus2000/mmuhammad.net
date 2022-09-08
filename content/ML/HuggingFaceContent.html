@@ -9,40 +9,40 @@
 </pre>
 
 <div class="centered">
-<pre><h2><strong>Generating shakesperean poetry using GPT-2 and HuggingFace</strong></h2></pre>
+<pre><h2><strong>Generating Shakespearean poetry using GPT-2 and HuggingFace ...</strong></h2></pre>
 <pre><h6><strong>By Mustafa Muhammad</strong></h6></pre>
 <pre><h3>
-GPT-2 is an open-source transformer that is able to translate text, answer questions, summarize passages and generate text output. The model was createdby open-ai and is available to be used with the huggging face API.
+GPT-2 is an open-source transformer model that is able to translate text, answer questions, summarize passages and generate text output. The model was created by open-ai and is available to be used with the huggging face API.
 </h3><h3>
-HuggingFace is best described as a community that provides a library to interact with and use transformers for tasks related to nlp, cv and audio. It also has avast collection of datasets available to use as well.
+HuggingFace is best described as a community that provides tools to interact with and use transformers for tasks related to nlp, cv and audio. It also has a vast collection of datasets available to use as well.
 </h3><h3>
-In this tutorial we will explore how to use a collection of shakespeares sonnets to train on GPT-2 and have it output some sample poetry based on some provided seed text.
+In this write up I will explore how to use a collection of Shakespearean sonnets to train on GPT-2 and have it output sample poetry based on some provided seed text.
 </h3><h3>
-To follow along, a GPU is essential otherwise a google colab notebook instance may work fine.
+To follow along, a computer with sufficient RAM, python and a GPU are the only requirements.
 </h3><h2>
-<strong>Its also best to know what transfer learning is as well.</strong>
+<strong>Its also best to have a general idea of what transfer learning is before we begin as well.</strong>
 </h2><h3>
 Copied from wikipedia: Transfer learning is a research problem in machine learning that focuses on storing knowledge gained while solving one problem and applying it to a different but related problem. For example, knowledge gained while learning to recognize cars could apply when trying to recognize trucks.
 </h3><h3>
-In short by using a langauge model like GPT-2 which is trained on raw text data, we can use the hugging face libary and fine tune GPT-2 to generate poetry.
+In short using a langauge model like GPT-2 which is pretrained on raw text data, we can use the hugging face libary and fine tune GPT-2 to generate poetry.
 </h3>
 </pre>
 <script src="https://gist.github.com/MoMus2000/23a0a4d2b24423e4b83bf06139ad781c.js"></script>
 <pre>
-Once we have our imports we can create our text based dataset and initialize our model and tokenizer
+Once we have our imports we can create our text based dataset and initialize our model and tokenizer.
 </pre>
 <script src="https://gist.github.com/MoMus2000/a5dfe8dea5b1b527d5811fda2a77d4ef.js"></script>
-<pre>Our dataset is a txt file that has all the sonnets of shakespeare pasted inside of it, no additional work required.</pre>
-<pre>The next step is to load in the dataset, using the snippet below</pre>
+<pre>Our dataset is a txt file that has all the sonnets pasted inside of it, no additional work required.</pre>
+<pre>The next step is to load in the dataset, using the snippet below.</pre>
 <script src="https://gist.github.com/MoMus2000/4b87a2c47e1b6ba659b0cfab903ae47c.js"></script>
-<pre>We then define our training arguments and our train function, provided by the hugging face API</pre>
+<pre>We then define our training arguments and our train function, provided by the hugging face API.</pre>
 <script src="https://gist.github.com/MoMus2000/1d32028ccdbb62ee7c8c4190f73ffb7e.js"></script>
 <pre>Finally we can print out the output and reap the fruits of our labour!</pre>
 <script src="https://gist.github.com/MoMus2000/fb09af70f6c45a91c51d5e4ccfb7c390.js"></script>
 <pre>Final generated poetry:</pre>
 <script src="https://gist.github.com/MoMus2000/494ed6e3a0bc3589dfb4a637c7d64efa.js"></script>
-<pre><h2>In conclusion</h2></pre>
-<pre><h3>We can see clearly from the output that model picked up on the style found in provided shakespeare sonnets. Some ways to improve output would be to:
+<pre><h2>In conclusion:</h2></pre>
+<pre><h3>We can see clearly from the output that model picked up on the style found in provided the sonnets. Some ways to improve output would be to:
 </h3></pre>
-<pre><ol><h6><li>Specify start and end of a verse</li></h6><h6><li>Train for a longer period of time (mine was 15 minutes)</li></h6><h6><li>Play around with the training parameters to see what gives better results</li></h3></ol></pre>
+<pre><ol><h6><li>Specify start and end of a verse.</li></h6><h6><li>Train for a longer period of time (mine was 15 minutes).</li></h6><h6><li>Play around with the training parameters to see what gives better results.</li></h3></ol></pre>
 </div>
