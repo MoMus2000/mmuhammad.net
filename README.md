@@ -1,4 +1,4 @@
-# My Personal Site
+## mmuhammad.net
 
 I talk about ML , Datascience , Coding and DS&A.
 
