@@ -11,3 +11,4 @@
 - start doing leetcode and figure out a code format for easier article put up
 - SEO optimization, look into that
 - Add in microservices to other created projects
+- Determine IP using python script and visitor file
