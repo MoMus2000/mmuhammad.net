@@ -47,9 +47,6 @@ func main() {
 
 	artC := controllers.NewArticlesController()
 
-	// adminService.Create(&models.Admin{Email: "muhammadmustafa4000@gmail.com",
-	// 	Password: "mustafa"})
-
 	r.Handle("/about", staticC.About).Methods("GET")
 
 	r.NotFoundHandler = staticC.PageNotFound
