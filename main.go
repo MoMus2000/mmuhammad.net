@@ -24,9 +24,11 @@ func main() {
 	postService := models.NewPostService(db)
 	adminService := models.NewAdminService(db)
 	categoryService := models.NewCategoryService(db)
+	monitorService := models.NewMonitorService(db)
 
 	postService.AutoMigrate()
 	adminService.AutoMigrate()
+	monitorService.AutoMigrate()
 	categoryService.AutoMigrate()
 
 	ipAddress := getLocalIpAddress()
@@ -46,6 +48,8 @@ func main() {
 	catC := controllers.NewCategoryController(categoryService)
 
 	artC := controllers.NewArticlesController()
+
+	monC := controllers.NewMonitorController(monitorService)
 
 	r.Handle("/about", staticC.About).Methods("GET")
 
@@ -74,6 +78,9 @@ func main() {
 	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
 	r.HandleFunc("/postByCat", postalC.GetPostsByCategory).Methods("GET")
 	r.HandleFunc("/signout", adminC.SignoutJWT).Methods("GET")
+
+	r.Handle("/market", monC.MonitorPage).Methods("GET")
+	r.HandleFunc("/usopen", monC.GetUsdToPkr).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }

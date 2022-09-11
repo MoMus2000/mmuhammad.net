@@ -11,4 +11,10 @@
 - start doing leetcode and figure out a code format for easier article put up
 - SEO optimization, look into that
 - Add in microservices to other created projects
+- Add in microservice in relation to other projects you've worked on
 - Determine IP using python script and visitor file
+- Connect server to grafana, plot metrics for SERVER USAGE, hits and whatever else you want monitored
+- Add charts for gold, silver and metals
+- Add service to collect data
+- Run data service periodically
+- Make sure that db is not overwritten in scp during deployment
