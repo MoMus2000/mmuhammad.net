@@ -26,14 +26,15 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/about">About</a>
-      <a class="nav-item nav-link" href="/contact">Contact</a>
-    </div>
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Admin Options</a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <li><a class="dropdown-item" href="/admin/category">Category</a></li>
+      <li><a class="dropdown-item" href="/admin/category">Category</a>
+      <ul class="dropdown-menu dropdown-submenu">
+      <li><a class="dropdown-item" href="/admin/category">Create Category</a></li>
+      <li><a class="dropdown-item" href="/admin/category/edit">Edit Category</a></li>
+      <li><a class="dropdown-item" href="/admin/category/delete">Delete Category</a></li>
+      </ul></li>
       <li><a class="dropdown-item" href="/admin/create">Posts</a>
       <ul class="dropdown-menu dropdown-submenu">
       <li><a class="dropdown-item" href="/admin/create">Create Post</a></li>
@@ -42,6 +43,9 @@
       </ul>
       <li><a class="dropdown-item" href="/signout">Sign Out</a></li>
       </ul>
+    </div>
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="/about">About</a>
     </div>
   </div>
 </nav>

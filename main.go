@@ -51,7 +51,6 @@ func main() {
 	// 	Password: "mustafa"})
 
 	r.Handle("/about", staticC.About).Methods("GET")
-	r.Handle("/contact", staticC.Contact).Methods("GET")
 
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
@@ -64,11 +63,15 @@ func main() {
 	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
 	r.HandleFunc("/admin/delete", adminC.GetDeletePage).Methods("GET")
-	r.HandleFunc("/admin/delete", adminC.SubmitDeleteRequest).Methods("POST")
+	r.HandleFunc("/admin/delete", adminC.SubmitArticleDeleteRequest).Methods("POST")
 	r.HandleFunc("/admin/edit", adminC.GetEditPage).Methods("GET")
-	r.HandleFunc("/admin/edit", adminC.SubmitEditRequest).Methods("POST")
+	r.HandleFunc("/admin/edit", adminC.SubmitArticleEditRequest).Methods("POST")
 	r.HandleFunc("/admin/category", adminC.GetCategoryPage).Methods("GET")
 	r.HandleFunc("/admin/category", adminC.SubmitCategoryFrom).Methods("POST")
+	r.HandleFunc("/admin/category/edit", adminC.GetCategoryEditPage).Methods("GET")
+	r.HandleFunc("/admin/category/edit", adminC.SubmitCategoryEditRequest).Methods("POST")
+	r.HandleFunc("/admin/category/delete", adminC.GetCategoryDeletePage).Methods("GET")
+	r.HandleFunc("/admin/category/delete", adminC.SubmitCategoryDeleteRequest).Methods("POST")
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")

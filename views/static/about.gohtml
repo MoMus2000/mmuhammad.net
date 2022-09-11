@@ -1,8 +1,15 @@
 {{define "yield"}}
 <style>
 .centered { margin: 0 auto; width: 95%; }
+span.reverse {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin: 0 auto; width: 95%;
+}
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) 
-{ .centered{margin: 0 auto; width: 100%;}}
+{ .centered{margin: 0 auto; width: 100%;}
+  span.reverse.li{margin: 0 auto; width: 100%;}
+}
 </style>
 
 <div class="mx-auto container-fluid centered">
@@ -36,6 +43,12 @@ Dr. Joe De Souza </strong> in the
 <p>Mainly my <strong> job </strong> is to write
 code in <strong> MATLAB </strong> for the eye tracker and <strong> help plan experiments</strong>. </p>
 
+<p> I'm available and easy to reach at the following: </p>
+<ul>
+<li> <a href="https://www.linkedin.com/in/mustafa0001/"> LinkedIn </a>
+<li> <a href="https://www.github.com/momus2000"> Github </a>
+</ul>
+
 <p> Below is my friend participating in a study that I helped run.<br>The data that gets collected can be seen on the computer screen.</p>
 
 <img src="https://i.imgur.com/3gZeLEz.jpg" class="img-thumbnail rounded float-left responsive" height=200px width=200px alt="Responsive image">
@@ -43,6 +56,9 @@ code in <strong> MATLAB </strong> for the eye tracker and <strong> help plan exp
 
 <img src="https://i.imgur.com/hDdDjUq.jpg" class="img-thumbnail rounded float-left responsive" height=200px width=200px alt="Responsive image">
 </img>
+
 </div>
+
+
 
 {{end}}

@@ -12,27 +12,31 @@ import (
 )
 
 type Admin struct {
-	LoginPage       *views.View
-	AdminService    *models.AdminService
-	PostService     *models.PostService
-	CategoryService *models.CategoryService
-	BlogForm        *views.View
-	DeleteForm      *views.View
-	EditForm        *views.View
-	CategoryForm    *views.View
+	LoginPage          *views.View
+	AdminService       *models.AdminService
+	PostService        *models.PostService
+	CategoryService    *models.CategoryService
+	BlogForm           *views.View
+	DeleteForm         *views.View
+	EditForm           *views.View
+	CategoryForm       *views.View
+	CategoryDeleteForm *views.View
+	CategoryEditForm   *views.View
 }
 
 func NewAdminController(adminService *models.AdminService, ps *models.PostService,
 	cs *models.CategoryService) *Admin {
 	return &Admin{
-		LoginPage:       views.NewView("bootstrap", "admin/login.gohtml"),
-		AdminService:    adminService,
-		PostService:     ps,
-		CategoryService: cs,
-		BlogForm:        views.NewView("bootstrap", "admin/post/blogForm.gohtml"),
-		DeleteForm:      views.NewView("bootstrap", "admin/post/deleteForm.gohtml"),
-		EditForm:        views.NewView("bootstrap", "admin/post/editForm.gohtml"),
-		CategoryForm:    views.NewView("bootstrap", "admin/category/categoryForm.gohtml"),
+		LoginPage:          views.NewView("bootstrap", "admin/login.gohtml"),
+		AdminService:       adminService,
+		PostService:        ps,
+		CategoryService:    cs,
+		BlogForm:           views.NewView("bootstrap", "admin/post/blogForm.gohtml"),
+		DeleteForm:         views.NewView("bootstrap", "admin/post/deleteForm.gohtml"),
+		EditForm:           views.NewView("bootstrap", "admin/post/editForm.gohtml"),
+		CategoryForm:       views.NewView("bootstrap", "admin/category/categoryForm.gohtml"),
+		CategoryDeleteForm: views.NewView("bootstrap", "admin/category/categoryDeleteForm.gohtml"),
+		CategoryEditForm:   views.NewView("bootstrap", "admin/category/categoryEditForm.gohtml"),
 	}
 }
 
@@ -115,7 +119,7 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/create", http.StatusFound)
 }
 
-func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) {
+func (admin *Admin) SubmitArticleDeleteRequest(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		ForbiddenError().Render(w, nil)
 		return
@@ -141,7 +145,7 @@ func (admin *Admin) SubmitDeleteRequest(w http.ResponseWriter, r *http.Request) 
 	http.Redirect(w, r, "/admin/delete", http.StatusFound)
 }
 
-func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
+func (admin *Admin) SubmitArticleEditRequest(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		ForbiddenError().Render(w, nil)
 		return
@@ -165,6 +169,32 @@ func (admin *Admin) SubmitEditRequest(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/edit", http.StatusFound)
 }
 
+func (admin *Admin) SubmitCategoryDeleteRequest(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	form := DeleteForm{}
+	internalServerError := InternalServerError()
+	_, err := parseForm(r, &form)
+	if err != nil {
+		internalServerError.Render(w, nil)
+		return
+	}
+	fmt.Println(form)
+	idToUint, err := strconv.ParseUint(form.Id, 0, 64)
+	if err != nil {
+		internalServerError.Render(w, nil)
+		return
+	}
+	err = admin.CategoryService.DeleteCategory(idToUint)
+	if err != nil {
+		internalServerError.Render(w, nil)
+		return
+	}
+	http.Redirect(w, r, "/admin/category/delete", http.StatusFound)
+}
+
 func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		ForbiddenError().Render(w, nil)
@@ -183,6 +213,34 @@ func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
 		internalServerError.Render(w, nil)
 	}
 	http.Redirect(w, r, "/admin/category", http.StatusFound)
+}
+
+func (admin *Admin) SubmitCategoryEditRequest(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	form := EditForm{}
+	internalServerError := InternalServerError()
+	_, err := parseForm(r, &form)
+	if err != nil {
+		fmt.Println("Error is here 2", err)
+		internalServerError.Render(w, nil)
+		return
+	}
+
+	fmt.Println("GOGOGOGOGOG")
+
+	category := models.Category{CategoryName: form.Topic, CategorySummary: form.Summary,
+		Imgur_URL: form.Imgur_URL}
+
+	err = admin.CategoryService.UpdateChangesCategoryFromEdit(&category, form.Id)
+	if err != nil {
+		fmt.Println("Error I got back ", err)
+		internalServerError.Render(w, nil)
+		return
+	}
+	http.Redirect(w, r, "/admin/category/edit", http.StatusFound)
 }
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
@@ -224,4 +282,20 @@ func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	admin.CategoryForm.Render(w, nil)
+}
+
+func (admin *Admin) GetCategoryDeletePage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	admin.CategoryDeleteForm.Render(w, nil)
+}
+
+func (admin *Admin) GetCategoryEditPage(w http.ResponseWriter, r *http.Request) {
+	if !validateJWT(r) {
+		ForbiddenError().Render(w, nil)
+		return
+	}
+	admin.CategoryEditForm.Render(w, nil)
 }

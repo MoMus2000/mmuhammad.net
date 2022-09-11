@@ -12,4 +12,6 @@
 - move javascript into a seperate file
 - Look into preventing sql injection
 - start doing leetcode and figure out a code format for easier article put up
-- ADD IN MORE ARTICLES TO MAKE WEBSITE READY FOR DEPLOYMENT
+- SEO optimization, look into that
+- Make about and contact into a single page and make the UI better
+- Add in microservices to other created projects
