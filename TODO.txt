@@ -2,10 +2,7 @@
 - Function to refresh token -- Not super important
 - Add functionality / button to be able to download resume
 - Write HTML Templating using the builer design pattern in the views folder
-- Create a build script or search if you need one for deployment
 - Create comments and documentation for the entire app
-- Add abiliy to delete categories
-- Add ability to edit post category
 - Add ability to assign articles to multiple categories
 - Add better method to send data to template for session/ JWT management
 - Better error handling as some errors go silent
@@ -13,5 +10,4 @@
 - Look into preventing sql injection
 - start doing leetcode and figure out a code format for easier article put up
 - SEO optimization, look into that
-- Make about and contact into a single page and make the UI better
 - Add in microservices to other created projects
