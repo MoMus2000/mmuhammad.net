@@ -5,7 +5,7 @@ Description=Collect Financial Data
 User=root
 Type=simple
 WorkingDirectory=/root/mustafa_m/scripts/
-ExecStart=/usr/bin/python3 test.py
+ExecStart=/usr/bin/python3 pak_financials.py
 
 [Install]
 WantedBy=multi-user.target

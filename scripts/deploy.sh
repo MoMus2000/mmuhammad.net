@@ -13,6 +13,8 @@ echo "Copied over the project files ..."
 
 echo "Copying over service files"
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/go_server.service /etc/systemd/system
+sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.service /etc/systemd/system
+sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.timer /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net systemctl daemon-reload
 echo "restarting go server service"
 sshpass -p $pwd ssh root@mmuhammad.net systemctl restart go_server
