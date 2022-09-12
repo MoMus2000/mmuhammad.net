@@ -5,7 +5,7 @@ import sqlite3
 import json
 
 FOREX_API_TOKEN = os.environ.get("FOREX_API_TOKEN")
-METALS_API_TOKEN = os.environ.get("METAL_API_TOKEN")
+METAL_API_TOKEN = os.environ.get("METAL_API_TOKEN")
 COMMODITY_API_TOKEN = os.environ.get("COMMODITY_API_TOKEN")
 
 con = sqlite3.connect("../db/lenslocked_dev.db")
@@ -31,6 +31,8 @@ if data.status_code == 200:
         cur.executemany("""INSERT INTO monitors 
         (date, metric, value) VALUES (?, ?, ?)""", data)
         con.commit()
+        print("Wrote usd to pkr")
+
     except sqlite3.IntegrityError:
         print("DUPLICATE insertion ", data)
 
@@ -64,6 +66,7 @@ if data.status_code == 200:
         cur.executemany("""INSERT INTO monitors 
         (date, metric, value) VALUES (?, ?, ?)""", data)
         con.commit()
+        print("Wrote metals")
     except sqlite3.IntegrityError:
         print("DUPLICATE insertion ", data)
 
@@ -88,6 +91,7 @@ if response.status_code == 200:
         cur.executemany("""INSERT INTO monitors 
         (date, metric, value) VALUES (?, ?, ?)""", data)
         con.commit()
+        print("Wrote oil")
     except sqlite3.IntegrityError:
         print("DUPLICATE insertion ", data)
 else:
