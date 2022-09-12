@@ -81,6 +81,8 @@ func main() {
 
 	r.Handle("/market", monC.MonitorPage).Methods("GET")
 	r.HandleFunc("/usopen", monC.GetUsdToPkr).Methods("GET")
+	r.HandleFunc("/steel", monC.GetSteelRates).Methods("GET")
+	r.HandleFunc("/oil", monC.GetOilRates).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }

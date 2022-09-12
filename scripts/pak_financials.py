@@ -6,15 +6,12 @@ import json
 
 FOREX_API_TOKEN = os.environ.get("FOREX_API_TOKEN")
 METALS_API_TOKEN = os.environ.get("METAL_API_TOKEN")
+COMMODITY_API_TOKEN = os.environ.get("COMMODITY_API_TOKEN")
 
 con = sqlite3.connect("../db/lenslocked_dev.db")
 
 today_date = datetime.today()
 today_date = today_date.strftime('%Y-%m-%d')
-
-
-FOREX_API_TOKEN = "59pfif605nZ54x5c77xrul4l3BUb7Ht2"
-METAL_API_TOKEN = "nyqm4mk9y089cvi17m07x19khfixw06nyo7e2d3pmea623m4kjkn9dk1n75a"
 
 url = f"https://api.polygon.io/v2/aggs/ticker/C:USDPKR/range/1/day/{today_date}/\
 {today_date}?adjusted=true&sort=asc&limit=120&apiKey={FOREX_API_TOKEN}"
@@ -72,3 +69,27 @@ if data.status_code == 200:
 
 else:
     print(data.status_code)
+
+
+url = f"https://www.commodities-api.com/api/latest?access_key={COMMODITY_API_TOKEN}&base=USD&symbols=WTIOIL%2CBRENTOIL"
+response = requests.get(url)
+if response.status_code == 200:
+    rates = json.loads(response.content)['data']['rates']
+    BRENTOIL = 1/float(rates['BRENTOIL'])
+    WTIOIL = 1/float(rates['WTIOIL'])
+
+    cur = con.cursor()
+
+    data = (
+        [today_date, "BRENTOIL", BRENTOIL],
+        [today_date, "WTIOIL", WTIOIL],
+    )
+    try:
+        cur.executemany("""INSERT INTO monitors 
+        (date, metric, value) VALUES (?, ?, ?)""", data)
+        con.commit()
+    except sqlite3.IntegrityError:
+        print("DUPLICATE insertion ", data)
+else:
+    print(response.status_code)
+

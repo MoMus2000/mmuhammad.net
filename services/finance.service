@@ -1,0 +1,11 @@
+[Unit]
+Description=Collect Financial Data
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/root/mustafa_m/scripts/
+ExecStart=/usr/bin/python3 test.py
+
+[Install]
+WantedBy=multi-user.target

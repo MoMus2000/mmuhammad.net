@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedules the financial data collection service
+Requires=finance.service
+
+[Timer]
+Unit=finance.service
+OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 17:30:00
+
+[Install]
+WantedBy=timers.target

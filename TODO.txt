@@ -12,9 +12,12 @@
 - SEO optimization, look into that
 - Add in microservices to other created projects
 - Add in microservice in relation to other projects you've worked on
-- Determine IP using python script and visitor file
-- Connect server to grafana, plot metrics for SERVER USAGE, hits and whatever else you want monitored
 - Add charts for gold, silver and metals
 - Add service to collect data
 - Run data service periodically
 - Make sure that db is not overwritten in scp during deployment
+- Method to secure internal API's against abuse
+- Add rate limiting to the requests made
+- Develop convention /api/v1/get/categories etc
+- Clean up gorilla mux routing
+- Start looking into how to write API unit tests and make them part of the deployment

@@ -29,3 +29,24 @@ func (monitor *Monitor) GetUsdToPkr(w http.ResponseWriter, r *http.Request) {
 	jsonEncoding, err := json.Marshal(monitors)
 	fmt.Fprintln(w, string(jsonEncoding))
 }
+
+func (monitor *Monitor) GetSteelRates(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.MetalPrices()
+	internalServerError := InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetOilRates(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.OilPrices()
+	internalServerError := InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
