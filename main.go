@@ -84,6 +84,9 @@ func main() {
 	r.HandleFunc("/steel", monC.GetSteelRates).Methods("GET")
 	r.HandleFunc("/oil", monC.GetOilRates).Methods("GET")
 
+	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
+
 	http.ListenAndServe(":3000", r)
 }
 

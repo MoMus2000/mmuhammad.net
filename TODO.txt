@@ -22,3 +22,7 @@
 - Clean up gorilla mux routing
 - Start looking into how to write API unit tests and make them part of the deployment
 - Integrate hg.py and prepare service to run weekly to calculate market sentiment
+- Obfuscate Javascript to hide API details
+- Pagination on market watch
+- Refactor golang and javascript code
+- integrate kijiji scraper script into market watch

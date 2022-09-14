@@ -4,7 +4,7 @@ Requires=finance.service
 
 [Timer]
 Unit=finance.service
-OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 17:30:00
+OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 2:00:00
 
 [Install]
 WantedBy=timers.target

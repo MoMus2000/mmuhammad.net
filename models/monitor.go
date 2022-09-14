@@ -101,3 +101,49 @@ func (ms *MonitorService) OilPrices() ([][]string, error) {
 
 	return monitorString, nil
 }
+
+func (ms *MonitorService) BasementRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(0, -1, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "BASEMENT_MEAN", "BASEMENT_MIN", "BASEMENT_MEDIAN", "BASEMENT_MAX", "BASEMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+
+	return monitorString, nil
+}
+
+func (ms *MonitorService) ApartmentRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(0, -1, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "APARTMENT_MEAN", "APARTMENT_MIN", "APARTMENT_MEDIAN", "APARTMENT_MAX", "APARTMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+
+	return monitorString, nil
+}

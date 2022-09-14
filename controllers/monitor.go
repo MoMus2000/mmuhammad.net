@@ -50,3 +50,25 @@ func (monitor *Monitor) GetOilRates(w http.ResponseWriter, r *http.Request) {
 	jsonEncoding, err := json.Marshal(monitors)
 	fmt.Fprintln(w, string(jsonEncoding))
 }
+
+func (monitor *Monitor) GetBasementRates(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.BasementRates()
+	internalServerError := InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetApartmentRates(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.ApartmentRates()
+	internalServerError := InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}

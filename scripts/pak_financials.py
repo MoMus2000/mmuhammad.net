@@ -13,15 +13,19 @@ con = sqlite3.connect("../db/lenslocked_dev.db")
 today_date = datetime.today()
 today_date = today_date.strftime('%Y-%m-%d')
 
-url = f"https://api.polygon.io/v2/aggs/ticker/C:USDPKR/range/1/day/{today_date}/\
-{today_date}?adjusted=true&sort=asc&limit=120&apiKey={FOREX_API_TOKEN}"
+url = f"https://api.apilayer.com/exchangerates_data/latest?symbols=PKR&base=USD"
 
-data = requests.get(url)
+payload = {}
+headers= {
+  "apikey": FOREX_API_TOKEN
+}
+
+data = requests.request("GET", url, headers=headers, data = payload)
 
 if data.status_code == 200:
-    response = json.loads(data.content)
-    open_price = float(response['results'][-1]["o"])
-    close_price = float(response['results'][-1]["c"])
+    response = json.loads(data.text)
+    open_price = float(response['rates']["PKR"])
+    close_price = float(response['rates']["PKR"])
     cur = con.cursor()
     data = (
         [today_date, "OPEN_USD", open_price],
