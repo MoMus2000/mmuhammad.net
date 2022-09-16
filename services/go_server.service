@@ -4,6 +4,7 @@ Description=Run backend GO server
 [Service]
 User=root
 Type=simple
+EnvironmentFile=/etc/environment
 WorkingDirectory=/root/mustafa_m/
 ExecStart=/usr/bin/go run main.go
 

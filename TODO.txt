@@ -12,7 +12,6 @@
 - SEO optimization, look into that
 - Add in microservices to other created projects
 - Add in microservice in relation to other projects you've worked on
-- Make sure that db is not overwritten in scp during deployment
 - Method to secure internal API's against abuse
 - Add rate limiting to the requests made
 - Develop convention /api/v1/get/categories etc
@@ -22,5 +21,4 @@
 - Obfuscate Javascript to hide API details
 - Pagination on market watch
 - Refactor golang and javascript code
-- integrate kijiji scraper script into market watch
-- dotenv file, that is not git committed but can be read by systemd
+- Automate the creation of new charts once an API is available to pull data from scripts

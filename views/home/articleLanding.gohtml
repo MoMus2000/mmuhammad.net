@@ -9,8 +9,8 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 });
 let cidValue = params.cid; // "some_value"
 let offset = parseInt(params.offset) // "offset value"
-let apiRequestURL = `/postByCat?cid=${cidValue}&offset=${offset}`
-let apiRequestURLNext = `/postByCat?cid=${cidValue}&offset=${offset+4}`
+let apiRequestURL = `/api/v1/postByCat?cid=${cidValue}&offset=${offset}`
+let apiRequestURLNext = `/api/v1/postByCat?cid=${cidValue}&offset=${offset+4}`
 console.log(apiRequestURL)
 async function getArticlesInCat(){
   let response  = await fetch(apiRequestURL);

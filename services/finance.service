@@ -4,6 +4,7 @@ Description=Collect Financial Data
 [Service]
 User=root
 Type=simple
+EnvironmentFile=/etc/environment
 WorkingDirectory=/root/mustafa_m/scripts/
 ExecStart=/usr/bin/python3 pak_financials.py
 

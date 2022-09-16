@@ -58,7 +58,6 @@ func main() {
 
 	r.HandleFunc("/", controllers.WrapIPHandler(homeC.GetHomePage)).Methods("GET")
 	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
-	r.HandleFunc("/categories", catC.GetAllCategories).Methods("GET")
 	r.HandleFunc("/admin", adminC.Login).Methods("POST")
 	r.HandleFunc("/admin", adminC.GetLoginPage).Methods("GET")
 	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
@@ -76,14 +75,16 @@ func main() {
 	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
 
 	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
-	r.HandleFunc("/postByCat", postalC.GetPostsByCategory).Methods("GET")
+
 	r.HandleFunc("/signout", adminC.SignoutJWT).Methods("GET")
 
 	r.Handle("/market", monC.MonitorPage).Methods("GET")
-	r.HandleFunc("/usopen", monC.GetUsdToPkr).Methods("GET")
-	r.HandleFunc("/steel", monC.GetSteelRates).Methods("GET")
-	r.HandleFunc("/oil", monC.GetOilRates).Methods("GET")
 
+	r.HandleFunc("/api/v1/categories", catC.GetAllCategories).Methods("GET")
+	r.HandleFunc("/api/v1/postByCat", postalC.GetPostsByCategory).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/usopen", monC.GetUsdToPkr).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/steel", monC.GetSteelRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/oil", monC.GetOilRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
 

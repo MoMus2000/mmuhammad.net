@@ -3,7 +3,7 @@
 <br>
 
 <script>
-let apiRequestURL = `/categories`
+let apiRequestURL = `/api/v1/categories`
 async function getCats(){
   let response  = await fetch(apiRequestURL);
   let data = await response.json();

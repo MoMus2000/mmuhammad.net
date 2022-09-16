@@ -1,0 +1,12 @@
+[Unit]
+Description=Collect Realstate rental data
+
+[Service]
+User=root
+Type=simple
+EnvironmentFile=/etc/environment
+WorkingDirectory=/root/mustafa_m/scripts/
+ExecStart=/usr/bin/python3 kijiji.py
+
+[Install]
+WantedBy=multi-user.target

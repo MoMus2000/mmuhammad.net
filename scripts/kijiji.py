@@ -3,15 +3,11 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm import tqdm
 import time
-from fuzzywuzzy import fuzz
 import re
 import numpy as np
 import statistics
 import sqlite3
-import scipy.stats
-import matplotlib.pyplot as plt
 from distfit import distfit
-import math
 from datetime import datetime
 
 today_date = datetime.today()

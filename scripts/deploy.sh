@@ -7,17 +7,32 @@ read pwd
 stty echo
 
 echo "Copying over the project files ..."
-sshpass -p $pwd scp -r /Users/a./Desktop/go/mustafa_m/ root@mmuhammad.net:~/
-sshpass -p $pwd ssh root@mmuhammad.net rm -r /root/mustafa_m/.git
+sshpass -p $pwd ssh root@mmuhammad.net  mkdir -p /root/rsync_test
+sshpass -p $pwd rsync -a \
+--exclude '.git' \
+--exclude 'db/*' \
+--exclude 'test_binary' \
+--exclude 'test_queries' \
+--exclude 'content' \
+--exclude 'README.md' \
+--exclude 'TODO.txt' \
+--exclude 'visitors.txt' \
+--exclude 'scripts/hg.py' \
+--exclude 'scripts/deploy.sh' \
+/Users/a./Desktop/go/mustafa_m/ root@mmuhammad.net:~/rsync_test
 echo "Copied over the project files ..."
-
-echo "Copying over service files"
-sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/go_server.service /etc/systemd/system
-sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.service /etc/systemd/system
-sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.timer /etc/systemd/system
-sshpass -p $pwd ssh root@mmuhammad.net systemctl daemon-reload
-echo "restarting go server service"
-sshpass -p $pwd ssh root@mmuhammad.net systemctl restart go_server
-echo "restarting caddy service"
-sshpass -p $pwd ssh root@mmuhammad.net systemctl restart caddy
-echo "Deployment Complete"
+echo "Stopping services"
+sshpass -p $pwd ssh root@mmuhammad.net systemctl stop go_server
+sshpass -p $pwd ssh root@mmuhammad.net systemctl stop caddy
+# echo "Copying over service files"
+# sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/go_server.service /etc/systemd/system
+# sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.service /etc/systemd/system
+# sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.timer /etc/systemd/system
+# sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.service /etc/systemd/system
+# sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.timer /etc/systemd/system
+# sshpass -p $pwd ssh root@mmuhammad.net systemctl daemon-reload
+# echo "restarting go server service"
+# sshpass -p $pwd ssh root@mmuhammad.net systemctl restart go_server
+# echo "restarting caddy service"
+# sshpass -p $pwd ssh root@mmuhammad.net systemctl restart caddy
+# echo "Deployment Complete"

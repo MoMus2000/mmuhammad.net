@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedules the financial data collection service
+Requires=kijiji.service
+
+[Timer]
+Unit=finance.service
+OnCalendar=Sat *-*-* 3:00:00
+
+[Install]
+WantedBy=timers.target
