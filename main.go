@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"mustafa_m/controllers"
@@ -12,6 +13,10 @@ import (
 )
 
 func main() {
+	controllers.IsProduction = controllers.CheckProduction()
+	flag.Parse()
+
+	fmt.Println(*controllers.IsProduction)
 
 	r := mux.NewRouter().StrictSlash(true)
 
@@ -87,6 +92,7 @@ func main() {
 	r.HandleFunc("/api/v1/monitoring/oil", monC.GetOilRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
+	r.HandleFunc("/api/v1/script/{[a-z]+}.js", controllers.ScriptFetcher).Methods("GET")
 
 	http.ListenAndServe(":3000", r)
 }

@@ -1,17 +1,24 @@
 package controllers
 
 import (
+	"bytes"
+	"flag"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/schema"
 )
+
+var IsProduction *bool
 
 func InternalServerError() *views.View {
 	return NewStaticController().InternalServerError
@@ -151,4 +158,45 @@ func parseForm(r *http.Request, f interface{}) (string, error) {
 	}
 
 	return text, nil
+}
+
+func ScriptFetcher(w http.ResponseWriter, r *http.Request) {
+	fileName := strings.Split(r.URL.Path, "/")[4:][0]
+	var filePath string
+	if *IsProduction == true {
+		filePath = filepath.Join("./views", "js", "prod", fileName)
+	} else {
+		filePath = filepath.Join("./views", "js", "develop", fileName)
+	}
+
+	contents, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	t, err := template.New("").Parse(
+		fmt.Sprintf("<script>%s</script>", string(contents)),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var buf bytes.Buffer
+	if err := t.Execute(&buf, nil); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var (
+		result = buf.Bytes()
+		start  = len([]byte("<script>"))
+		end    = len(result) - len([]byte("</script>"))
+	)
+	if _, err := w.Write(result[start:end]); err != nil {
+		fmt.Printf("error writing response: %s\n", err.Error())
+	}
+}
+
+func CheckProduction() *bool {
+	return flag.Bool("prod", false, "Specify if server in production")
 }

@@ -6,7 +6,6 @@
 - Add ability to assign articles to multiple categories
 - Add better method to send data to template for session/ JWT management
 - Better error handling as some errors go silent
-- move javascript into a seperate file
 - Look into preventing sql injection
 - start doing leetcode and figure out a code format for easier article put up
 - SEO optimization, look into that
@@ -14,11 +13,9 @@
 - Add in microservice in relation to other projects you've worked on
 - Method to secure internal API's against abuse
 - Add rate limiting to the requests made
-- Develop convention /api/v1/get/categories etc
 - Clean up gorilla mux routing
 - Start looking into how to write API unit tests and make them part of the deployment
 - Integrate hg.py and prepare service to run weekly to calculate market sentiment
-- Obfuscate Javascript to hide API details
 - Pagination on market watch
 - Refactor golang and javascript code
 - Automate the creation of new charts once an API is available to pull data from scripts
