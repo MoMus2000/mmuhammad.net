@@ -6,6 +6,8 @@ import (
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Monitor struct {
@@ -71,4 +73,13 @@ func (monitor *Monitor) GetApartmentRates(w http.ResponseWriter, r *http.Request
 	fmt.Println(monitors)
 	jsonEncoding, err := json.Marshal(monitors)
 	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func AddMonitorRoutes(r *mux.Router, monC *Monitor) {
+	r.Handle("/market", monC.MonitorPage).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/usopen", monC.GetUsdToPkr).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/steel", monC.GetSteelRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/oil", monC.GetOilRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
 }

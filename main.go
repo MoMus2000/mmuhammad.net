@@ -12,6 +12,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type Service interface {
+	AutoMigrate() error
+}
+
 func main() {
 	controllers.IsProduction = controllers.CheckProduction()
 	flag.Parse()
@@ -31,16 +35,16 @@ func main() {
 	categoryService := models.NewCategoryService(db)
 	monitorService := models.NewMonitorService(db)
 
-	postService.AutoMigrate()
-	adminService.AutoMigrate()
-	monitorService.AutoMigrate()
-	categoryService.AutoMigrate()
+	services := []Service{
+		postService,
+		adminService,
+		categoryService,
+		monitorService,
+	}
 
-	ipAddress := getLocalIpAddress()
-
-	port := "3000"
-
-	fmt.Printf("Listening on %s:%s\n", ipAddress, port)
+	for _, serv := range services {
+		serv.AutoMigrate()
+	}
 
 	staticC := controllers.NewStaticController()
 
@@ -56,43 +60,23 @@ func main() {
 
 	monC := controllers.NewMonitorController(monitorService)
 
-	r.Handle("/about", staticC.About).Methods("GET")
-
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
-	r.HandleFunc("/", controllers.WrapIPHandler(homeC.GetHomePage)).Methods("GET")
-	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
-	r.HandleFunc("/admin", adminC.Login).Methods("POST")
-	r.HandleFunc("/admin", adminC.GetLoginPage).Methods("GET")
-	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
-	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
-	r.HandleFunc("/admin/delete", adminC.GetDeletePage).Methods("GET")
-	r.HandleFunc("/admin/delete", adminC.SubmitArticleDeleteRequest).Methods("POST")
-	r.HandleFunc("/admin/edit", adminC.GetEditPage).Methods("GET")
-	r.HandleFunc("/admin/edit", adminC.SubmitArticleEditRequest).Methods("POST")
-	r.HandleFunc("/admin/category", adminC.GetCategoryPage).Methods("GET")
-	r.HandleFunc("/admin/category", adminC.SubmitCategoryFrom).Methods("POST")
-	r.HandleFunc("/admin/category/edit", adminC.GetCategoryEditPage).Methods("GET")
-	r.HandleFunc("/admin/category/edit", adminC.SubmitCategoryEditRequest).Methods("POST")
-	r.HandleFunc("/admin/category/delete", adminC.GetCategoryDeletePage).Methods("GET")
-	r.HandleFunc("/admin/category/delete", adminC.SubmitCategoryDeleteRequest).Methods("POST")
-	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
+	controllers.AddStaticRoutes(r, staticC)
+	controllers.AddHelperRoutes(r)
+	controllers.AddCategoryRoutes(r, catC)
+	controllers.AddHomeRoutes(r, homeC)
+	controllers.AddPostRoutes(r, postalC)
+	controllers.AddArticleRoutes(r, artC)
+	controllers.AddAdminRoutes(r, adminC)
+	controllers.AddMonitorRoutes(r, monC)
 
-	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
+	ipAddress := getLocalIpAddress()
 
-	r.HandleFunc("/signout", adminC.SignoutJWT).Methods("GET")
+	port := "3000"
 
-	r.Handle("/market", monC.MonitorPage).Methods("GET")
-
-	r.HandleFunc("/api/v1/categories", catC.GetAllCategories).Methods("GET")
-	r.HandleFunc("/api/v1/postByCat", postalC.GetPostsByCategory).Methods("GET")
-	r.HandleFunc("/api/v1/monitoring/usopen", monC.GetUsdToPkr).Methods("GET")
-	r.HandleFunc("/api/v1/monitoring/steel", monC.GetSteelRates).Methods("GET")
-	r.HandleFunc("/api/v1/monitoring/oil", monC.GetOilRates).Methods("GET")
-	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
-	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
-	r.HandleFunc("/api/v1/script/{[a-z]+}.js", controllers.ScriptFetcher).Methods("GET")
+	fmt.Printf("Listening on %s:%s\n", ipAddress, port)
 
 	http.ListenAndServe(":3000", r)
 }

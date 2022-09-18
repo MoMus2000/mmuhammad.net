@@ -1,6 +1,10 @@
 package controllers
 
-import "mustafa_m/views"
+import (
+	"mustafa_m/views"
+
+	"github.com/gorilla/mux"
+)
 
 type staticController struct {
 	About               *views.View
@@ -16,4 +20,8 @@ func NewStaticController() *staticController {
 		InternalServerError: views.NewView("bootstrap", "static/500.gohtml"),
 		ForbiddenError:      views.NewView("bootstrap", "static/403.gohtml"),
 	}
+}
+
+func AddStaticRoutes(r *mux.Router, staticC *staticController) {
+	r.Handle("/about", staticC.About).Methods("GET")
 }

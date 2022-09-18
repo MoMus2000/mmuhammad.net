@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"mustafa_m/models"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Category struct {
@@ -24,4 +26,8 @@ func (cat *Category) GetAllCategories(w http.ResponseWriter, r *http.Request) {
 	}
 	jsonEncoding, err := json.Marshal(cats)
 	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func AddCategoryRoutes(r *mux.Router, catC *Category) {
+	r.HandleFunc("/api/v1/categories", catC.GetAllCategories).Methods("GET")
 }

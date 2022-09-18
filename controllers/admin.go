@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
 )
 
 type Admin struct {
@@ -298,4 +299,22 @@ func (admin *Admin) GetCategoryEditPage(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	admin.CategoryEditForm.Render(w, nil)
+}
+
+func AddAdminRoutes(r *mux.Router, adminC *Admin) {
+	r.HandleFunc("/admin", adminC.Login).Methods("POST")
+	r.HandleFunc("/admin", adminC.GetLoginPage).Methods("GET")
+	r.HandleFunc("/admin/create", adminC.GetBlogForm).Methods("GET")
+	r.HandleFunc("/admin/create", adminC.SubmitBlogPost).Methods("POST")
+	r.HandleFunc("/admin/delete", adminC.GetDeletePage).Methods("GET")
+	r.HandleFunc("/admin/delete", adminC.SubmitArticleDeleteRequest).Methods("POST")
+	r.HandleFunc("/admin/edit", adminC.GetEditPage).Methods("GET")
+	r.HandleFunc("/admin/edit", adminC.SubmitArticleEditRequest).Methods("POST")
+	r.HandleFunc("/admin/category", adminC.GetCategoryPage).Methods("GET")
+	r.HandleFunc("/admin/category", adminC.SubmitCategoryFrom).Methods("POST")
+	r.HandleFunc("/admin/category/edit", adminC.GetCategoryEditPage).Methods("GET")
+	r.HandleFunc("/admin/category/edit", adminC.SubmitCategoryEditRequest).Methods("POST")
+	r.HandleFunc("/admin/category/delete", adminC.GetCategoryDeletePage).Methods("GET")
+	r.HandleFunc("/admin/category/delete", adminC.SubmitCategoryDeleteRequest).Methods("POST")
+	r.HandleFunc("/signout", adminC.SignoutJWT).Methods("GET")
 }

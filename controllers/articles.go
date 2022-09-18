@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"mustafa_m/views"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Articles struct {
@@ -29,4 +31,8 @@ func (articles *Articles) GetArticleLandingPage(w http.ResponseWriter, r *http.R
 	data := &Data{cid: cid}
 	err := articles.ArticleLanding.Render(w, data)
 	fmt.Println(err)
+}
+
+func AddArticleRoutes(r *mux.Router, artC *Articles) {
+	r.HandleFunc("/articles", artC.GetArticleLandingPage).Methods("GET")
 }

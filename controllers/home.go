@@ -3,6 +3,8 @@ package controllers
 import (
 	"mustafa_m/views"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Home struct {
@@ -27,4 +29,8 @@ func (home *Home) GetHomePage(w http.ResponseWriter, r *http.Request) {
 		data := &Data{LoggedIn: "true"}
 		home.HomePageAdmin.Render(w, data)
 	}
+}
+
+func AddHomeRoutes(r *mux.Router, homeC *Home) {
+	r.HandleFunc("/", WrapIPHandler(homeC.GetHomePage)).Methods("GET")
 }

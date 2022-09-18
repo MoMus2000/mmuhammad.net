@@ -19,8 +19,8 @@ type Admin struct {
 	Password string `gorm:"not_null"`
 }
 
-func (a *AdminService) AutoMigrate() {
-	a.db.AutoMigrate(&Admin{})
+func (a *AdminService) AutoMigrate() error {
+	return a.db.AutoMigrate(&Admin{}).Error
 }
 
 func NewAdminService(db *gorm.DB) *AdminService {

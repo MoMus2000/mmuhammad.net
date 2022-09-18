@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 )
 
@@ -199,4 +200,8 @@ func ScriptFetcher(w http.ResponseWriter, r *http.Request) {
 
 func CheckProduction() *bool {
 	return flag.Bool("prod", false, "Specify if server in production")
+}
+
+func AddHelperRoutes(r *mux.Router) {
+	r.HandleFunc("/api/v1/script/{[a-z]+}.js", ScriptFetcher).Methods("GET")
 }

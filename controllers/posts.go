@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 type Post struct {
@@ -82,4 +84,10 @@ func (post *Post) GetPostsByCategory(w http.ResponseWriter, r *http.Request) {
 
 	jsonEncoding, err := json.Marshal(posts)
 	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func AddPostRoutes(r *mux.Router, postalC *Post) {
+	r.HandleFunc("/posts", postalC.GetAllPost).Methods("GET")
+	r.HandleFunc("/posts/{[a-z]+}/{[a-z]+}", postalC.GetPostFromTopic).Methods("GET")
+	r.HandleFunc("/api/v1/postByCat", postalC.GetPostsByCategory).Methods("GET")
 }
