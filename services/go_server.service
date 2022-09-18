@@ -6,7 +6,7 @@ User=root
 Type=simple
 EnvironmentFile=/etc/environment
 WorkingDirectory=/root/mustafa_m/
-ExecStart=/usr/bin/go run main.go
+ExecStart=/usr/bin/go run main.go -prod=true
 
 [Install]
 WantedBy=multi-user.target
