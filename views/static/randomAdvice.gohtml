@@ -1,0 +1,23 @@
+{{define "yield"}}
+<style>
+.button:focus {
+  outline: none;
+  box-shadow: none;
+}
+</style>
+<script type="text/javascript" src="api/v1/script/randomAdvice.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.0/fastclick.min.js" integrity="sha512-oljyd1wg75alHReTpDvNIQ4Yj1wZwGxxZhJhId3vr2dKY+26/r/wmMrImwDgin03+7wxyhX+adOQB/2BTvO5tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+    <br><br><br>
+    <pre id="advice" >Get some random advice</pre>
+    <textarea style="font-weight: bold" disabled class="form-control" id="textBox" rows="7"></textarea>
+    <br>
+    <button class="btn btn-primary" id="button">Get random advice</button>
+    </div>
+</div>
+</div>
+
+{{end}}

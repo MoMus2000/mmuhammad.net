@@ -17,3 +17,4 @@
 - Pagination on market watch
 - Refactor golang and javascript code
 - Automate the creation of new charts once an API is available to pull data from scripts
+- Buy me a coffee (based on the content you write)
