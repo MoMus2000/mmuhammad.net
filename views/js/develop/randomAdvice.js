@@ -4,18 +4,14 @@ async function fetchRandomAdvice(){
     resp = await resp.json()
     return resp["slip"]["advice"]
 }
-window.addEventListener('load', function() {
-    FastClick.attach(document.body);
-}, false);
 
+async function setToTextBox(){
+    resp = await fetchRandomAdvice()
+    console.log(resp)
+    textBox.innerHTML = `${resp}`
+}
 window.onload = function(){
     button = document.getElementById("button")
     textBox = document.getElementById("textBox")
-    preTag = document.getElementById("advice")
-    button.addEventListener('click', async function(){
-        resp = await fetchRandomAdvice()
-        console.log(resp)
-        textBox.innerHTML = `${resp}`
-        preTag.click()
-    })
+    window.setInterval(setToTextBox, 8000)
 }
