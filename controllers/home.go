@@ -23,10 +23,7 @@ func (home *Home) GetHomePage(w http.ResponseWriter, r *http.Request) {
 	if !validateJWT(r) {
 		home.HomePage.Render(w, nil)
 	} else {
-		type Data struct {
-			LoggedIn string
-		}
-		data := &Data{LoggedIn: "true"}
+		data := &views.Data{LoggedIn: "true"}
 		home.HomePageAdmin.Render(w, data)
 	}
 }

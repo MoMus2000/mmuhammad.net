@@ -249,7 +249,8 @@ func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 		ForbiddenError().Render(w, nil)
 		return
 	}
-	admin.BlogForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.BlogForm.Render(w, data)
 }
 
 func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
@@ -257,7 +258,8 @@ func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin/create", http.StatusFound)
 		return
 	}
-	admin.LoginPage.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.LoginPage.Render(w, data)
 }
 
 func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
@@ -265,7 +267,8 @@ func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
 		ForbiddenError().Render(w, nil)
 		return
 	}
-	admin.DeleteForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.DeleteForm.Render(w, data)
 }
 
 func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
@@ -273,7 +276,8 @@ func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
 		ForbiddenError().Render(w, nil)
 		return
 	}
-	admin.EditForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.EditForm.Render(w, data)
 }
 
 func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
@@ -281,8 +285,8 @@ func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
 		ForbiddenError().Render(w, nil)
 		return
 	}
-
-	admin.CategoryForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.CategoryForm.Render(w, data)
 }
 
 func (admin *Admin) GetCategoryDeletePage(w http.ResponseWriter, r *http.Request) {
@@ -290,7 +294,8 @@ func (admin *Admin) GetCategoryDeletePage(w http.ResponseWriter, r *http.Request
 		ForbiddenError().Render(w, nil)
 		return
 	}
-	admin.CategoryDeleteForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.CategoryDeleteForm.Render(w, data)
 }
 
 func (admin *Admin) GetCategoryEditPage(w http.ResponseWriter, r *http.Request) {
@@ -298,7 +303,8 @@ func (admin *Admin) GetCategoryEditPage(w http.ResponseWriter, r *http.Request) 
 		ForbiddenError().Render(w, nil)
 		return
 	}
-	admin.CategoryEditForm.Render(w, nil)
+	data := &views.Data{LoggedIn: "true"}
+	admin.CategoryEditForm.Render(w, data)
 }
 
 func AddAdminRoutes(r *mux.Router, adminC *Admin) {
