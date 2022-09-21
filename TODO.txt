@@ -4,7 +4,6 @@
 - Write HTML Templating using the builer design pattern in the views folder
 - Create comments and documentation for the entire app
 - Add ability to assign articles to multiple categories
-- Add better method to send data to template for session/ JWT management
 - Better error handling as some errors go silent
 - Look into preventing sql injection
 - start doing leetcode and figure out a code format for easier article put up
@@ -18,3 +17,5 @@
 - Refactor golang and javascript code
 - Automate the creation of new charts once an API is available to pull data from scripts
 - Buy me a coffee (based on the content you write)
+- Make front end look better using Bulma CSS
+- Financial engineering API's

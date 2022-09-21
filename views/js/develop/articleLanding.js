@@ -55,7 +55,7 @@ async function getArticlesInCat(){
 
 function createPost(topic, summary, id, imgur){
   html = `
-  <div class="card col-sm-6">
+  <div class="card col-sm-6 mt-2">
   <img class="card-img-top" src="${imgur}" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${topic}</h5>

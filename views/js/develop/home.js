@@ -39,12 +39,12 @@ async function getCats(){
 
 function createPost(topic, summary, id, imgur){
   html = `
-  <div class="card col-sm-6" style="padding: 10px">
+  <div class="card col-sm-6 mt-2" style="padding: 10px;">
   <img class="card-img-top" src="${imgur}" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${topic}</h5>
     <p class="card-text">${summary}</p>
-    <a href="/articles?cid=${id}&offset=0" class="btn btn-primary">Read articles !</a>
+    <a href="/articles?cid=${id}&offset=0" class="btn btn-primary align-self-end">Read articles !</a>
   </div>
   </div>
   <br>`
