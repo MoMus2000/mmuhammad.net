@@ -1,0 +1,34 @@
+{{define "yield"}}
+
+<script type="text/javascript" src="api/v1/script/messageBoard.js"></script>
+
+<div class="container">
+<div class="row">
+</div>
+<div class="row">
+    <div class="col-md-8 mt-3">
+        <h3> Say Hi, drop a line or leave suggestions for the site &#128512</h3>
+        <div class="form-group">
+            <label for="username"> Your Name </label>
+            <input type="text" class="form-control" id="username" name="username" autocomplete="off"> </input>
+        </div>
+        <div class="form-group">
+            <label for="message"> Your Message </label>
+            <input type="text" class="form-control" id="message" name="username" autocomplete="off"> </input>
+        </div>
+        <hr>
+        <a href="javascript:void(0);" class="btn btn-outline-secondary" id="sendBtn"> Send </a>
+
+        <hr>
+        <div id="output" style="outline: 1px solid silver; height: 160px; padding:0.5rem; overflow: scroll;">
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <hr>
+        <h3> Online </h3>
+        <h6 id="online"> </h6>
+    </div>
+</div>
+</div>
+{{end}}

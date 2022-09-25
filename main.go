@@ -20,11 +20,16 @@ func main() {
 	controllers.IsProduction = controllers.CheckProduction()
 	flag.Parse()
 
-	fmt.Println(*controllers.IsProduction)
+	db, err := models.NewDataBaseConnection("./db/lenslocked_dev.db")
+
+	if *controllers.IsProduction {
+		fmt.Println("In production mode ..")
+	} else {
+		db.LogMode(true)
+		fmt.Println("In development mode ..")
+	}
 
 	r := mux.NewRouter().StrictSlash(true)
-
-	db, err := models.NewDataBaseConnection("./db/lenslocked_dev.db")
 
 	if err != nil {
 		panic(err)
@@ -34,12 +39,14 @@ func main() {
 	adminService := models.NewAdminService(db)
 	categoryService := models.NewCategoryService(db)
 	monitorService := models.NewMonitorService(db)
+	messageService := models.NewMessageService(db)
 
 	services := []Service{
 		postService,
 		adminService,
 		categoryService,
 		monitorService,
+		messageService,
 	}
 
 	for _, serv := range services {
@@ -60,6 +67,8 @@ func main() {
 
 	monC := controllers.NewMonitorController(monitorService)
 
+	mbC := controllers.NewMessageController(messageService)
+
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
@@ -71,6 +80,10 @@ func main() {
 	controllers.AddArticleRoutes(r, artC)
 	controllers.AddAdminRoutes(r, adminC)
 	controllers.AddMonitorRoutes(r, monC)
+	controllers.AddMessageBoardRoutes(r, mbC)
+
+	// For the message board
+	go controllers.ListenToChannel(messageService)
 
 	ipAddress := getLocalIpAddress()
 
