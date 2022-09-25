@@ -1,16 +1,15 @@
-package main
+package scripts
 
 import (
-  "encoding/json"
-	"fmt"
+	"encoding/json"
 
 	"github.com/twilio/twilio-go"
 	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
 )
 
-func main() {
+func StatusCheck(reciever string, message string) {
 	accountSid := "AC7c1d4068211dfa361cfc6be3a3af78a8"
-	authToken := ""
+	authToken := "1cf960e93c262a49bbb97c7696559f47"
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
@@ -18,15 +17,15 @@ func main() {
 	})
 
 	params := &twilioApi.CreateMessageParams{}
-	params.SetTo("+16475130152")
-    params.SetFrom("Anjuman-E-")
-	params.SetBody("Hello from Go!")
+	params.SetTo(reciever)
+	params.SetFrom("+13862515211")
+	params.SetBody(message)
 
 	resp, err := client.Api.CreateMessage(params)
 	if err != nil {
-		fmt.Println(err.Error())
+		// fmt.Println(err.Error())
 	} else {
-		response, _ := json.Marshal(*resp)
-		fmt.Println("Response: " + string(response))
+		json.Marshal(*resp)
+		// fmt.Println("Response: " + string(response))
 	}
 }

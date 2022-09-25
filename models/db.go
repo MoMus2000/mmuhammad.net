@@ -7,6 +7,6 @@ func NewDataBaseConnection(connectionInfo string) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.LogMode(true)
+	// db.LogMode(true)
 	return db, err
 }

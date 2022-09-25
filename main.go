@@ -69,6 +69,8 @@ func main() {
 
 	mbC := controllers.NewMessageController(messageService)
 
+	fmbC := controllers.NewTwilioController()
+
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
@@ -81,7 +83,8 @@ func main() {
 	controllers.AddAdminRoutes(r, adminC)
 	controllers.AddMonitorRoutes(r, monC)
 	controllers.AddMessageBoardRoutes(r, mbC)
-	controllers.AddTwilioRoutes(r, &controllers.Twilio{})
+
+	controllers.AddTwilioRoutes(r, fmbC)
 
 	// For the message board
 	go controllers.ListenToChannel(messageService)
