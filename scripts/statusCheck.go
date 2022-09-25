@@ -9,7 +9,7 @@ import (
 
 func StatusCheck(reciever string, message string) {
 	accountSid := "AC7c1d4068211dfa361cfc6be3a3af78a8"
-	authToken := "1cf960e93c262a49bbb97c7696559f47"
+	authToken := ""
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
