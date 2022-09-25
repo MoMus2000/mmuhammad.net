@@ -10,7 +10,7 @@ import (
 
 func main() {
 	accountSid := "AC7c1d4068211dfa361cfc6be3a3af78a8"
-	authToken := "1692d154c75c2d28a6603d37aeb652d6"
+	authToken := ""
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
