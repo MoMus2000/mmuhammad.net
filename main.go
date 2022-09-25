@@ -81,6 +81,7 @@ func main() {
 	controllers.AddAdminRoutes(r, adminC)
 	controllers.AddMonitorRoutes(r, monC)
 	controllers.AddMessageBoardRoutes(r, mbC)
+	controllers.AddTwilioRoutes(r, &controllers.Twilio{})
 
 	// For the message board
 	go controllers.ListenToChannel(messageService)
