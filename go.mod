@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/dongri/phonenumber v0.0.0-20220808001537-be17ad0b5144 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect

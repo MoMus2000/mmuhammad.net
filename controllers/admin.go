@@ -6,6 +6,7 @@ import (
 	"mustafa_m/views"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -83,7 +84,11 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 	internalServerError := InternalServerError()
 	form := LoginForm{}
 	parseForm(r, &form)
-	fmt.Println(form)
+	fmt.Println(strings.Contains(form.Email, "fmb"))
+	if strings.Contains(form.Email, "fmb") {
+		ForbiddenError().Render(w, nil)
+		return
+	}
 	adminTemp := models.Admin{Email: form.Email, Password: form.Password}
 	result, err := admin.AdminService.ByEmail(&adminTemp)
 	if err != nil {
@@ -258,8 +263,7 @@ func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin/create", http.StatusFound)
 		return
 	}
-	data := &views.Data{LoggedIn: "true"}
-	admin.LoginPage.Render(w, data)
+	admin.LoginPage.Render(w, nil)
 }
 
 func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {

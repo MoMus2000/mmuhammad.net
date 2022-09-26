@@ -37,6 +37,7 @@ func main() {
 
 	postService := models.NewPostService(db)
 	adminService := models.NewAdminService(db)
+
 	categoryService := models.NewCategoryService(db)
 	monitorService := models.NewMonitorService(db)
 	messageService := models.NewMessageService(db)
@@ -69,7 +70,7 @@ func main() {
 
 	mbC := controllers.NewMessageController(messageService)
 
-	fmbC := controllers.NewTwilioController()
+	fmbC := controllers.NewTwilioController(adminService)
 
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError

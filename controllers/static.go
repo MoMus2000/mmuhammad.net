@@ -26,5 +26,5 @@ func NewStaticController() *staticController {
 
 func AddStaticRoutes(r *mux.Router, staticC *staticController) {
 	r.Handle("/about", staticC.About).Methods("GET")
-	r.Handle("/randomAdvice", staticC.RandomAdvice).Methods("GET")
+	r.Handle("/randomJoke", staticC.RandomAdvice).Methods("GET")
 }

@@ -1,7 +1,20 @@
 mmuhammad.net {
+    encode gzip
+    header Strict-Transport-Security max-age=31536000
     reverse_proxy localhost:3000
 }
-   
+
 www.mmuhammad.net {
+    encode gzip
+    header Strict-Transport-Security max-age=31536000
+    reverse_proxy localhost:3000
+}
+
+fmb.mmuhammad.net {
+    encode gzip
+    header Strict-Transport-Security max-age=31536000
+    # Could also explore using redir instead and redirect to fmb
+    # redir / /admin or /fmb
+    uri replace / /about
     reverse_proxy localhost:3000
 }

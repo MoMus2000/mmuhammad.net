@@ -76,6 +76,65 @@ func createJWT(w http.ResponseWriter, admin *models.Admin) error {
 	return nil
 }
 
+func createJWTFmb(w http.ResponseWriter, admin *models.Admin) error {
+	expirationTime := time.Now().Add(60 * time.Minute)
+	claims := &Claims{
+		Username: admin.Email,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		return err
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:    "FMB",
+		Value:   tokenString,
+		Expires: expirationTime,
+	})
+
+	return nil
+}
+
+func (tw *Twilio) SignoutJWTFmb(w http.ResponseWriter, r *http.Request) {
+	if !validateJWTFmb(r) {
+		InternalServerError().Render(w, nil)
+	}
+
+	c := http.Cookie{
+		Name:   "FMB",
+		MaxAge: -1,
+		Path:   "/",
+	}
+
+	http.SetCookie(w, &c)
+
+	http.Redirect(w, r, "/fmb", http.StatusFound)
+}
+
+func validateJWTFmb(r *http.Request) bool {
+	token, err := r.Cookie("FMB")
+	if err != nil {
+		return false
+	}
+
+	tokenString := token.Value
+
+	claims := &Claims{}
+
+	result, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if !result.Valid {
+		return false
+	}
+
+	return true
+}
+
 func validateJWT(r *http.Request) bool {
 	token, err := r.Cookie("token")
 	if err != nil {

@@ -1,5 +1,6 @@
 package views
 
 type Data struct {
-	LoggedIn string
+	LoggedIn    string
+	FmbLoggedIn string
 }
