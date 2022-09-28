@@ -20,6 +20,26 @@ document.addEventListener("DOMContentLoaded", ()=>{
             })
         }
     })
+    submitButton = document.getElementById("submitButton")
+    submitButton.addEventListener("click", async ()=>{
+        overlay = document.getElementById("overlay")
+        overlay.style.display = "block"
+        const formData  = new FormData();
+        senderPhone = document.getElementById("SenderPhone").value
+        senderName = document.getElementById("SenderName").value
+        textMessage = document.getElementById("TextMessage").value
+        file = document.getElementById("File").files[0]
+        formData.append("SenderName", senderName);
+        formData.append("SenderPhone", senderPhone);
+        formData.append("TextMessage", textMessage);
+        formData.append("File", file);
+        const response = await fetch("/fmb/upload", {
+            method: 'POST',
+            body: formData
+          });
+        let status = response.status
+        overlay.style.display = "none"
+    })
 })
 function validateUpload(input) {
     const fileSize = input.files[0].size / 1024 / 1024; // in MiB

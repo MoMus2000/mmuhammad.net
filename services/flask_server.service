@@ -1,0 +1,12 @@
+[Unit]
+Description=Run backend flask server
+
+[Service]
+User=root
+Type=simple
+EnvironmentFile=/etc/environment
+WorkingDirectory=/root/mustafa_m/flask_server
+ExecStart=/usr/bin/python3 app.py -prod
+
+[Install]
+WantedBy=multi-user.target

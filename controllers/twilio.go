@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,7 +9,9 @@ import (
 	"mustafa_m/scripts"
 	"mustafa_m/views"
 	"net/http"
+	"strings"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -95,11 +98,32 @@ func (tw *Twilio) UploadContacts(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("API HIT")
 	payload := TwilioFilePayload{}
 	excelFile, err := parseExcelForm(r, &payload)
+	fmt.Println(payload)
 	if err != nil {
 		InternalServerError().Render(w, nil)
 	}
-	rows, err := excelFile.GetRows("Sheet1")
-	fmt.Println("Total number of rows : ", len(rows))
+	filename := fmt.Sprintf("./temp/%s_%s_%s.xlsx", payload.SenderName, payload.SenderPhone, uuid.New().String())
+	if err := excelFile.SaveAs(filename); err != nil {
+		fmt.Println(err)
+	}
+	// Then send flask request
+	flask_payload := make(map[string]string)
+
+	flask_payload["message"] = payload.SenderMessage
+	flask_payload["sender"] = payload.SenderPhone
+	flask_payload["senderName"] = payload.SenderName
+	flask_payload["fileName"] = strings.Split(filename, "/")[2]
+
+	jsonString, err := json.Marshal(flask_payload)
+
+	resp, err := http.Post("http://localhost:3001/api/v1/fmb/send_message", "application/json", bytes.NewBuffer(jsonString))
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	b, err := io.ReadAll(resp.Body)
+	fmt.Println(string(b))
 }
 
 func AddTwilioRoutes(r *mux.Router, tw *Twilio) {

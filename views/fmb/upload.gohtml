@@ -3,8 +3,25 @@
 <script type="text/javascript" src="/api/v1/script/fmb.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js" integrity="sha512-nPnkC29R0sikt0ieZaAkk28Ib7Y1Dz7IqePgELH30NnSi1DzG4x+envJAOHz8ZSAveLXAHTR3ai2E9DZUsT8pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<style>
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+</style>
+
 <div class="container">
-<form action="/fmb/upload" method="POST" enctype="multipart/form-data" autocomplete="off">
+<div id="overlay"></div>
+<form action="/fmb/upload" method="POST" enctype="multipart/form-data" autocomplete="off" onSubmit="return false;">
   <div class="form-group mt-3">
     <label for="SenderName">Sender Name</label>
     <input type="text" name="SenderName" class="form-control" id="SenderName" aria-describedby="emailHelp" placeholder="Sender Name">
@@ -21,7 +38,7 @@
     <input onchange="validateUpload(this)" class="file" type="file" id="File" name="File">
   </div>
   <button type="button" id="statusCheck" class="btn btn-success">Status Check</button>
-  <button type="submit" class="btn btn-primary">Send SMS</button>
+  <button type="button" id="submitButton" class="btn btn-primary">Send SMS</button>
 </form>
 
 </div>
