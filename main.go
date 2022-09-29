@@ -41,6 +41,7 @@ func main() {
 	categoryService := models.NewCategoryService(db)
 	monitorService := models.NewMonitorService(db)
 	messageService := models.NewMessageService(db)
+	fmbService := models.NewFmbService(db)
 
 	services := []Service{
 		postService,
@@ -48,6 +49,7 @@ func main() {
 		categoryService,
 		monitorService,
 		messageService,
+		fmbService,
 	}
 
 	for _, serv := range services {
@@ -70,7 +72,7 @@ func main() {
 
 	mbC := controllers.NewMessageController(messageService)
 
-	fmbC := controllers.NewTwilioController(adminService)
+	fmbC := controllers.NewTwilioController(fmbService)
 
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError

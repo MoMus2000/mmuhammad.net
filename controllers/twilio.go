@@ -18,7 +18,7 @@ import (
 type Twilio struct {
 	LoginPage     *views.View
 	ContactUpload *views.View
-	AdminService  *models.AdminService
+	FmbService    *models.FmbService
 }
 
 type TwilioPayload struct {
@@ -33,9 +33,9 @@ type TwilioFilePayload struct {
 	SenderMessage string `schema:"TextMessage"`
 }
 
-func NewTwilioController(adminService *models.AdminService) *Twilio {
+func NewTwilioController(FmbService *models.FmbService) *Twilio {
 	return &Twilio{
-		AdminService:  adminService,
+		FmbService:    FmbService,
 		LoginPage:     views.NewView("bootstrap", "fmb/login.gohtml"),
 		ContactUpload: views.NewView("bootstrap", "fmb/upload.gohtml"),
 	}
@@ -53,15 +53,15 @@ func (tw *Twilio) FmbLogin(w http.ResponseWriter, r *http.Request) {
 	form := LoginForm{}
 	parseForm(r, &form)
 	fmt.Println(form)
-	adminTemp := models.Admin{Email: form.Email, Password: form.Password}
-	result, err := tw.AdminService.ByEmail(&adminTemp)
+	fmbTemp := models.Fmb{Email: form.Email, Password: form.Password}
+	result, err := tw.FmbService.ByEmail(&fmbTemp)
 	if err != nil {
 		fmt.Println(err)
 		InternalServerError().Render(w, nil)
 	}
 	fmt.Println(result)
 
-	createJWTFmb(w, &adminTemp)
+	createJWTFmb(w, &fmbTemp)
 
 	http.Redirect(w, r, "/fmb/upload", http.StatusFound)
 }

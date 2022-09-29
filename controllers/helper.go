@@ -76,10 +76,10 @@ func createJWT(w http.ResponseWriter, admin *models.Admin) error {
 	return nil
 }
 
-func createJWTFmb(w http.ResponseWriter, admin *models.Admin) error {
+func createJWTFmb(w http.ResponseWriter, fmb *models.Fmb) error {
 	expirationTime := time.Now().Add(60 * time.Minute)
 	claims := &Claims{
-		Username: admin.Email,
+		Username: fmb.Email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

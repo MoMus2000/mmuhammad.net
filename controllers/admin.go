@@ -6,7 +6,6 @@ import (
 	"mustafa_m/views"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -84,11 +83,6 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 	internalServerError := InternalServerError()
 	form := LoginForm{}
 	parseForm(r, &form)
-	fmt.Println(strings.Contains(form.Email, "fmb"))
-	if strings.Contains(form.Email, "fmb") {
-		ForbiddenError().Render(w, nil)
-		return
-	}
 	adminTemp := models.Admin{Email: form.Email, Password: form.Password}
 	result, err := admin.AdminService.ByEmail(&adminTemp)
 	if err != nil {

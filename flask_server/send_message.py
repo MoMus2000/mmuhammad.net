@@ -4,7 +4,7 @@ import phonenumbers
 
 
 account = "AC7c1d4068211dfa361cfc6be3a3af78a8"
-token = "ab0bb7a691a6a63144d82b47ee4d33f9"
+token = ""
 
 def api_request(msg, sender, reciever):
     headers = {

@@ -31,9 +31,12 @@ sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.servi
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.timer /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.service /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.timer /etc/systemd/system
+sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/flask_server.service /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net systemctl daemon-reload
 echo "restarting go server service"
 sshpass -p $pwd ssh root@mmuhammad.net systemctl restart go_server
+echo "restarting flask server service"
+sshpass -p $pwd ssh root@mmuhammad.net systemctl restart flask_server
 echo "restarting caddy service"
 sshpass -p $pwd ssh root@mmuhammad.net systemctl restart caddy
 echo "Deployment Complete"
