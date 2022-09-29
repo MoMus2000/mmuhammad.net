@@ -2,6 +2,7 @@ package scripts
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/twilio/twilio-go"
 	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
@@ -9,7 +10,7 @@ import (
 
 func StatusCheck(reciever string, message string) {
 	accountSid := "AC7c1d4068211dfa361cfc6be3a3af78a8"
-	authToken := ""
+	authToken := "e941f928a7c1c5cd8f3be9a8ae47e6d3"
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
@@ -23,9 +24,9 @@ func StatusCheck(reciever string, message string) {
 
 	resp, err := client.Api.CreateMessage(params)
 	if err != nil {
-		// fmt.Println(err.Error())
+		fmt.Println(err.Error())
 	} else {
-		json.Marshal(*resp)
-		// fmt.Println("Response: " + string(response))
+		reps, _ := json.Marshal(*resp)
+		fmt.Println("Response: " + string(reps))
 	}
 }

@@ -15,6 +15,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var TwilioPhone = "+13862515211"
+
 type Twilio struct {
 	LoginPage     *views.View
 	ContactUpload *views.View
@@ -113,6 +115,7 @@ func (tw *Twilio) UploadContacts(w http.ResponseWriter, r *http.Request) {
 	flask_payload["sender"] = payload.SenderPhone
 	flask_payload["senderName"] = payload.SenderName
 	flask_payload["fileName"] = strings.Split(filename, "/")[2]
+	flask_payload["twilioPhone"] = TwilioPhone
 
 	jsonString, err := json.Marshal(flask_payload)
 

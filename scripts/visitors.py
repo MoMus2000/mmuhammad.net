@@ -6,7 +6,7 @@ token = os.environ.get("IP_ADDRESS_TOKEN")
 
 handler = ipinfo.getHandler(token)
 
-ip_addresses = open("~/mustafa_m/visitors.txt", "r")
+ip_addresses = open("/root/mustafa_m/visitors.txt", "r")
 
 ip_addresses = ip_addresses.readlines()
 

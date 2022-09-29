@@ -17,8 +17,9 @@ def index():
     sender_name = req['senderName']
     sender_phone = req['sender']
     file_path = req['fileName']
+    twilio_phone = req['twilioPhone']
 
-    send_twilio_message(msg, sender_phone, file_path)
+    send_twilio_message(msg, twilio_phone, file_path)
     return 'Hello', 201
     
 
