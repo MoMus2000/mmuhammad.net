@@ -24,9 +24,10 @@ func (articles *Articles) GetArticleLandingPage(w http.ResponseWriter, r *http.R
 	fmt.Println(offset)
 	// Now send over the cid to the child template
 	type Data struct {
-		LoggedIn string
-		cid      string
-		offset   string
+		LoggedIn    string
+		cid         string
+		offset      string
+		FmbLoggedIn string
 	}
 	data := &Data{cid: cid}
 	err := articles.ArticleLanding.Render(w, data)
