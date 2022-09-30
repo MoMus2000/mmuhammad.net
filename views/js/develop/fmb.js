@@ -32,13 +32,29 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
     submitButton = document.getElementById("submitButton")
     submitButton.addEventListener("click", async ()=>{
+        console.log("hello")
         overlay = document.getElementById("overlay")
         overlay.style.display = "block"
         const formData  = new FormData();
         senderPhone = document.getElementById("SenderPhone").value
         senderName = document.getElementById("SenderName").value
+        if(senderName == ""){
+            swal("Oops!", `Please enter the sender name !`, "error")
+            overlay.style.display = "none"
+            return
+        }
         textMessage = document.getElementById("TextMessage").value
+        if(textMessage == ""){
+            swal("Oops!", `Please enter the message !`, "error");
+            overlay.style.display = "none"
+            return
+        }
         file = document.getElementById("File").files[0]
+        if(file == undefined || file == null){
+            swal("Oops!", `Please upload the excel file !`, "error");
+            overlay.style.display = "none"
+            return
+        }
         formData.append("SenderName", senderName);
         formData.append("SenderPhone", senderPhone);
         formData.append("TextMessage", textMessage);
@@ -52,7 +68,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             let status = response.status
             console.log(status)
             if(status == 500){
-                swal("Oops!", `Are you sure the excel file is of the expected format?`, "error")
+                swal("Oops!", `Contact the admin, something went wrong`, "error")
             }
             else if(status != 201)  swal("Oops!", `Something went wrong, contact admin`, "error")
             else swal("Request Complete!", "Messages have been sent!", "success");

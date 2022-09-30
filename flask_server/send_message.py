@@ -8,6 +8,7 @@ import os
 account = os.environ.get("TWILIO_ACCOUNT")
 token = os.environ.get("TWILIO_TOKEN")
 
+
 def api_request(msg, sender, reciever):
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -17,8 +18,8 @@ def api_request(msg, sender, reciever):
     (f'https://api.twilio.com/2010-04-01/Accounts/{account}/Messages.json',
      headers=headers, data=data, auth=(account, token)
     )
-    if response.status_code != 201:
-        print(response.text)
+    if response.status_code == 401:
+        raise Exception("Api doesnt seem to be working")
     time.sleep(2)
 
 def send_twilio_message(msg, sender, file_path):
