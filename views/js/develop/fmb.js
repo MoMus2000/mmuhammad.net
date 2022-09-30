@@ -10,15 +10,25 @@ document.addEventListener("DOMContentLoaded", ()=>{
         if(senderPhone.value != "" && senderName.value != "" && senderMessage != ""){
             console.log("Sending ...")
             let api = `/api/v1/twilio/statusCheck`
-            resp = await fetch(api, {
-                method: "POST",
-                body: JSON.stringify({
-                    SenderName: senderName.value,
-                    SenderPhone: senderPhone.value,
-                    TextMessage: senderMessage.value
+            try{
+                resp = await fetch(api, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        SenderName: senderName.value,
+                        SenderPhone: senderPhone.value,
+                        TextMessage: senderMessage.value
+                    })
                 })
-            })
+                if(resp.status != 201) swal("Oops!", `Something went wrong, contact admin`, "error")
+                else swal("Request Complete!", "Check test phone number for message!", "success");
+            }
+            catch(err){
+                swal("Oops!", `Something went wrong, contact admin`, "error")
+            }
         }
+        if(senderName.value == "") swal("Oops!", `Please enter the sender name !`, "error");
+        else if(senderPhone.value == "") swal("Oops!", `Please enter the test phone number !`, "error");
+        else if(senderMessage.value == "") swal("Oops!", `Please enter the message !`, "error");
     })
     submitButton = document.getElementById("submitButton")
     submitButton.addEventListener("click", async ()=>{
@@ -33,12 +43,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
         formData.append("SenderPhone", senderPhone);
         formData.append("TextMessage", textMessage);
         formData.append("File", file);
-        const response = await fetch("/fmb/upload", {
-            method: 'POST',
-            body: formData
-          });
-        let status = response.status
-        overlay.style.display = "none"
+        try{
+            const response = await fetch("/fmb/upload", {
+                method: 'POST',
+                body: formData
+            });
+            overlay.style.display = "none"
+            let status = response.status
+            console.log(status)
+            if(status == 500){
+                swal("Oops!", `Are you sure the excel file is of the expected format?`, "error")
+            }
+            else if(status != 201)  swal("Oops!", `Something went wrong, contact admin`, "error")
+            else swal("Request Complete!", "Messages have been sent!", "success");
+        }
+        catch(err){
+            swal("Oops!", `Something went wrong, contact admin`, "error")
+        }
     })
 })
 function validateUpload(input) {

@@ -2,10 +2,11 @@ import pandas as pd
 import requests
 import phonenumbers
 import time
+import os
 
 
-account = "AC7c1d4068211dfa361cfc6be3a3af78a8"
-token = "e941f928a7c1c5cd8f3be9a8ae47e6d3"
+account = os.environ.get("TWILIO_ACCOUNT")
+token = os.environ.get("TWILIO_TOKEN")
 
 def api_request(msg, sender, reciever):
     headers = {

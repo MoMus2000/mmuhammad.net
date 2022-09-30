@@ -93,7 +93,13 @@ func (tw *Twilio) SampleApiTest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		InternalServerError().Render(w, nil)
 	}
-	go scripts.StatusCheck(payload.SenderPhone, payload.SenderMessage)
+
+	err = scripts.StatusCheck(payload.SenderPhone, payload.SenderMessage)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
 }
 
 func (tw *Twilio) UploadContacts(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +108,8 @@ func (tw *Twilio) UploadContacts(w http.ResponseWriter, r *http.Request) {
 	excelFile, err := parseExcelForm(r, &payload)
 	fmt.Println(payload)
 	if err != nil {
-		InternalServerError().Render(w, nil)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	filename := fmt.Sprintf("./temp/%s_%s_%s.xlsx", payload.SenderName, payload.SenderPhone, uuid.New().String())
 	if err := excelFile.SaveAs(filename); err != nil {
@@ -121,12 +128,25 @@ func (tw *Twilio) UploadContacts(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := http.Post("http://localhost:3001/api/v1/fmb/send_message", "application/json", bytes.NewBuffer(jsonString))
 
+	if resp.StatusCode == 500 {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	b, err := io.ReadAll(resp.Body)
+
+	fmt.Println(string(b))
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	b, err := io.ReadAll(resp.Body)
-	fmt.Println(string(b))
+	w.WriteHeader(http.StatusCreated)
 }
 
 func AddTwilioRoutes(r *mux.Router, tw *Twilio) {
