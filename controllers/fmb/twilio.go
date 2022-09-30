@@ -1,10 +1,11 @@
-package controllers
+package fmb
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
+	"mustafa_m/controllers"
 	"mustafa_m/models"
 	"mustafa_m/scripts"
 	"mustafa_m/views"
@@ -52,14 +53,14 @@ func (tw *Twilio) GetFmbLoginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (tw *Twilio) FmbLogin(w http.ResponseWriter, r *http.Request) {
-	form := LoginForm{}
-	parseForm(r, &form)
+	form := controllers.LoginForm{}
+	controllers.ParseForm(r, &form)
 	fmt.Println(form)
 	fmbTemp := models.Fmb{Email: form.Email, Password: form.Password}
 	result, err := tw.FmbService.ByEmail(&fmbTemp)
 	if err != nil {
 		fmt.Println(err)
-		InternalServerError().Render(w, nil)
+		controllers.InternalServerError().Render(w, nil)
 	}
 	fmt.Println(result)
 
@@ -70,7 +71,7 @@ func (tw *Twilio) FmbLogin(w http.ResponseWriter, r *http.Request) {
 
 func (tw *Twilio) GetUploadPage(w http.ResponseWriter, r *http.Request) {
 	if !validateJWTFmb(r) {
-		ForbiddenError().Render(w, nil)
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{FmbLoggedIn: "true"}
@@ -91,7 +92,7 @@ func (tw *Twilio) SampleApiTest(w http.ResponseWriter, r *http.Request) {
 	payload := TwilioPayload{}
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
-		InternalServerError().Render(w, nil)
+		controllers.InternalServerError().Render(w, nil)
 	}
 
 	err = scripts.StatusCheck(payload.SenderPhone, payload.SenderMessage)

@@ -1,7 +1,8 @@
-package controllers
+package admin
 
 import (
 	"fmt"
+	"mustafa_m/controllers"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
@@ -80,9 +81,9 @@ type Claims struct {
 
 func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("POST request recieved")
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	form := LoginForm{}
-	parseForm(r, &form)
+	controllers.ParseForm(r, &form)
 	adminTemp := models.Admin{Email: form.Email, Password: form.Password}
 	result, err := admin.AdminService.ByEmail(&adminTemp)
 	if err != nil {
@@ -97,13 +98,13 @@ func (admin *Admin) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	form := BlogForm{}
-	content, err := parseForm(r, &form)
+	content, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -120,13 +121,13 @@ func (admin *Admin) SubmitBlogPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitArticleDeleteRequest(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	form := DeleteForm{}
-	internalServerError := InternalServerError()
-	_, err := parseForm(r, &form)
+	internalServerError := controllers.InternalServerError()
+	_, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		internalServerError.Render(w, nil)
 		return
@@ -146,13 +147,13 @@ func (admin *Admin) SubmitArticleDeleteRequest(w http.ResponseWriter, r *http.Re
 }
 
 func (admin *Admin) SubmitArticleEditRequest(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	form := EditForm{}
-	internalServerError := InternalServerError()
-	content, err := parseForm(r, &form)
+	internalServerError := controllers.InternalServerError()
+	content, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		fmt.Println("Error is here 2", err)
 		internalServerError.Render(w, nil)
@@ -170,13 +171,13 @@ func (admin *Admin) SubmitArticleEditRequest(w http.ResponseWriter, r *http.Requ
 }
 
 func (admin *Admin) SubmitCategoryDeleteRequest(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	form := DeleteForm{}
-	internalServerError := InternalServerError()
-	_, err := parseForm(r, &form)
+	internalServerError := controllers.InternalServerError()
+	_, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		internalServerError.Render(w, nil)
 		return
@@ -196,13 +197,13 @@ func (admin *Admin) SubmitCategoryDeleteRequest(w http.ResponseWriter, r *http.R
 }
 
 func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	form := CategoryForm{}
-	_, err := parseForm(r, &form)
+	_, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -216,13 +217,13 @@ func (admin *Admin) SubmitCategoryFrom(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) SubmitCategoryEditRequest(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	form := EditForm{}
-	internalServerError := InternalServerError()
-	_, err := parseForm(r, &form)
+	internalServerError := controllers.InternalServerError()
+	_, err := controllers.ParseForm(r, &form)
 	if err != nil {
 		fmt.Println("Error is here 2", err)
 		internalServerError.Render(w, nil)
@@ -244,8 +245,8 @@ func (admin *Admin) SubmitCategoryEditRequest(w http.ResponseWriter, r *http.Req
 }
 
 func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}
@@ -253,7 +254,7 @@ func (admin *Admin) GetBlogForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
-	if validateJWT(r) {
+	if controllers.ValidateJWT(r) {
 		http.Redirect(w, r, "/admin/create", http.StatusFound)
 		return
 	}
@@ -261,8 +262,8 @@ func (admin *Admin) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}
@@ -270,8 +271,8 @@ func (admin *Admin) GetDeletePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}
@@ -279,8 +280,8 @@ func (admin *Admin) GetEditPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}
@@ -288,8 +289,8 @@ func (admin *Admin) GetCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (admin *Admin) GetCategoryDeletePage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}
@@ -297,8 +298,8 @@ func (admin *Admin) GetCategoryDeletePage(w http.ResponseWriter, r *http.Request
 }
 
 func (admin *Admin) GetCategoryEditPage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
-		ForbiddenError().Render(w, nil)
+	if !controllers.ValidateJWT(r) {
+		controllers.ForbiddenError().Render(w, nil)
 		return
 	}
 	data := &views.Data{LoggedIn: "true"}

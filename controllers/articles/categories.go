@@ -1,8 +1,9 @@
-package controllers
+package articles
 
 import (
 	"encoding/json"
 	"fmt"
+	"mustafa_m/controllers"
 	"mustafa_m/models"
 	"net/http"
 
@@ -19,7 +20,7 @@ func NewCategoryController(cs *models.CategoryService) *Category {
 
 func (cat *Category) GetAllCategories(w http.ResponseWriter, r *http.Request) {
 	cats, err := cat.catService.GetAllCategories()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		fmt.Println(err)
 		internalServerError.Render(w, nil)

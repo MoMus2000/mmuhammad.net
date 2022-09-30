@@ -6,21 +6,55 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
-	"github.com/xuri/excelize/v2"
 )
 
 var IsProduction *bool
+
+var jwtKey = []byte("my_secret_key")
+
+type LoginForm struct {
+	Email    string `schema:"email"`
+	Password string `schema:"password"`
+}
+
+type Claims struct {
+	Username string `json:"username"`
+	jwt.StandardClaims
+}
+
+type BlogForm struct {
+	Topic      string `schema:"Topic"`
+	Summary    string `schema:"Summary"`
+	Imgur_URL  string `schema:"Imgur"`
+	Content    string
+	CategoryId string `schema:"CID"`
+}
+
+type DeleteForm struct {
+	Id string `schema:"Id"`
+}
+
+type EditForm struct {
+	Id        string `schema:"ID"`
+	Topic     string `schema:"Topic"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
+}
+
+type CategoryForm struct {
+	Category  string `schema:"Cat"`
+	Summary   string `schema:"Summary"`
+	Imgur_URL string `schema:"Imgur"`
+}
 
 func InternalServerError() *views.View {
 	return NewStaticController().InternalServerError
@@ -28,6 +62,27 @@ func InternalServerError() *views.View {
 
 func ForbiddenError() *views.View {
 	return NewStaticController().ForbiddenError
+}
+
+func ValidateJWT(r *http.Request) bool {
+	token, err := r.Cookie("token")
+	if err != nil {
+		return false
+	}
+
+	tokenString := token.Value
+
+	claims := &Claims{}
+
+	result, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if !result.Valid {
+		return false
+	}
+
+	return true
 }
 
 func GetIP(r *http.Request) {
@@ -54,126 +109,7 @@ func WrapIPHandler(f http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func createJWT(w http.ResponseWriter, admin *models.Admin) error {
-	expirationTime := time.Now().Add(60 * time.Minute)
-	claims := &Claims{
-		Username: admin.Email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtKey)
-	if err != nil {
-		return err
-	}
-	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
-		Value:   tokenString,
-		Expires: expirationTime,
-	})
-
-	return nil
-}
-
-func createJWTFmb(w http.ResponseWriter, fmb *models.Fmb) error {
-	expirationTime := time.Now().Add(60 * time.Minute)
-	claims := &Claims{
-		Username: fmb.Email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtKey)
-	if err != nil {
-		return err
-	}
-	http.SetCookie(w, &http.Cookie{
-		Name:    "FMB",
-		Value:   tokenString,
-		Expires: expirationTime,
-	})
-
-	return nil
-}
-
-func (tw *Twilio) SignoutJWTFmb(w http.ResponseWriter, r *http.Request) {
-	if !validateJWTFmb(r) {
-		InternalServerError().Render(w, nil)
-	}
-
-	c := http.Cookie{
-		Name:   "FMB",
-		MaxAge: -1,
-		Path:   "/",
-	}
-
-	http.SetCookie(w, &c)
-
-	http.Redirect(w, r, "/fmb", http.StatusFound)
-}
-
-func validateJWTFmb(r *http.Request) bool {
-	token, err := r.Cookie("FMB")
-	if err != nil {
-		return false
-	}
-
-	tokenString := token.Value
-
-	claims := &Claims{}
-
-	result, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
-	})
-
-	if !result.Valid {
-		return false
-	}
-
-	return true
-}
-
-func validateJWT(r *http.Request) bool {
-	token, err := r.Cookie("token")
-	if err != nil {
-		return false
-	}
-
-	tokenString := token.Value
-
-	claims := &Claims{}
-
-	result, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
-	})
-
-	if !result.Valid {
-		return false
-	}
-
-	return true
-}
-
-func refreshJWT(w http.ResponseWriter, r *http.Request) error {
-	// TODO :
-	return nil
-}
-
-func (admin *Admin) SignoutJWT(w http.ResponseWriter, r *http.Request) {
-	internalServerError := InternalServerError()
-	if !validateJWT(r) {
-		internalServerError.Render(w, nil)
-	}
-	c := http.Cookie{
-		Name:   "token",
-		MaxAge: -1}
-	http.SetCookie(w, &c)
-	http.Redirect(w, r, "/", http.StatusFound)
-}
-
-func parseForm(r *http.Request, f interface{}) (string, error) {
+func ParseForm(r *http.Request, f interface{}) (string, error) {
 	var text string
 	encoding := r.Header.Get("Content-Type")
 	if encoding == "application/x-www-form-urlencoded" {
@@ -219,36 +155,6 @@ func parseForm(r *http.Request, f interface{}) (string, error) {
 	}
 
 	return text, nil
-}
-
-func parseExcelForm(r *http.Request, f interface{}) (*excelize.File, error) {
-	err := r.ParseMultipartForm(10000000000)
-	if err != nil {
-		return nil, err
-	}
-	file, _, err := r.FormFile("File")
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	excelFile, err := excelize.OpenReader(file)
-
-	if err != nil {
-		return nil, err
-	}
-
-	decoder := schema.NewDecoder()
-	decoder.IgnoreUnknownKeys(true)
-	fmt.Println(r.PostForm)
-	err = decoder.Decode(f, r.PostForm)
-
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	return excelFile, nil
 }
 
 func ScriptFetcher(w http.ResponseWriter, r *http.Request) {

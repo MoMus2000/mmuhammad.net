@@ -1,6 +1,7 @@
-package controllers
+package home
 
 import (
+	"mustafa_m/controllers"
 	"mustafa_m/views"
 	"net/http"
 
@@ -20,7 +21,7 @@ func NewHomeController() *Home {
 }
 
 func (home *Home) GetHomePage(w http.ResponseWriter, r *http.Request) {
-	if !validateJWT(r) {
+	if !controllers.ValidateJWT(r) {
 		home.HomePage.Render(w, nil)
 	} else {
 		data := &views.Data{LoggedIn: "true"}
@@ -29,5 +30,5 @@ func (home *Home) GetHomePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddHomeRoutes(r *mux.Router, homeC *Home) {
-	r.HandleFunc("/", WrapIPHandler(homeC.GetHomePage)).Methods("GET")
+	r.HandleFunc("/", controllers.WrapIPHandler(homeC.GetHomePage)).Methods("GET")
 }

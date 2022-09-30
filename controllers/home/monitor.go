@@ -1,8 +1,9 @@
-package controllers
+package home
 
 import (
 	"encoding/json"
 	"fmt"
+	"mustafa_m/controllers"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
@@ -24,7 +25,7 @@ func NewMonitorController(monitorService *models.MonitorService) *Monitor {
 
 func (monitor *Monitor) GetUsdToPkr(w http.ResponseWriter, r *http.Request) {
 	monitors, err := monitor.monitorService.UsdToPkr()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -34,7 +35,7 @@ func (monitor *Monitor) GetUsdToPkr(w http.ResponseWriter, r *http.Request) {
 
 func (monitor *Monitor) GetSteelRates(w http.ResponseWriter, r *http.Request) {
 	monitors, err := monitor.monitorService.MetalPrices()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -44,7 +45,7 @@ func (monitor *Monitor) GetSteelRates(w http.ResponseWriter, r *http.Request) {
 
 func (monitor *Monitor) GetOilRates(w http.ResponseWriter, r *http.Request) {
 	monitors, err := monitor.monitorService.OilPrices()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -55,7 +56,7 @@ func (monitor *Monitor) GetOilRates(w http.ResponseWriter, r *http.Request) {
 
 func (monitor *Monitor) GetBasementRates(w http.ResponseWriter, r *http.Request) {
 	monitors, err := monitor.monitorService.BasementRates()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
@@ -66,7 +67,7 @@ func (monitor *Monitor) GetBasementRates(w http.ResponseWriter, r *http.Request)
 
 func (monitor *Monitor) GetApartmentRates(w http.ResponseWriter, r *http.Request) {
 	monitors, err := monitor.monitorService.ApartmentRates()
-	internalServerError := InternalServerError()
+	internalServerError := controllers.InternalServerError()
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}

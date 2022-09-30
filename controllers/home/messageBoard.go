@@ -1,8 +1,9 @@
-package controllers
+package home
 
 import (
 	"encoding/json"
 	"fmt"
+	"mustafa_m/controllers"
 	"mustafa_m/models"
 	"mustafa_m/views"
 	"net/http"
@@ -55,7 +56,7 @@ func (mb *MessageBoard) GetMessageBoard(w http.ResponseWriter, r *http.Request) 
 func (mb *MessageBoard) GetRecentMessages(w http.ResponseWriter, r *http.Request) {
 	messages, err := mb.MessageService.GetRecentMessages()
 	if err != nil {
-		InternalServerError().Render(w, nil)
+		controllers.InternalServerError().Render(w, nil)
 	}
 	jsonEncoding, err := json.Marshal(messages)
 	fmt.Fprintln(w, string(jsonEncoding))
@@ -65,7 +66,7 @@ func (mb *MessageBoard) Websocket(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
-		InternalServerError().Render(w, nil)
+		controllers.InternalServerError().Render(w, nil)
 	}
 
 	resp := WsResponse{
@@ -75,7 +76,7 @@ func (mb *MessageBoard) Websocket(w http.ResponseWriter, r *http.Request) {
 	err = ws.WriteJSON(resp)
 
 	if err != nil {
-		InternalServerError().Render(w, nil)
+		controllers.InternalServerError().Render(w, nil)
 	}
 
 	clients[ws] = ""

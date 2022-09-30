@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"log"
 	"mustafa_m/controllers"
+	"mustafa_m/controllers/admin"
+	"mustafa_m/controllers/articles"
+	"mustafa_m/controllers/fmb"
+	"mustafa_m/controllers/home"
 	"mustafa_m/models"
 	"net"
 	"net/http"
@@ -58,39 +62,39 @@ func main() {
 
 	staticC := controllers.NewStaticController()
 
-	postalC := controllers.NewPostalController(postService)
+	postalC := articles.NewPostalController(postService)
 
-	adminC := controllers.NewAdminController(adminService, postService, categoryService)
+	adminC := admin.NewAdminController(adminService, postService, categoryService)
 
-	homeC := controllers.NewHomeController()
+	homeC := home.NewHomeController()
 
-	catC := controllers.NewCategoryController(categoryService)
+	catC := articles.NewCategoryController(categoryService)
 
-	artC := controllers.NewArticlesController()
+	artC := articles.NewArticlesController()
 
-	monC := controllers.NewMonitorController(monitorService)
+	monC := home.NewMonitorController(monitorService)
 
-	mbC := controllers.NewMessageController(messageService)
+	mbC := home.NewMessageController(messageService)
 
-	fmbC := controllers.NewTwilioController(fmbService)
+	fmbC := fmb.NewTwilioController(fmbService)
 
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
 	controllers.AddStaticRoutes(r, staticC)
 	controllers.AddHelperRoutes(r)
-	controllers.AddCategoryRoutes(r, catC)
-	controllers.AddHomeRoutes(r, homeC)
-	controllers.AddPostRoutes(r, postalC)
-	controllers.AddArticleRoutes(r, artC)
-	controllers.AddAdminRoutes(r, adminC)
-	controllers.AddMonitorRoutes(r, monC)
-	controllers.AddMessageBoardRoutes(r, mbC)
+	articles.AddCategoryRoutes(r, catC)
+	home.AddHomeRoutes(r, homeC)
+	articles.AddPostRoutes(r, postalC)
+	articles.AddArticleRoutes(r, artC)
+	admin.AddAdminRoutes(r, adminC)
+	home.AddMonitorRoutes(r, monC)
+	home.AddMessageBoardRoutes(r, mbC)
 
-	controllers.AddTwilioRoutes(r, fmbC)
+	fmb.AddTwilioRoutes(r, fmbC)
 
 	// For the message board
-	go controllers.ListenToChannel(messageService)
+	go home.ListenToChannel(messageService)
 
 	ipAddress := getLocalIpAddress()
 
