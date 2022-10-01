@@ -19,11 +19,11 @@ def index():
     file_path = req['fileName']
     twilio_phone = req['twilioPhone']
     try:
-        send_twilio_message(msg, twilio_phone, file_path)
+        error = send_twilio_message(msg, twilio_phone, file_path)
     except Exception as e:
         print(e)
         return e, 500 
-    return 'Created !', 201
+    return f'Created, total failed requests {error}!', 201
     
 
 if __name__ == "__main__":

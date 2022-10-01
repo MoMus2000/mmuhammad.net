@@ -25,9 +25,18 @@ def api_request(msg, sender, reciever):
 
 def send_twilio_message(msg, sender, file_path):
     df = pd.read_excel(f"../temp/{file_path}")
+    error = 0
     for i in range(0, len(df['Phone Number'])):
-        ph_num = format_number(df['Phone Number'].iloc[i])
-        api_request(str(msg), str(sender), ph_num)
+        try:
+            ph_num = format_number(df['Phone Number'].iloc[i])
+            api_request(str(msg), str(sender), ph_num)
+        except Exception as e:
+            print(e)
+            error += 1
+        if(error >= len(df)):
+            raise Exception("Something seems to be going wrong, all requests failed")
+    return error
+        
 
 def format_number(phonenumber):
     return phonenumbers.format_number(phonenumbers.parse(str(phonenumber), 'CA'),
