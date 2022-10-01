@@ -20,7 +20,7 @@ func StatusCheck(reciever string, message string) error {
 
 	params := &twilioApi.CreateMessageParams{}
 	params.SetTo(reciever)
-	params.SetFrom("+13862515211")
+	params.SetFrom("+16476916189")
 	params.SetBody(message)
 
 	resp, err := client.Api.CreateMessage(params)
