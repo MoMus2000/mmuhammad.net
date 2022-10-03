@@ -86,8 +86,8 @@ function validateUpload(input) {
     }
     const fileName = input.files[0].name.split('.').pop()
     console.log(fileName)
-    if(fileName != "xlsx" && fileName != "xls"){
-        alert("Only excel files can be provided")
+    if(fileName != "xlsx"){
+        swal("Oops!", "Only xlsx files can be provided", "error")
         clearFileInput("File")
     }
 }

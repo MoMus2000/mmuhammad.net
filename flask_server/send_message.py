@@ -16,7 +16,7 @@ def api_request(msg, sender, reciever):
     data = f'Body={msg}&From={sender}&To={reciever}'
     response = requests.post\
     (f'https://api.twilio.com/2010-04-01/Accounts/{account}/Messages.json',
-     headers=headers, data=data, auth=(account, token)
+     headers=headers, data=data.encode('utf-8'), auth=(account, token)
     )
     print(response.text)
     if response.status_code == 401:
