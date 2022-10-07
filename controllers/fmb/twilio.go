@@ -57,6 +57,7 @@ func (tw *Twilio) GetFmbLoginPage(w http.ResponseWriter, r *http.Request) {
 func (tw *Twilio) GetFmbDashboard(w http.ResponseWriter, r *http.Request) {
 	if !validateJWTFmb(r) {
 		controllers.ForbiddenError().Render(w, nil)
+		return
 	}
 	data := &views.Data{FmbLoggedIn: "true"}
 	tw.FmbDashBoard.Render(w, data)
@@ -99,24 +100,15 @@ func (tw *Twilio) SubmitWebHookResponse(w http.ResponseWriter, r *http.Request) 
 }
 
 func (tw *Twilio) GetAvailableBalance(w http.ResponseWriter, r *http.Request) {
-	// client := &http.Client{}
-	// req, err := http.NewRequest("GET", "https://api.twilio.com/2010-04-01/Accounts/AC7c1d4068211dfa361cfc6be3a3af78a8/Balance.json", nil)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// req.SetBasicAuth("AC7c1d4068211dfa361cfc6be3a3af78a8", "ebd2cd21905321b9fd1612d6b4682338")
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer resp.Body.Close()
-	// bodyText, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Printf("%s\n", bodyText)
-	jsonEncoding, _ := json.Marshal("{\"balance\": 5}")
-	fmt.Fprintln(w, string(jsonEncoding))
+	resp, err := http.Get("http://localhost:3001/api/v1/fmb/app_balance")
+	if err != nil {
+		fmt.Println(err)
+	}
+	var j interface{}
+	err = json.NewDecoder(resp.Body).Decode(&j)
+	fmt.Println(err)
+	b, err := json.Marshal(j)
+	fmt.Fprintln(w, string(b))
 }
 
 func (tw *Twilio) GetMessageLength(w http.ResponseWriter, r *http.Request) {

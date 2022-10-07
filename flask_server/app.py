@@ -1,9 +1,11 @@
-from flask import Flask, request
-from send_message import send_twilio_message
-from get_messages import get_total_message_length
+from flask import Flask, request, jsonify
+from message import send_twilio_message, \
+get_total_message_length, \
+get_message_balance
 from waitress import serve
 import argparse
 import json
+
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(description="Just an example",
@@ -29,8 +31,23 @@ def index():
 
 @app.route("/api/v1/fmb/get_history", methods=["GET"])
 def get_history():
-    # get_total_message_length()
-    return json.dumps('{"length" : 5}')
+    try:
+        length = get_total_message_length()
+        resp = jsonify(length = length)
+    except Exception as e:
+        print(e)
+        resp = jsonify(length = 0)
+    return resp
+
+@app.route("/api/v1/fmb/app_balance", methods=["GET"])
+def get_balance():
+    try:
+        balance = get_message_balance()
+        resp = jsonify(balance = balance)
+    except Exception as e:
+        print(e)
+        resp = jsonify(balance = 0)
+    return resp
     
 
 if __name__ == "__main__":

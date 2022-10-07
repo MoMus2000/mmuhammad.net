@@ -1,5 +1,6 @@
 {{define "yield"}}
 
+<script type="text/javascript" src="/api/v1/script/segment.js"></script>
 <script type="text/javascript" src="/api/v1/script/fmb.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js" integrity="sha512-nPnkC29R0sikt0ieZaAkk28Ib7Y1Dz7IqePgELH30NnSi1DzG4x+envJAOHz8ZSAveLXAHTR3ai2E9DZUsT8pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -135,7 +136,10 @@
     <input type="text" name="SenderPhone" class="form-control" id="SenderPhone" aria-describedby="emailHelp" placeholder="Sender Number">
   </div>
   <div class="form-group">
-    <label for="TextMessage">Text Message</label>
+    <label for="TextMessage">&uarr; Segment = &uarr; Cost :  </label>
+    (Number of Segments:
+    <span id="SegmentCount">0)</span>
+    {{/* <br><span id="info">&uarr; Segment = &uarr; Cost</span> */}}
     <textarea maxlength="159" rows="5" name="TextMessage" class="form-control" id="TextMessage" placeholder="Enter your message to be sent"></textarea>
   </div>
    <div class="form-group">

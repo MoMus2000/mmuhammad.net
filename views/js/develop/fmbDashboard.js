@@ -2,29 +2,17 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     async function getBalance(){
         let resp = await fetch("/api/v1/twilio/balanceCheck")
         resp = await resp.json()
-        resp = JSON.parse(resp)
         return resp
-    }
-
-    // Move this function to the upload page and have it run on every keystroke
-    function checkSegment(){
-        document.getElementById("segmentCheck").addEventListener('click', ()=>{
-            text = document.getElementById("TextMessage")
-            console.log(text.value)
-            const segmentedMessage = new SegmentedMessage(text.value);
-            alert(segmentedMessage.segmentsCount)
-        })
     }
 
     async function getMessageLength(){
         let resp = await fetch("/api/v1/twilio/getMessageLength")
         resp = await resp.json()
         console.log(resp)
-        resp = JSON.parse(resp)
         return resp
     }
 
-    function createGauge(value, id, title){
+    function createGauge(value, id, title, end){
         var data = [
         {
             type: "indicator",
@@ -32,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             value: value,
             title: { text: title, font: { size: 24 } },
             gauge: {
-            axis: { range: [null, 100], tickwidth: 1, tickcolor: "darkblue" },
+            axis: { range: [null, end], tickwidth: 1, tickcolor: "darkblue" },
             bar: { color: "black" },
             bgcolor: "white",
             borderwidth: 2,
@@ -40,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             steps: [
                 { range: [0, 5], color: "#FF9999" },
                 { range: [6, 15], color: "#FFFF99" },
-                { range: [16, 100], color: "#CCFFCC" }
+                { range: [16, end], color: "#CCFFCC" }
             ],
             threshold: {
                 line: { color: "red", width: 4 },
@@ -63,6 +51,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
     const balance = await getBalance()
     const msgLength = await getMessageLength()
-    createGauge(balance['balance'], "myDiv", "Twilio Account Balance ($usd)")
-    createGauge(msgLength['length'], "myDiv2", "Total Messages Sent Today")
+    createGauge(balance['balance'], "BalanceChart", "Twilio Account Balance ($usd)", 100)
+    createGauge(msgLength['length'], "MessageChart", "Messages Sent Today", 1000)
 })
