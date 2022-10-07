@@ -20,3 +20,4 @@
 - Make front end look better using Bulma CSS
 - Text based chat using web sockets
 - Video based chat using web sockets
+- Remove message heading at the top

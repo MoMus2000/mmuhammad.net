@@ -2,6 +2,7 @@ from flask import Flask, request
 from send_message import send_twilio_message
 from waitress import serve
 import argparse
+import json
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(description="Just an example",
@@ -24,6 +25,10 @@ def index():
         print(e)
         return e, 500 
     return f'Created, total failed requests {error}!', 201
+
+@app.route("/api/v1/fmb/get_history", methods=["GET"])
+def get_history():
+    return json.dumps('{"length" : 5}')
     
 
 if __name__ == "__main__":
