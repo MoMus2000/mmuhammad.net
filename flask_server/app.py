@@ -1,5 +1,6 @@
 from flask import Flask, request
 from send_message import send_twilio_message
+from get_messages import get_total_message_length
 from waitress import serve
 import argparse
 import json
@@ -28,6 +29,7 @@ def index():
 
 @app.route("/api/v1/fmb/get_history", methods=["GET"])
 def get_history():
+    # get_total_message_length()
     return json.dumps('{"length" : 5}')
     
 
