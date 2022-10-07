@@ -77,6 +77,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
             swal("Oops!", `Something went wrong, contact admin`, "error")
         }
     })
+    let text = document.getElementById("TextMessage")
+    text.addEventListener("keyup", ()=>{
+        console.log(text.value)
+        const segmentedMessage = new SegmentedMessage(text.value);
+        span = document.getElementById("SegmentCount")
+        span.innerHTML = segmentedMessage.segmentsCount+")"
+    })
 })
 function validateUpload(input) {
     const fileSize = input.files[0].size / 1024 / 1024; // in MiB

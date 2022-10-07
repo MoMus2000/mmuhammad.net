@@ -21,6 +21,7 @@ var TwilioPhone = "+16476916189"
 type Twilio struct {
 	LoginPage     *views.View
 	ContactUpload *views.View
+	FmbDashBoard  *views.View
 	FmbService    *models.FmbService
 }
 
@@ -41,6 +42,7 @@ func NewTwilioController(FmbService *models.FmbService) *Twilio {
 		FmbService:    FmbService,
 		LoginPage:     views.NewView("bootstrap", "fmb/login.gohtml"),
 		ContactUpload: views.NewView("bootstrap", "fmb/upload.gohtml"),
+		FmbDashBoard:  views.NewView("bootstrap", "fmb/dashboard.gohtml"),
 	}
 }
 
@@ -50,6 +52,15 @@ func (tw *Twilio) GetFmbLoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tw.LoginPage.Render(w, nil)
+}
+
+func (tw *Twilio) GetFmbDashboard(w http.ResponseWriter, r *http.Request) {
+	if !validateJWTFmb(r) {
+		controllers.ForbiddenError().Render(w, nil)
+		return
+	}
+	data := &views.Data{FmbLoggedIn: "true"}
+	tw.FmbDashBoard.Render(w, data)
 }
 
 func (tw *Twilio) FmbLogin(w http.ResponseWriter, r *http.Request) {
@@ -86,6 +97,27 @@ func (tw *Twilio) SubmitWebHookResponse(w http.ResponseWriter, r *http.Request) 
 	bytes, _ := io.ReadAll(r.Body)
 	bodyString := string(bytes)
 	fmt.Println(bodyString)
+}
+
+func (tw *Twilio) GetAvailableBalance(w http.ResponseWriter, r *http.Request) {
+	resp, err := http.Get("http://localhost:3001/api/v1/fmb/app_balance")
+	if err != nil {
+		fmt.Println(err)
+	}
+	var j interface{}
+	err = json.NewDecoder(resp.Body).Decode(&j)
+	fmt.Println(err)
+	b, err := json.Marshal(j)
+	fmt.Fprintln(w, string(b))
+}
+
+func (tw *Twilio) GetMessageLength(w http.ResponseWriter, r *http.Request) {
+	resp, err := http.Get("http://localhost:3001/api/v1/fmb/get_history")
+	var j interface{}
+	err = json.NewDecoder(resp.Body).Decode(&j)
+	fmt.Println(err)
+	b, err := json.Marshal(j)
+	fmt.Fprintln(w, string(b))
 }
 
 func (tw *Twilio) SampleApiTest(w http.ResponseWriter, r *http.Request) {
@@ -158,5 +190,8 @@ func AddTwilioRoutes(r *mux.Router, tw *Twilio) {
 	r.HandleFunc("/fmb/signout", tw.SignoutJWTFmb).Methods("GET")
 	r.HandleFunc("/fmb/upload", tw.GetUploadPage).Methods("GET")
 	r.HandleFunc("/fmb/upload", tw.UploadContacts).Methods("POST")
+	r.HandleFunc("/fmb/dashboard", tw.GetFmbDashboard).Methods("GET")
 	r.HandleFunc("/api/v1/twilio/statusCheck", tw.SampleApiTest).Methods("POST")
+	r.HandleFunc("/api/v1/twilio/balanceCheck", tw.GetAvailableBalance).Methods("GET")
+	r.HandleFunc("/api/v1/twilio/getMessageLength", tw.GetMessageLength).Methods("GET")
 }

@@ -12,6 +12,7 @@ import (
 func StatusCheck(reciever string, message string) error {
 	accountSid := os.Getenv("TWILIO_ACCOUNT")
 	authToken := os.Getenv("TWILIO_TOKEN")
+	phoneNumber := os.Getenv("TWILIO_PHONE")
 
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
@@ -20,7 +21,7 @@ func StatusCheck(reciever string, message string) error {
 
 	params := &twilioApi.CreateMessageParams{}
 	params.SetTo(reciever)
-	params.SetFrom("+16476916189")
+	params.SetFrom(phoneNumber)
 	params.SetBody(message)
 
 	resp, err := client.Api.CreateMessage(params)

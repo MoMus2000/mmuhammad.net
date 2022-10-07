@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-    socket = new WebSocket("ws://192.168.2.128:3000/api/v1/msg/ws")
+    socket = new WebSocket("ws://localhost:3000/api/v1/msg/ws")
 
     socket.onopen = async ()=>{
         console.log("sucessfully connected to the socket")
