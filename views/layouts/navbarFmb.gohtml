@@ -1,12 +1,22 @@
 {{define "navbarFmb"}}
+<script type="text/javascript" src="/api/v1/script/fmbNavbar.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Home</a>
+  <button class="navbar-toggler" id="FmbNavbarButton" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   <div class="container-fluid">
-  <div class="navbar-nav">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+  <div class="navbar-nav" id="mainNav">
       <a class="nav-item nav-link" href="/fmb/upload">Send Sms</a>
       <a class="nav-item nav-link" href="/fmb/dashboard">DashBoard</a>
   </div>
-  <div class="navbar-nav justify-content-end">
-  <a class="nav-item nav-link" href="/fmb/signout">Sign Out</a>
+  <div class="collapse navbar-collapse justify-content-end">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="/fmb/signout">Sign Out</a>
+    </div>
+  </div>
   </div>
   </div>
 </nav>

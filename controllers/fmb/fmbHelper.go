@@ -44,6 +44,7 @@ func createJWTFmb(w http.ResponseWriter, fmb *models.Fmb) error {
 func (tw *Twilio) SignoutJWTFmb(w http.ResponseWriter, r *http.Request) {
 	if !validateJWTFmb(r) {
 		controllers.InternalServerError().Render(w, nil)
+		return
 	}
 
 	c := http.Cookie{
