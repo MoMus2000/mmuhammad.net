@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             let a = document.createElement('a')
             a.id = "toggled"
             a.className = 'nav-item nav-link'
-            a.href="/fmb/upload"
+            a.href="/fmb/signout"
             a.innerHTML = 'Sign Out';
             mainNav.appendChild(a)
             toggle += 1   
