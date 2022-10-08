@@ -22,6 +22,7 @@ def api_request(msg, sender, reciever):
         message = client.messages.create(
         body=msg, from_=sender, to=reciever
         )
+        print(message.body, message.price, reciever, message.error_code, message.error_message)
     except Exception as e:
         raise Exception(e)
     time.sleep(1)
