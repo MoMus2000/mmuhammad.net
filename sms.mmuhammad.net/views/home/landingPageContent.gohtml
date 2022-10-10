@@ -18,6 +18,8 @@
 
 {{template "projects"}}
 
+{{template "pricing"}}
+
 {{end}}
 
 {{define "section"}}
@@ -86,7 +88,7 @@
 {{end}}
 
 {{define "projects"}}
-<section id="services">
+<section id="portfolio">
 <div class="container">
     <div class="row mb-5">
     <div class="col md-8 mx-auto text-center">
@@ -95,7 +97,61 @@
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
     </div>
+    <div class="row g-3">
+    {{template "projectcard"}}
+    {{template "projectcard"}}
+    {{template "projectcard"}}
+    </div>
 </div>
 </section>
+{{end}}
 
+{{define "projectcard"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="project">
+    <img src="/img/pro1.jpg" alt="">
+    <div class="overlay">
+    <div>
+    <h4 class="text-white"> Title for Project</h4>
+    <h6 class="text-white"> Website design </h6>
+    </div>
+    </div>
+</div>
+</div>
+{{end}}
+
+{{define "pricing"}}
+<section id="pricing" class="bg-light">
+<div class="container">
+    <div class="row mb-5">
+    <div class="col md-8 mx-auto text-center">
+    <h6 class="text-primary"> Projects</h6>
+    <h1>Our Fair and Simple Pricing </h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    </div>
+    <div class="row text-center">
+        {{template "pricing card"}}
+        {{template "pricing card"}}
+        {{template "pricing card"}}
+    </div>
+</div>
+</section>
+{{end}}
+
+{{define "pricing card"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="pricing card-effect">
+    <h6>Starter</h6>
+    <h1> $99 </h2>
+    <hr>
+    <ul class="list-unstyled mb-4">
+        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
+        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
+        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
+        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
+    </ul>
+    <button class="btn btn-primary"> Get Started </button>
+</div>
+</div>
 {{end}}
