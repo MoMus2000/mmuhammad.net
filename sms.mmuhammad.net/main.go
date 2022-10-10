@@ -17,9 +17,6 @@ func main() {
 
 	home.AddHomePageRoutes(r, landC)
 
-	r.PathPrefix("/css/").Handler(http.StripPrefix("/css/",
-		http.FileServer(http.Dir("views/layout/style/"))))
-
 	ipAddress := getLocalIpAddress()
 	port := "3002"
 	fmt.Printf("Listening on %s:%s\n", ipAddress, port)

@@ -26,4 +26,6 @@ func AddHomePageRoutes(r *mux.Router, landC *Landing) {
 	// Linking css files
 	r.PathPrefix("/css/").Handler(http.StripPrefix("/css/",
 		http.FileServer(http.Dir("views/layout/style/"))))
+	r.PathPrefix("/img/").Handler(http.StripPrefix("/img/",
+		http.FileServer(http.Dir("views/layout/style/img/"))))
 }
