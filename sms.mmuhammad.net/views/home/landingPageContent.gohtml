@@ -20,6 +20,8 @@
 
 {{template "pricing"}}
 
+{{template "contact"}}
+
 {{end}}
 
 {{define "section"}}
@@ -154,4 +156,40 @@
     <button class="btn btn-primary"> Get Started </button>
 </div>
 </div>
+{{end}}
+
+{{define "contact"}}
+<section id="contact" class="bg-light">
+<div class="container">
+    <div class="row mb-5">
+    <div class="col md-8 mx-auto text-center">
+    <h6 class="text-primary"> Contact</h6>
+    <h1>Get In Touch</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    </div>
+    <form action ="" class="row g-3 justify-content-center">
+        <div class="col-md-5">
+        <input type="text" class="form-control" placeholder="Full Name">
+        </div>
+
+        <div class="col-md-5">
+        <input type="text" class="form-control" placeholder="Enter Email">
+        </div>
+
+        <div class="col-md-10">
+        <input type="text" class="form-control" placeholder="Enter Subject">
+        </div>
+
+        <div class="col-md-10">
+        <textarea name="" id="" cols=30 rows=5 class="form-control" placeholder="message"> </textarea>
+        </div>
+
+        <div class="col-md-10 d-grid">
+        <button class="btn btn-primary">Contact</button>
+        </div>
+
+    </form>
+</div>
+</section>
 {{end}}

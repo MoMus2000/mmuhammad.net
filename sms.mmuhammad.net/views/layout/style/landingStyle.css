@@ -180,3 +180,34 @@ section{
 .pricing ul li {
     margin-top: 8px;
 }
+
+form input.form-control{
+    height: 56px;
+}
+
+form .form-control{
+    border: transparent;
+    border-radius: 0;
+    background-color: rgba(0,0,0,0.02);
+}
+
+.footer-top{
+    padding-bottom: 90px;
+    padding :90px;
+    background-color: var(--dark);
+}
+
+.footer-top a{
+    color: var(--body);
+}
+
+.footer-top a:hover{
+    color: white;
+}
+
+.logo{
+    width: 160px;
+}
+.footer-bottom {
+    background-color: #242933;
+}
