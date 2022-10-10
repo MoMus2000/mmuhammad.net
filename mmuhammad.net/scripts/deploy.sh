@@ -19,7 +19,7 @@ sshpass -p $pwd rsync -a \
 --exclude 'visitors.txt' \
 --exclude 'scripts/hg.py' \
 --exclude 'scripts/deploy.sh' \
-/Users/mmuhammad/Desktop/projects/mmuhammad.net/ root@mmuhammad.net:~/mustafa_m
+/Users/mmuhammad/Desktop/projects/mmuhammad.net/mmuhammad.net/ root@mmuhammad.net:~/mustafa_m
 echo "Copied over the project files ..."
 echo "Stopping services"
 sshpass -p $pwd ssh root@mmuhammad.net systemctl stop go_server
