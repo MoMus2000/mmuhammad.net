@@ -3,10 +3,10 @@
     <div class="container">
     <div class="row">
     <div class="col-lg-7 mx-auto text-center">
-    <h1 class="display-4 text-white"> Build robust pages now ! </h1>
-    <p class="text-white my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <a href = "#" class="btn me-2 btn-primary"> Get Started </a>
-    <a href = "#" class="btn btn-outline-light"> My portfolio </a>
+    <h1 class="display-4 text-white"> Are you a growing business ? Do you need to scale fast and connect to your audience?</h1>
+    <p class="text-white my-3">Introducing SMS as service functionality that will allow your business to be able to send bulk sms and be able to reach customers instantly and in a timely manner, no longer writing out sms one by one, now you can send over a 1000 SMS while sipping your tea/drink of choice, leave the heavy lifting to our custom software to get the job done .</p>
+    {{/* <a href = "#" class="btn me-2 btn-primary"> Get Started </a> */}}
+    <a href = "#services" class="btn btn-outline-light"> Get Started </a>
     </div>
     </div>
     </div>
@@ -32,26 +32,50 @@
     <div class="col md-8 mx-auto text-center">
     <h6 class="text-primary"> Services </h6>
     <h1>Our Services </h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>We offer a variety of services to help scale your business, since we understand how important it is to stay connected to customers.</p>
     </div>
     </div>
     <div class="row g-4">
-    {{template "card"}}
-    {{template "card"}}
-    {{template "card"}}
+    {{template "card1"}}
+    {{template "card2"}}
+    {{template "card3"}}
     </div>
 </div>
 </section>
 {{end}}
 
-{{define "card"}}
+{{define "card1"}}
 <div class="col-lg-4 col-sm-6">
     <div class="service card-effect">
     <div class="iconbox">
     <i class='bx bxs-chat'></i>
     </div>
     <h5 class="mt-4 mb-2">Service </h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p>Bulk SMS, send over 1000+ SMS to all over the U.S and Canada to any provider of your choosing using the a custom phone number that you may decide to pick.</p>
+    </div>
+</div>
+{{end}}
+
+{{define "card2"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="service card-effect">
+    <div class="iconbox">
+    <i class='bx bxs-chat'></i>
+    </div>
+    <h5 class="mt-4 mb-2">Service </h5>
+    <p>Bulk SMS with the option to obtain response and decide how to proceed with the results.</p>
+    </div>
+</div>
+{{end}}
+
+{{define "card3"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="service card-effect">
+    <div class="iconbox">
+    <i class='bx bxs-chat'></i>
+    </div>
+    <h5 class="mt-4 mb-2">Service </h5>
+    <p>Any custom usecases that involve using whatsapp and sms to be able to update customers / users with your message</p>
     </div>
 </div>
 {{end}}
