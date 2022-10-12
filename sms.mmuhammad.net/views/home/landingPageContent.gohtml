@@ -3,8 +3,8 @@
     <div class="container">
     <div class="row">
     <div class="col-lg-7 mx-auto text-center">
-    <h1 class="display-4 text-white"> Are you a growing business ? Do you need to scale fast and connect to your audience?</h1>
-    <p class="text-white my-3">Introducing SMS as service functionality that will allow your business to be able to send bulk sms and be able to reach customers instantly and in a timely manner, no longer writing out sms one by one, now you can send over a 1000 SMS while sipping your tea/drink of choice, leave the heavy lifting to our custom software to get the job done .</p>
+    <h1 class="display-4 text-white"> As a growing business, do you want to scale fast and connect to your audience?</h1>
+    <p class="text-white my-3">Our platform can help you achieve your objectives of scalability and constantly be in connection with your audience / customers. You can send bulk sms, trigger them over certain events, we are happy to help you achieve your specific use case and see you grow.</p>
     {{/* <a href = "#" class="btn me-2 btn-primary"> Get Started </a> */}}
     <a href = "#services" class="btn btn-outline-light"> Get Started </a>
     </div>
@@ -16,7 +16,7 @@
 
 {{template "features"}}
 
-{{template "projects"}}
+{{/* {{template "projects"}} */}}
 
 {{template "pricing"}}
 
@@ -50,8 +50,8 @@
     <div class="iconbox">
     <i class='bx bxs-chat'></i>
     </div>
-    <h5 class="mt-4 mb-2">Service </h5>
-    <p>Bulk SMS, send over 1000+ SMS to all over the U.S and Canada to any provider of your choosing using the a custom phone number that you may decide to pick.</p>
+    <h5 class="mt-4 mb-2">Bulk SMS</h5>
+    <p>Send 1000+ SMS in a span of minutes, pay as you go, no need to constantly monitor and send SMS manually, we'll inform you if any messages fail to go through.</p>
     </div>
 </div>
 {{end}}
@@ -62,8 +62,8 @@
     <div class="iconbox">
     <i class='bx bxs-chat'></i>
     </div>
-    <h5 class="mt-4 mb-2">Service </h5>
-    <p>Bulk SMS with the option to obtain response and decide how to proceed with the results.</p>
+    <h5 class="mt-4 mb-2">Software SMS integration </h5>
+    <p>Do you have any Software that you would want to attach messaging functionality with? Would you want to send text messages to your audience / cutomers as their order is ready for pickup ? Or provide them with reciepts as SMS. If so we are happy to dicuss your use case, please get in touch.</p>
     </div>
 </div>
 {{end}}
@@ -74,8 +74,8 @@
     <div class="iconbox">
     <i class='bx bxs-chat'></i>
     </div>
-    <h5 class="mt-4 mb-2">Service </h5>
-    <p>Any custom usecases that involve using whatsapp and sms to be able to update customers / users with your message</p>
+    <h5 class="mt-4 mb-2">SMS Terminal</h5>
+    <p>Custom SMS terminal, to send SMS Whenever and Wherever. Send SMS to a single customer or Bulk SMS using a list of numbers in a spread sheet. Use our dashboard functionality to monitor messages delivered, in transit and that failed to send, all with your own custom phone number of choosing.</p>
     </div>
 </div>
 {{end}}
@@ -89,31 +89,55 @@
             <div class="col-md-10 offset-md-1">
                 <h6 class="text-primary"> Features </h6>
                 <h1>Best solutions for your business </h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>We pride ourselves on the quality of our work. We are confident that you will find our services meeting the highest standard. Customer satisfaction is of the highest priority to us, since your growth has a direct correlation to our growth as a service.</p>
                 <div class="mt-5">
-                {{template "featureBox"}}
+                {{template "featureBox1"}}
                 </div>
-                {{template "featureBox"}}
-                {{template "featureBox"}}
+                {{template "featureBox2"}}
+                {{template "featureBox3"}}
             </div>
         </div>
     </div>
 </section>
 {{end}}
 
-{{define "featureBox"}}
+{{define "featureBox1"}}
 <div class="feature d-flex">
 <div class="iconbox me-3">
 <i class='bx bxs-chat'></i>
 </div>
 <div>
-<h5>Features </h5>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<h5>Tailor made SMS solution for your business</h5>
+<p>We do not offer a one size fits all product to our customers. Our business would begin with a phone call to discuss what sort of system would work best for your particular use case and objective.</p>
 </div>
 </div>
 {{end}}
 
-{{define "projects"}}
+{{define "featureBox2"}}
+<div class="feature d-flex">
+<div class="iconbox me-3">
+<i class='bx bx-donate-heart'></i>
+</div>
+<div>
+<h5>Payment flexibility</h5>
+<p>We do not have minimum payments and message quotas associated with our service. You are free to choose what plan works best for your needs, as mentioned below as well in our pricing table.</p>
+</div>
+</div>
+{{end}}
+
+{{define "featureBox3"}}
+<div class="feature d-flex">
+<div class="iconbox me-3">
+<i class='bx bx-dollar-circle'></i>
+</div>
+<div>
+<h5>Lowest SMS rates for U.S and Canada</h5>
+<p>Our platform is engineered to provide the lowest rates for our customers and gain the maximum benefits from the amount of money spend towards marketing. Our business model is based on a flat service fee hence we are incentivized to help keep costs to the lowest for our customers.</p>
+</div>
+</div>
+{{end}}
+
+{{/* {{define "projects"}}
 <section id="portfolio">
 <div class="container">
     <div class="row mb-5">
@@ -130,7 +154,7 @@
     </div>
 </div>
 </section>
-{{end}}
+{{end}} */}}
 
 {{define "projectcard"}}
 <div class="col-lg-4 col-sm-6">
@@ -151,36 +175,72 @@
 <div class="container">
     <div class="row mb-5">
     <div class="col md-8 mx-auto text-center">
-    <h6 class="text-primary"> Projects</h6>
+    <h6 class="text-primary"> Pricing</h6>
     <h1>Our Fair and Simple Pricing </h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>We pride on ourselves for being able to offer the lowest rates in the market to send SMS all over the U.S and Canada using our platform. Our pricing model is based on a subscription or service fee, based on your usage / preferance. As a welcoming present, we offer to waive our service fee for first time customers. We hope to hear from you, please get in touch !</p>
     </div>
     </div>
     <div class="row text-center">
-        {{template "pricing card"}}
-        {{template "pricing card"}}
-        {{template "pricing card"}}
+        {{template "pricing card1"}}
+        {{template "pricing card2"}}
+        {{template "pricing card3"}}
     </div>
 </div>
 </section>
 {{end}}
 
-{{define "pricing card"}}
+{{define "pricing card1"}}
 <div class="col-lg-4 col-sm-6">
     <div class="pricing card-effect">
-    <h6>Starter</h6>
-    <h1> $99 </h2>
+    <h6>Single Use</h6>
+    <h6> $15 Service Fee + SMS (inc. tax) </h6>
     <hr>
     <ul class="list-unstyled mb-4">
-        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
-        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
-        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
-        <li><i class='bx bxs-check-circle' ></i>Premium Support</li>
+        <li>Single Use / Flexible <i class='bx bxs-check-circle' ></i></li>
+        <li>Unlimited SMS <i class='bx bxs-check-circle' ></i></li>
+        <li>Waived fee - Initial Business <i class='bx bxs-check-circle' ></i></li>
+        <li>Premium Support <i class='bx bxs-check-circle' ></i></li>
     </ul>
     <button class="btn btn-primary"> Get Started </button>
 </div>
 </div>
 {{end}}
+
+{{define "pricing card2"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="pricing card-effect">
+    <h6>Monthly Subscription</h6>
+    <h6> $20 PM + SMS (inc. tax) </h6>
+    <hr>
+    <ul class="list-unstyled mb-4">
+        <li>Subscription - Unlimited Use Every Month <i class='bx bxs-check-circle' ></i></li>
+        <li>Unlimited SMS <i class='bx bxs-check-circle'></i></li>
+        <li>Waived Fee - First Month <i class='bx bxs-check-circle' ></i></li>
+        <li>Premium Support <i class='bx bxs-check-circle' ></i></li>
+    </ul>
+    <button class="btn btn-primary"> Get Started </button>
+</div>
+</div>
+{{end}}
+
+{{define "pricing card3"}}
+<div class="col-lg-4 col-sm-6">
+    <div class="pricing card-effect">
+    <h6>Monthly Subscription Premium</h6>
+    <h6> $25 PM + SMS (inc. tax) </h6>
+    <hr>
+    <ul class="list-unstyled mb-4">
+        <li>Subscription - Unlimited Use Every Month <i class='bx bxs-check-circle' ></i></li>
+        <li>Unlimited SMS <i class='bx bxs-check-circle' ></i></li>
+        <li>Waived Fee - First Month <i class='bx bxs-check-circle' ></i></li>
+        <li>Dashboard - Message Analytics <i class='bx bxs-check-circle' ></i></li>
+        <li>Premium Support <i class='bx bxs-check-circle' ></i></li>
+    </ul>
+    <button class="btn btn-primary"> Get Started </button>
+</div>
+</div>
+{{end}}
+
 
 {{define "contact"}}
 <section id="contact" class="bg-light">
@@ -189,7 +249,7 @@
     <div class="col md-8 mx-auto text-center">
     <h6 class="text-primary"> Contact</h6>
     <h1>Get In Touch</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>We look forward to hear from you. Please as an initial step fill out the form below to get in touch, one of our team members will reach out to you in order to dicuss your business needs and what service ours would work best for your business to achieve its objectives.</p>
     </div>
     </div>
     <form action ="" class="row g-3 justify-content-center">

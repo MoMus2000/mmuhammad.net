@@ -4,18 +4,18 @@
             <div class="container">
                 <div class="row gy-4">
                     <div class="col-lg-4">
-                        <img class="logo" src="img/logo-white.svg" alt="">
+                        <h5 class="text-white">sms.mmuhammad.net</h5>
                     </div>
-                    <div class="col-lg-2">
-                        <h5 class="text-white">Brand</h5>
+                    <div class="col-lg-4">
                         <ul class="list-unstyled">
+                            <h5 class="text-white">Links</h5>
                             <li><a href="#">About</a></li>
                             <li><a href="#">Services</a></li>
                             <li><a href="#">Features</a></li>
                             <li><a href="#">Pricing</a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2">
+                    {{/* <div class="col-lg-2">
                         <h5 class="text-white">More</h5>
                         <ul class="list-unstyled">
                             <li><a href="#">FAQ's</a></li>
@@ -23,13 +23,13 @@
                             <li><a href="#">Warranty</a></li>
                             <li><a href="#">Shipment</a></li>
                         </ul>
-                    </div>
+                    </div> */}}
                     <div class="col-lg-4">
                         <h5 class="text-white">Contact</h5>
                         <ul class="list-unstyled">
                             <li>Address: 2715 Ash Dr. San Jose, South Dakota 83475</li>
                             <li>Email: jackson.graham@example.com</li>
-                            <li>Phone: (603) 555-0123</li>
+                            <li>Phone: (xxx) xxx-xxxx</li>
                         </ul>
                     </div>
                 </div>
@@ -39,11 +39,19 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="mb-0">© 2020 copyright all right reserved</p>
+                        <p class="mb-0" id="copyright"></p>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script>
+    function writeYear(){
+    const date = new Date();
+    document.getElementById("copyright").innerHTML = `© ${date.getFullYear()} copyright all right reserved`
+    }
+    writeYear()
+    </script>
 {{end}}
