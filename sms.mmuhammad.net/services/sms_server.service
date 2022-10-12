@@ -1,0 +1,12 @@
+[Unit]
+Description=Run sms.mmuhammad.net GO server
+
+[Service]
+User=root
+Type=simple
+EnvironmentFile=/etc/environment
+WorkingDirectory=/root/sms.mmuhammad.net/
+ExecStart=/usr/bin/go run main.go
+
+[Install]
+WantedBy=multi-user.target
