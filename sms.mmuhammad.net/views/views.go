@@ -20,7 +20,6 @@ func NewView(layout string, files ...string) *View {
 	for i, file := range files {
 		files[i] = "./views" + file
 	}
-	fmt.Println(getFilesFromLayout())
 	files = append(files, getFilesFromLayout()...)
 	t, err := template.ParseFiles(files...)
 	if err != nil {
