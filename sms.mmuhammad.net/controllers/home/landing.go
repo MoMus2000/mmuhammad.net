@@ -28,4 +28,6 @@ func AddHomePageRoutes(r *mux.Router, landC *Landing) {
 		http.FileServer(http.Dir("views/layout/style/"))))
 	r.PathPrefix("/img/").Handler(http.StripPrefix("/img/",
 		http.FileServer(http.Dir("views/layout/style/img/"))))
+	r.PathPrefix("/js/").Handler(http.StripPrefix("/js/",
+		http.FileServer(http.Dir("views/js/landingPage/"))))
 }

@@ -20,6 +20,7 @@ func NewView(layout string, files ...string) *View {
 	for i, file := range files {
 		files[i] = "./views" + file
 	}
+	fmt.Println(getFilesFromLayout())
 	files = append(files, getFilesFromLayout()...)
 	t, err := template.ParseFiles(files...)
 	if err != nil {
@@ -32,6 +33,6 @@ func NewView(layout string, files ...string) *View {
 }
 
 func getFilesFromLayout() []string {
-	matches, _ := filepath.Glob("./views/layout/*.gohtml")
+	matches, _ := filepath.Glob("./views/layout/landingPage/*.gohtml")
 	return matches
 }
