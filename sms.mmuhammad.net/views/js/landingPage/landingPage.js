@@ -21,8 +21,18 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         const email = document.getElementById("email").value
         const subject = document.getElementById("subject").value
         const message = document.getElementById("message").value
+        
+        console.log(validateEmail(email) == false)
 
-        if(name != "" && email != "email" && message!= ""){
+        if(name == "") swal("Oops!", "Please enter your name!", "error")
+        if(email == "") swal("Oops!", "Please enter your email!", "error")
+        if(message == "") swal("Oops!", "Please fill out your message", "error")
+
+        if(name != "" && email != "" && message!= ""){
+            if(validateEmail(email) == false){
+                swal("Oops!", "Please enter a proper email address!", "error")
+                return
+            }
             let payload = {
                 name: name,
                 email: email,
@@ -34,9 +44,17 @@ document.addEventListener("DOMContentLoaded", async ()=>{
                 method: 'POST',
                 body: JSON.stringify(payload)
             })
+            swal("Information Sent!", "We will reach out to you shortly, thank you !", "success");
         }
     })
 
+    const validateEmail = (email) => {
+        const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
+        return regexExp.test(
+            email
+        )
+    }
+    
     function writeYear(){
         const date = new Date();
         document.getElementById("copyright").innerHTML = `© ${date.getFullYear()} copyright all right reserved`
