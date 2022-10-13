@@ -8,12 +8,23 @@ import (
 
 	"github.com/gorilla/mux"
 	"sms.mmuhammad.net/controllers/home"
+	"sms.mmuhammad.net/models/db"
+	"sms.mmuhammad.net/models/landing"
 )
 
 func main() {
+	db, err := db.NewDbConnection("./db/sms_mmuhammad.db")
+	if err != nil {
+		panic(err)
+	}
+
+	ls := landing.NewLandingService(db)
+
+	ls.AutoMigrate()
+
 	r := mux.NewRouter()
 
-	landC := home.NewLandingPageController()
+	landC := home.NewLandingPageController(ls)
 
 	home.AddHomePageRoutes(r, landC)
 

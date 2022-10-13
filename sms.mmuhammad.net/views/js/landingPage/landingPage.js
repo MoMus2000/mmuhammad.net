@@ -14,6 +14,29 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         contact.scrollIntoView()
     })
 
+    const submitButton = document.getElementById("ContactSubmit")
+    submitButton.addEventListener("click", (evt)=>{
+        evt.preventDefault()
+        const name = document.getElementById("name").value
+        const email = document.getElementById("email").value
+        const subject = document.getElementById("subject").value
+        const message = document.getElementById("message").value
+
+        if(name != "" && email != "email" && message!= ""){
+            let payload = {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message,
+            }
+            console.log(payload)
+            req = fetch("/api/v1/landing/contact", {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+        }
+    })
+
     function writeYear(){
         const date = new Date();
         document.getElementById("copyright").innerHTML = `© ${date.getFullYear()} copyright all right reserved`
