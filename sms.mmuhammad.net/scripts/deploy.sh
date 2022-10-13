@@ -9,7 +9,7 @@ echo "Copying over the project files ..."
 sshpass -p $pwd ssh root@mmuhammad.net  mkdir -p /root/sms.mmuhammad.net
 sshpass -p $pwd rsync -a \
 --exclude '.git' \
---exclude 'db/*' \
+--exclude 'db/sms_mmuhammad.db' \
 --exclude 'test_binary' \
 --exclude 'test_queries' \
 --exclude 'content' \
