@@ -32,6 +32,13 @@ func NewView(layout string, files ...string) *View {
 }
 
 func getFilesFromLayout() []string {
-	matches, _ := filepath.Glob("./views/layout/landingPage/*.gohtml")
+	landingPage, _ := filepath.Glob("./views/layout/landingPage/*.gohtml")
+	smsTerminal, _ := filepath.Glob("./views/layout/smsTerminal/*.gohtml")
+
+	matches := []string{}
+
+	matches = append(matches, landingPage...)
+	matches = append(matches, smsTerminal...)
+
 	return matches
 }

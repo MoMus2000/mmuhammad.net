@@ -9,8 +9,11 @@ import (
 	"github.com/gorilla/mux"
 	"sms.mmuhammad.net/controllers/auth"
 	"sms.mmuhammad.net/controllers/home"
+	"sms.mmuhammad.net/controllers/static"
+	"sms.mmuhammad.net/controllers/terminal"
 	"sms.mmuhammad.net/models/db"
 	"sms.mmuhammad.net/models/landing"
+	"sms.mmuhammad.net/models/model_auth"
 )
 
 func main() {
@@ -20,6 +23,9 @@ func main() {
 	}
 
 	ls := landing.NewLandingService(db)
+	auth_service := model_auth.NewCreateUserService(db)
+
+	auth_service.AutoMigrate()
 
 	ls.AutoMigrate()
 
@@ -27,10 +33,17 @@ func main() {
 
 	landC := home.NewLandingPageController(ls)
 
-	loginC := auth.NewLoginPageController()
+	loginC := auth.NewLoginPageController(auth_service)
+
+	// loginC.LoginService.CreateUserService("muhammadmustafa2000@gmail.com", "Password")
+
+	smsC := terminal.NewSmsTerminal()
+
+	terminal.AddTerminalRoutes(r, smsC)
 
 	home.AddHomePageRoutes(r, landC)
 	auth.AddLoginRoutes(r, loginC)
+	static.AddStaticRoutes(r)
 
 	ipAddress := getLocalIpAddress()
 	port := "3002"

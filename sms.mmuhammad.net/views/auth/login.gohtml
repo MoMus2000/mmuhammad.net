@@ -2,20 +2,20 @@
 
 <div class="container mt-5">
 <div class="mb-3">
-<h1> Login </h1>
+<h1 class="text-center"> Login </h1>
 </div>
 <form>
   <!-- Email input -->
   <div class="form-outline mt-2 mb-4">
-    <input type="email" placeholder="Your email address" id="form2Example1" class="form-control" />
+    <input name="email" id="email" type="email" placeholder="Your email address" id="form2Example1" class="form-control" />
     <div class="mt-2">
-    <label class="form-label" for="form2Example1"><strong>Email address</strong></label>
+    <label  class="form-label" for="form2Example1"><strong>Email address</strong></label>
     </div>
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
-    <input type="password" placeholder="Your password" id="form2Example2" class="form-control" />
+    <input name="password" id="password" type="password" placeholder="Your password" id="form2Example2" class="form-control" />
     <div class="mt-2">
     <label class="form-label" for="form2Example2"><strong>Password</strong></label>
     </div>
@@ -39,7 +39,7 @@
 
   <!-- Submit button -->
   <div class="text-center">
-  <button type="button" style="width: 170px" class="btn btn-primary rounded-pill mb-4 btn-lg">Sign in</button>
+  <button id="LoginSubmit" type="button" style="width: 170px" class="btn btn-primary rounded-pill mb-4 btn-lg">Sign in</button>
   </div>
 
   <!-- Register buttons -->
@@ -48,4 +48,5 @@
   </div>
 </form>
 </div>
+<script src="/js/loginPage/loginPage.js"> </script>
 {{end}}

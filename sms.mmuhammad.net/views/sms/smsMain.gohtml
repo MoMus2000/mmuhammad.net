@@ -1,0 +1,25 @@
+{{define "yield"}}
+<div class="container">
+<form action="/fmb/upload" method="POST" enctype="multipart/form-data" autocomplete="off" onSubmit="return false;">
+  <div class="form-group mt-3">
+    <label for="SenderName"><strong>Sender Name</strong></label>
+    <input type="text" name="SenderName" class="form-control" id="SenderName" aria-describedby="emailHelp" placeholder="Sender Name">
+  </div>
+  <div class="form-group mt-3">
+    <label for="SenderPhone"><strong> Test Phone Number </strong> </label>
+    <input type="text" name="SenderPhone" class="form-control" id="SenderPhone" aria-describedby="emailHelp" placeholder="Sender Number">
+  </div>
+  <div class="form-group mt-3">
+    <label for="SenderPhone"><strong> Message To Be Sent </strong> </label>
+    <textarea maxlength="159" rows="5" name="TextMessage" class="form-control" id="TextMessage" placeholder="Enter your message to be sent"></textarea>
+  </div>
+   <div class="form-group mt-4">
+    <input onchange="validateUpload(this)" class="file" type="file" id="File" name="File">
+  </div>
+  <div class="mt-4">
+  <button type="button" id="statusCheck" class="btn btn-success rounded-pill">Status Check</button>
+  <button type="button" id="submitButton" class="btn btn-primary rounded-pill">Send SMS</button>
+  </div>
+</form>
+</div>
+{{end}}
