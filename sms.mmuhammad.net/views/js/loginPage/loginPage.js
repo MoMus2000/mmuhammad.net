@@ -13,8 +13,24 @@ document.addEventListener("DOMContentLoaded", ()=>{
             resp = fetch("/login", {
                 method: 'POST',
                 body: JSON.stringify(payload)
-            }).then((response) => 
-            console.log(response))
+            })
+            .then((response) => handleRequestResponse(response))
+            .catch(error => 
+                swal("Oops!", "Please enter valid login credentials !", "error")
+                )
         }
     })
+    function handleRequestResponse(response){  
+        if(response.status == 201){
+            swal("Success", "You are being redirected to the Sms Terminal", "success")
+            .then(()=>{
+                window.location = "/usr"
+            })
+            return
+        }
+        else{
+            swal("Oops!", "Please enter valid login credentials !", "error")
+            return
+        }
+    }
 });

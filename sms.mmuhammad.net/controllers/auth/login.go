@@ -35,11 +35,18 @@ func (login *Login) SubmitLoginPage(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	err = json.Unmarshal(payload, &lf)
-	usr, err := login.LoginService.ByEmail(lf.Email, lf.Password)
+	_, err = login.LoginService.ByEmail(lf.Email, lf.Password)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	// Cookie needs to be set before writing the headers
+	err = createJWT(w, lf.Email)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(usr)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func (login *Login) GetLoginPage(w http.ResponseWriter, r *http.Request) {
