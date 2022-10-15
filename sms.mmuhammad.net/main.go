@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"sms.mmuhammad.net/controllers/auth"
 	"sms.mmuhammad.net/controllers/home"
 	"sms.mmuhammad.net/models/db"
 	"sms.mmuhammad.net/models/landing"
@@ -26,7 +27,10 @@ func main() {
 
 	landC := home.NewLandingPageController(ls)
 
+	loginC := auth.NewLoginPageController()
+
 	home.AddHomePageRoutes(r, landC)
+	auth.AddLoginRoutes(r, loginC)
 
 	ipAddress := getLocalIpAddress()
 	port := "3002"
