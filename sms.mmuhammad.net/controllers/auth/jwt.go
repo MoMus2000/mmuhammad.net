@@ -30,7 +30,7 @@ func createJWT(w http.ResponseWriter, Email string) error {
 		return err
 	}
 	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
+		Name:    "smsAccessToken",
 		Value:   tokenString,
 		Expires: expirationTime,
 		Path:    "/",
@@ -44,9 +44,30 @@ func refreshJWT(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func (user *Login) SignoutJWT(w http.ResponseWriter, r *http.Request) {
+func SignoutJWT(w http.ResponseWriter, r *http.Request) {
 	c := http.Cookie{
-		Name:   "token",
+		Name:   "smsAccessToken",
 		MaxAge: -1}
 	http.SetCookie(w, &c)
+}
+
+func ValidateJWT(r *http.Request) bool {
+	token, err := r.Cookie("smsAccessToken")
+	if err != nil {
+		return false
+	}
+
+	tokenString := token.Value
+
+	claims := &Claims{}
+
+	result, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if !result.Valid {
+		return false
+	}
+
+	return true
 }
