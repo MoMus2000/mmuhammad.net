@@ -50,6 +50,9 @@ func (login *Login) SubmitLoginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (login *Login) GetLoginPage(w http.ResponseWriter, r *http.Request) {
+	if ValidateJWT(r) {
+		http.Redirect(w, r, "/sms", http.StatusFound)
+	}
 	login.LoginPage.Render(w, nil)
 }
 

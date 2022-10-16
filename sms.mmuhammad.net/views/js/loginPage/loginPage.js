@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         if(response.status == 201){
             swal("Success", "You are being redirected to the Sms Terminal", "success")
             .then(()=>{
-                window.location = "/usr"
+                window.location = "/sms"
             })
             return
         }
