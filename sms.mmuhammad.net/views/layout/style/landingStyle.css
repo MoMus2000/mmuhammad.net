@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap');
 
+html, body {
+    overflow-x: hidden;
+  }
+  body {
+    position: relative
+  }
+
 :root{
     --primary : #0d6efd;
     --dark : #21252f;
