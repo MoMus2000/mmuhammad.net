@@ -71,3 +71,24 @@ func ValidateJWT(r *http.Request) bool {
 
 	return true
 }
+
+func GetEmailFromJwt(r *http.Request) *Claims {
+	token, err := r.Cookie("smsAccessToken")
+	if err != nil {
+		return nil
+	}
+
+	tokenString := token.Value
+
+	claims := &Claims{}
+
+	_, err = jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		return nil
+	}
+
+	return claims
+}

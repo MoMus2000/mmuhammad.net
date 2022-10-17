@@ -1,16 +1,30 @@
 document.addEventListener("DOMContentLoaded", async ()=>{
-    // async function getBalance(){
-    //     let resp = await fetch("/api/v1/twilio/balanceCheck")
-    //     resp = await resp.json()
-    //     return resp
-    // }
+    async function getTotalBalance(){
+        let resp = await fetch("/api/v1/sms/totalPrice")
+        resp = await resp.json()
+        return resp
+    }
 
-    // async function getMessageLength(){
-    //     let resp = await fetch("/api/v1/twilio/getMessageLength")
-    //     resp = await resp.json()
-    //     console.log(resp)
-    //     return resp
-    // }
+    async function getTotalMessageLength(){
+        let resp = await fetch("/api/v1/sms/totalMsg")
+        resp = await resp.json()
+        console.log(resp)
+        return resp
+    }
+
+    async function getTodayPrice(){
+        let resp = await fetch("/api/v1/sms/todayPrice")
+        resp = await resp.json()
+        console.log(resp)
+        return resp
+    }
+
+    async function getTodayMessageLength(){
+        let resp = await fetch("/api/v1/sms/todayMsg")
+        resp = await resp.json()
+        console.log(resp)
+        return resp
+    }
 
     function createGauge(value, id, title, end){
         var data = [
@@ -121,13 +135,19 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         gauge.animationSpeed = 32
     }
 
-    // createSpeedoMeter("Balance", "BalanceText", ops, balance['balance'], 20, "Balance $ ")
-    createSpeedoMeter("Balance", "BalanceText", ops, balance, 20, "Balance $ ")
 
-    createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, balance, 20, "Balance $ ")
+    const balanceTotal = await getTotalBalance()
+    const msgTotal = await getTotalMessageLength()
+    const balanceToday = await getTodayPrice()
+    const msgToday = await getTodayMessageLength()
+
+    // createSpeedoMeter("Balance", "BalanceText", ops, balance['balance'], 20, "Balance $ ")
+    createSpeedoMeter("Balance", "BalanceText", ops, balanceTotal["Data"], 20, "Balance $ ")
+
+    createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, balanceToday["Data"], 20, "Balance $ ")
 
     // createSpeedoMeter("Message", "MessageText", ops, msgLength['length'], 1200, "Messages Sent :")
-    createSpeedoMeter("Message", "MessageText", ops, msgLength, 1200, "Messages Sent :")
-    createSpeedoMeter("TotalMessage", "TotalMessageText", ops, msgLength, 1200, "Messages Sent :")
+    createSpeedoMeter("Message", "MessageText", ops, msgToday["Data"], 1200, "Messages Sent :")
+    createSpeedoMeter("TotalMessage", "TotalMessageText", ops, msgTotal["Data"], 1200, "Messages Sent :")
 
 })

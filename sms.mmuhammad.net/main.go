@@ -14,6 +14,7 @@ import (
 	"sms.mmuhammad.net/models/db"
 	"sms.mmuhammad.net/models/landing"
 	"sms.mmuhammad.net/models/model_auth"
+	"sms.mmuhammad.net/models/model_sms"
 )
 
 func main() {
@@ -24,8 +25,10 @@ func main() {
 
 	ls := landing.NewLandingService(db)
 	auth_service := model_auth.NewCreateUserService(db)
+	sms_service := model_sms.NewSmsMetricService(db)
 
 	auth_service.AutoMigrate()
+	sms_service.AutoMigrate()
 
 	ls.AutoMigrate()
 
@@ -37,7 +40,7 @@ func main() {
 
 	// loginC.LoginService.CreateUserService("muhammadmustafa2000@gmail.com", "Password")
 
-	smsC := terminal.NewSmsTerminal()
+	smsC := terminal.NewSmsTerminal(sms_service)
 
 	terminal.AddTerminalRoutes(r, smsC)
 
