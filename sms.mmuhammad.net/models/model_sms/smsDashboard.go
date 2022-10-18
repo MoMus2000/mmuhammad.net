@@ -5,7 +5,8 @@ import (
 )
 
 type SmsMetrics struct {
-	Email       string `gorm:"unique_index; not_null"`
+	gorm.Model
+	Email       string `gorm:"not_null"`
 	MetricName  string `gorm:"not_null"`
 	MetricValue string `gorm:"not_null"`
 }
@@ -23,7 +24,9 @@ func (sms *SmsMetricService) AutoMigrate() error {
 }
 
 func (sms *SmsMetricService) GetTotalMessages(userId string) (float32, error) {
-	return 80.0, nil
+	count := 0
+	err := sms.db.Model(&SmsMetrics{}).Where("email = ?", userId).Count(&count).Error
+	return float32(count), err
 }
 
 func (sms *SmsMetricService) GetTotalPrices(userId string) (float32, error) {
@@ -35,5 +38,7 @@ func (sms *SmsMetricService) GetTodayPrices(userId string) (float32, error) {
 }
 
 func (sms *SmsMetricService) GetTodayMessages(userId string) (float32, error) {
-	return 31.0, nil
+	count := 0
+	err := sms.db.Model(&SmsMetrics{}).Where("email = ?", userId).Count(&count).Error
+	return float32(count), err
 }
