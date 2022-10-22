@@ -12,8 +12,10 @@ type AuthService struct {
 }
 
 type User struct {
-	Email    string `gorm:"not_null;unique_index"`
-	Password string `gorm:"not_null;"`
+	gorm.Model
+	Email       string `gorm:"not_null;unique_index"`
+	Password    string `gorm:"not_null;"`
+	TwilioPhone string `gorm:""`
 }
 
 func (ucs *AuthService) AutoMigrate() error {
@@ -33,5 +35,5 @@ func (ucs *AuthService) CreateUserService(Email string, Password string) error {
 		return err
 	}
 	user := User{Email: Email, Password: string(hashedBytes)}
-	return ucs.db.Create(user).Error
+	return ucs.db.Create(&user).Error
 }

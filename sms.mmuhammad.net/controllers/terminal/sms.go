@@ -147,5 +147,6 @@ func AddTerminalRoutes(r *mux.Router, smsC *SmsTerminal) {
 	r.HandleFunc("/api/v1/sms/totalPrice", smsC.GetTotalPriceSent).Methods("GET")
 	r.HandleFunc("/api/v1/sms/todayMsg", smsC.GetMsgSentToday).Methods("GET")
 	r.HandleFunc("/api/v1/sms/todayPrice", smsC.GetPriceSentToday).Methods("GET")
+	r.HandleFunc("/api/v1/sms/singleSms", smsC.SendSingleSms).Methods("POST")
 	r.HandleFunc("/signout", smsC.SmsTerminalSignOut).Methods("GET")
 }

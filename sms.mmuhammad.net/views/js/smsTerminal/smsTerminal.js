@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         senderMessage = document.getElementById("TextMessage")
         if(senderPhone.value != "" && senderName.value != "" && senderMessage != ""){
             console.log("Sending ...")
-            let api = `/api/v1/twilio/statusCheck`
+            let api = `/api/v1/sms/singleSms`
             try{
                 resp = await fetch(api, {
                     method: "POST",
@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
     let text = document.getElementById("TextMessage")
     text.addEventListener("keyup", ()=>{
         console.log(text.value)
-        const segmentedMessage = new SegmentedMessage(text.value);
-        span = document.getElementById("SegmentCount")
-        span.innerHTML = segmentedMessage.segmentsCount+")"
+        // const segmentedMessage = new SegmentedMessage(text.value);
+        // span = document.getElementById("SegmentCount")
+        // span.innerHTML = segmentedMessage.segmentsCount+")"
     })
 })
 function validateUpload(input) {

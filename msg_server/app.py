@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 from message import send_twilio_message, \
 get_total_message_length, \
-get_message_balance
+get_message_balance, api_request
+from db import get_twilio_number
 from waitress import serve
 import argparse
 import json
-
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(description="Just an example",
@@ -48,6 +50,22 @@ def get_balance():
         print(e)
         resp = jsonify(balance = 0)
     return resp
+
+@app.route("/api/v1/sms/singleSms", methods=["POST"])
+def send_single_sms():
+    req = request.get_json()
+    msg = req['message']
+    sender_name = req['senderName']
+    sender_phone = req['sender']
+    email = req['email']
+
+    twilio_phone = get_twilio_number(email)
+    if twilio_phone == None:
+        twilio_phone = os.environ.get("TWILIO_PHONE") # temporary - read from db
+        
+    api_request(msg, twilio_phone, sender_phone)
+    return 'ok', 201
+    
     
 
 if __name__ == "__main__":
@@ -55,5 +73,6 @@ if __name__ == "__main__":
         print("Running on port 3001 in production mode ..")
         serve(app, host='0.0.0.0', port=3001)
     else: 
+        load_dotenv()
         app.run(debug=True, port=3001)
     
