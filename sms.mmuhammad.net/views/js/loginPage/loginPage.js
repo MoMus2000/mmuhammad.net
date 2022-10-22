@@ -20,6 +20,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 )
         }
     })
+
+    forgotPassword = document.getElementById("forgotPassword")
+    forgotPassword.addEventListener("click", (e)=>{
+        e.preventDefault()
+        swal("Please contact the admin to change your password.")
+    })
+
     function handleRequestResponse(response){  
         if(response.status == 201){
             swal("Success", "You are being redirected to the Sms Terminal", "success")
