@@ -1,6 +1,9 @@
 package model_sms
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -24,9 +27,18 @@ func (sms *SmsMetricService) AutoMigrate() error {
 }
 
 func (sms *SmsMetricService) GetTotalMessages(userId string) (float32, error) {
-	count := 0
-	err := sms.db.Model(&SmsMetrics{}).Where("email = ?", userId).Count(&count).Error
-	return float32(count), err
+	results := []SmsMetrics{}
+	query := sms.db.Where("email = ? AND (metric_name = ?)", userId, "SMS_SENT").Find(&results)
+	totalMessages := 0.0
+	for _, result := range results {
+		f, err := strconv.ParseFloat(result.MetricValue, 32)
+		if err != nil {
+			continue
+		}
+		totalMessages += f
+	}
+
+	return float32(totalMessages), query.Error
 }
 
 func (sms *SmsMetricService) GetTotalPrices(userId string) (float32, error) {
@@ -38,7 +50,22 @@ func (sms *SmsMetricService) GetTodayPrices(userId string) (float32, error) {
 }
 
 func (sms *SmsMetricService) GetTodayMessages(userId string) (float32, error) {
-	count := 0
-	err := sms.db.Model(&SmsMetrics{}).Where("email = ?", userId).Count(&count).Error
-	return float32(count), err
+	results := []SmsMetrics{}
+
+	currentDay := time.Now()
+	diff := 24 * time.Hour
+	prevDay := currentDay.Add(-diff)
+
+	query := sms.db.Where("email = ? AND (metric_name = ?) AND created_at >= ?", userId, "SMS_SENT", prevDay).Find(&results)
+	totalMessages := 0.0
+
+	for _, result := range results {
+		f, err := strconv.ParseFloat(result.MetricValue, 32)
+		if err != nil {
+			continue
+		}
+		totalMessages += f
+	}
+
+	return float32(totalMessages), query.Error
 }

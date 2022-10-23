@@ -39,7 +39,7 @@ def send_twilio_message(msg, sender, file_path):
             error += 1
         if(error >= len(df)):
             raise Exception("Something seems to be going wrong, all requests failed")
-    return error
+    return error, len(df)
 
 def get_total_message_length():
     messages = client.messages.list(date_sent=date.today(), 

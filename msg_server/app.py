@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from message import send_twilio_message, \
 get_total_message_length, \
 get_message_balance, api_request
-from db import get_twilio_number
+from db import get_twilio_number, write_total_message
 from waitress import serve
 import argparse
 import json
@@ -25,7 +25,7 @@ def index():
     file_path = req['fileName']
     twilio_phone = req['twilioPhone']
     try:
-        error = send_twilio_message(msg, twilio_phone, file_path)
+        error, _ = send_twilio_message(msg, twilio_phone, file_path)
     except Exception as e:
         print(e)
         return e, 500 
@@ -64,6 +64,7 @@ def send_single_sms():
         twilio_phone = os.environ.get("TWILIO_PHONE") # temporary - read from db
         
     api_request(msg, twilio_phone, sender_phone)
+    write_total_message(email, 1)
     return 'ok', 201
 
 @app.route("/api/v1/sms/bulk_sms", methods=["POST"])
@@ -76,11 +77,11 @@ def send_bulk_sms():
     twilio_phone = get_twilio_number(email)
     file_path = req['fileName']
     try:
-        error = send_twilio_message(msg, twilio_phone, file_path)
+        error, total = send_twilio_message(msg, twilio_phone, file_path)
     except Exception as e:
         print(e)
         return e, 500 
-
+    write_total_message(email, total-error)
     return 'ok', 201
     
 
