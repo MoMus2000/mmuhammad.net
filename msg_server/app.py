@@ -51,7 +51,7 @@ def get_balance():
         resp = jsonify(balance = 0)
     return resp
 
-@app.route("/api/v1/sms/singleSms", methods=["POST"])
+@app.route("/api/v1/sms/single_sms", methods=["POST"])
 def send_single_sms():
     req = request.get_json()
     msg = req['message']
@@ -65,7 +65,23 @@ def send_single_sms():
         
     api_request(msg, twilio_phone, sender_phone)
     return 'ok', 201
-    
+
+@app.route("/api/v1/sms/bulk_sms", methods=["POST"])
+def send_bulk_sms():
+    req = request.get_json()
+    msg = req['message']
+    sender_name = req['senderName']
+    sender_phone = req['sender']
+    email = req['email']
+    twilio_phone = get_twilio_number(email)
+    file_path = req['fileName']
+    try:
+        error = send_twilio_message(msg, twilio_phone, file_path)
+    except Exception as e:
+        print(e)
+        return e, 500 
+
+    return 'ok', 201
     
 
 if __name__ == "__main__":

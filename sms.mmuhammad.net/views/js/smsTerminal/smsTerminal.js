@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             console.log("Sending ...")
             let api = `/api/v1/sms/singleSms`
             try{
+                overlay.style.display = "block"
                 resp = await fetch(api, {
                     method: "POST",
                     body: JSON.stringify({
@@ -19,11 +20,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         TextMessage: senderMessage.value
                     })
                 })
+                overlay.style.display = "none"
                 if(resp.status != 201) swal("Oops!", `Something went wrong, contact admin`, "error")
                 else swal("Request Complete!", "Check test phone number for message!", "success");
             }
             catch(err){
                 swal("Oops!", `Something went wrong, contact admin`, "error")
+                overlay.style.display = "none"
             }
         }
         if(senderName.value == "") swal("Oops!", `Please enter the sender name !`, "error");
@@ -32,21 +35,26 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
     submitButton = document.getElementById("submitButton")
     submitButton.addEventListener("click", async ()=>{
+        overlay = document.getElementById("overlay")
+        overlay.style.display = "block"
         const formData  = new FormData();
         senderPhone = document.getElementById("SenderPhone").value
         senderName = document.getElementById("SenderName").value
         if(senderName == ""){
             swal("Oops!", `Please enter the sender name !`, "error")
+            overlay.style.display = "none"
             return
         }
         textMessage = document.getElementById("TextMessage").value
         if(textMessage == ""){
             swal("Oops!", `Please enter the message !`, "error");
+            overlay.style.display = "none"
             return
         }
         file = document.getElementById("File").files[0]
         if(file == undefined || file == null){
             swal("Oops!", `Please upload the excel file !`, "error");
+            overlay.style.display = "none"
             return
         }
         formData.append("SenderName", senderName);
@@ -54,10 +62,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
         formData.append("TextMessage", textMessage);
         formData.append("File", file);
         try{
-            const response = await fetch("/fmb/upload", {
+            const response = await fetch("/api/v1/sms/bulkSms", {
                 method: 'POST',
                 body: formData
             });
+            overlay.style.display = "none"
             let status = response.status
             console.log(status)
             if(status == 500){
@@ -68,15 +77,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
         catch(err){
             swal("Oops!", `Something went wrong, contact admin`, "error")
+            overlay.style.display = "none"
         }
     })
-    let text = document.getElementById("TextMessage")
-    text.addEventListener("keyup", ()=>{
-        console.log(text.value)
+    // let text = document.getElementById("TextMessage")
+    // text.addEventListener("keyup", ()=>{
+        // console.log(text.value)
         // const segmentedMessage = new SegmentedMessage(text.value);
         // span = document.getElementById("SegmentCount")
         // span.innerHTML = segmentedMessage.segmentsCount+")"
-    })
+    // })
 })
 function validateUpload(input) {
     const fileSize = input.files[0].size / 1024 / 1024; // in MiB
