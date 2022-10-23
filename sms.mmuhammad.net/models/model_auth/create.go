@@ -13,9 +13,11 @@ type AuthService struct {
 
 type User struct {
 	gorm.Model
-	Email       string `gorm:"not_null;unique_index"`
-	Password    string `gorm:"not_null;"`
-	TwilioPhone string `gorm:""`
+	Email        string `gorm:"not_null;unique_index"`
+	Password     string `gorm:"not_null;"`
+	TwilioPhone  string `gorm:""`
+	AccountId    string `gorm:""`
+	AccountToken string `gorm:""`
 }
 
 func (ucs *AuthService) AutoMigrate() error {

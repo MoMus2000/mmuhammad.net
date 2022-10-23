@@ -1,6 +1,7 @@
 package terminal
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -66,56 +67,49 @@ func (sms *SmsTerminal) GetTotalMsgSent(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	userEmail := auth.GetEmailFromJwt(r).Username
-	f32, err := sms.SmsMetricsService.GetTotalMessages(userEmail)
+
+	flask_payload := make(map[string]string)
+
+	flask_payload["email"] = userEmail
+
+	jsonString, err := json.Marshal(flask_payload)
+
+	resp, err := http.Post("http://localhost:3001/api/v1/sms/total_messages", "application/json", bytes.NewBuffer(jsonString))
+
 	if err != nil {
 		fmt.Println(err)
 	}
-	type Data struct {
-		Data float32 `json:"Data"`
-	}
 
-	payload, err := json.Marshal(&Data{Data: f32})
+	var j interface{}
 
-	fmt.Fprintln(w, string(payload))
+	err = json.NewDecoder(resp.Body).Decode(&j)
+
+	respPayload, err := json.Marshal(j)
+	fmt.Fprintln(w, string(respPayload))
 }
 
-func (sms *SmsTerminal) GetTotalPriceSent(w http.ResponseWriter, r *http.Request) {
+func (sms *SmsTerminal) GetBalance(w http.ResponseWriter, r *http.Request) {
 	if !auth.ValidateJWT(r) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	userEmail := auth.GetEmailFromJwt(r).Username
-	f32, err := sms.SmsMetricsService.GetTotalPrices(userEmail)
+
+	flask_payload := make(map[string]string)
+
+	flask_payload["email"] = userEmail
+
+	jsonString, err := json.Marshal(flask_payload)
+
+	resp, err := http.Post("http://localhost:3001/api/v1/sms/balance", "application/json", bytes.NewBuffer(jsonString))
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	type Data struct {
-		Data float32 `json:"Data"`
-	}
-
-	payload, err := json.Marshal(&Data{Data: f32})
-
-	fmt.Fprintln(w, string(payload))
-}
-
-func (sms *SmsTerminal) GetPriceSentToday(w http.ResponseWriter, r *http.Request) {
-	if !auth.ValidateJWT(r) {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	userEmail := auth.GetEmailFromJwt(r).Username
-	f32, err := sms.SmsMetricsService.GetTodayPrices(userEmail)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	type Data struct {
-		Data float32 `json:"Data"`
-	}
-
-	payload, err := json.Marshal(&Data{Data: f32})
-
+	var j interface{}
+	err = json.NewDecoder(resp.Body).Decode(&j)
+	payload, err := json.Marshal(j)
 	fmt.Fprintln(w, string(payload))
 }
 
@@ -125,18 +119,50 @@ func (sms *SmsTerminal) GetMsgSentToday(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	userEmail := auth.GetEmailFromJwt(r).Username
-	f32, err := sms.SmsMetricsService.GetTodayMessages(userEmail)
+
+	flask_payload := make(map[string]string)
+
+	flask_payload["email"] = userEmail
+
+	jsonString, err := json.Marshal(flask_payload)
+
+	resp, err := http.Post("http://localhost:3001/api/v1/sms/total_messages_today", "application/json", bytes.NewBuffer(jsonString))
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	type Data struct {
-		Data float32 `json:"Data"`
+	var j interface{}
+
+	err = json.NewDecoder(resp.Body).Decode(&j)
+
+	respPayload, err := json.Marshal(j)
+	fmt.Fprintln(w, string(respPayload))
+}
+
+func (sms *SmsTerminal) GetTotalCost(w http.ResponseWriter, r *http.Request) {
+	if !auth.ValidateJWT(r) {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	userEmail := auth.GetEmailFromJwt(r).Username
+
+	flask_payload := make(map[string]string)
+
+	flask_payload["email"] = userEmail
+
+	jsonString, err := json.Marshal(flask_payload)
+
+	resp, err := http.Post("http://localhost:3001/api/v1/sms/total_cost", "application/json", bytes.NewBuffer(jsonString))
+
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	payload, err := json.Marshal(&Data{Data: f32})
-
-	fmt.Fprintln(w, string(payload))
+	var j interface{}
+	err = json.NewDecoder(resp.Body).Decode(&j)
+	respPayload, err := json.Marshal(j)
+	fmt.Fprintln(w, string(respPayload))
 }
 
 func AddTerminalRoutes(r *mux.Router, smsC *SmsTerminal) {
@@ -144,10 +170,10 @@ func AddTerminalRoutes(r *mux.Router, smsC *SmsTerminal) {
 	r.HandleFunc("/sms/dash", smsC.GetSmsDashboard).Methods("GET")
 	r.HandleFunc("/sms/help", smsC.GetSmsHelp).Methods("GET")
 	r.HandleFunc("/api/v1/sms/totalMsg", smsC.GetTotalMsgSent).Methods("GET")
-	r.HandleFunc("/api/v1/sms/totalPrice", smsC.GetTotalPriceSent).Methods("GET")
+	r.HandleFunc("/api/v1/sms/balance", smsC.GetBalance).Methods("GET")
 	r.HandleFunc("/api/v1/sms/todayMsg", smsC.GetMsgSentToday).Methods("GET")
-	r.HandleFunc("/api/v1/sms/todayPrice", smsC.GetPriceSentToday).Methods("GET")
 	r.HandleFunc("/api/v1/sms/singleSms", smsC.SendSingleSms).Methods("POST")
 	r.HandleFunc("/api/v1/sms/bulkSms", smsC.SendBulkSms).Methods("POST")
+	r.HandleFunc("/api/v1/sms/totalCost", smsC.GetTotalCost).Methods("GET")
 	r.HandleFunc("/signout", smsC.SmsTerminalSignOut).Methods("GET")
 }

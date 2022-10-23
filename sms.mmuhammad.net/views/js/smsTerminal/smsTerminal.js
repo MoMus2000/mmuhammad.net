@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", ()=>{
     statusButton = document.getElementById("statusCheck")
+    overlay = document.getElementById("overlay")
     statusButton.addEventListener("click", async (e)=>{
         e.preventDefault()
         senderName = document.getElementById("SenderName")
@@ -35,7 +36,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
     submitButton = document.getElementById("submitButton")
     submitButton.addEventListener("click", async ()=>{
-        overlay = document.getElementById("overlay")
         overlay.style.display = "block"
         const formData  = new FormData();
         senderPhone = document.getElementById("SenderPhone").value

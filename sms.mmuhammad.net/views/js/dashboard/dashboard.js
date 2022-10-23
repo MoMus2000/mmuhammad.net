@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", async ()=>{
+    overlay = document.getElementById("overlay")
+    overlay.style.display = "block"
+
     async function getTotalBalance(){
-        let resp = await fetch("/api/v1/sms/totalPrice")
+        let resp = await fetch("/api/v1/sms/balance")
         resp = await resp.json()
         return resp
     }
@@ -13,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     }
 
     async function getTodayPrice(){
-        let resp = await fetch("/api/v1/sms/todayPrice")
+        let resp = await fetch("/api/v1/sms/totalCost")
         resp = await resp.json()
         console.log(resp)
         return resp
@@ -135,19 +138,35 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         gauge.animationSpeed = 32
     }
 
+    let resolved = 0
 
-    const balanceTotal = await getTotalBalance()
-    const msgTotal = await getTotalMessageLength()
-    const balanceToday = await getTodayPrice()
-    const msgToday = await getTodayMessageLength()
-
-    // createSpeedoMeter("Balance", "BalanceText", ops, balance['balance'], 20, "Balance $ ")
-    createSpeedoMeter("Balance", "BalanceText", ops, balanceTotal["Data"], 20, "Balance $ ")
-
-    createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, balanceToday["Data"], 20, "Balance $ ")
-
-    // createSpeedoMeter("Message", "MessageText", ops, msgLength['length'], 1200, "Messages Sent :")
-    createSpeedoMeter("Message", "MessageText", ops, msgToday["Data"], 1200, "Messages Sent :")
-    createSpeedoMeter("TotalMessage", "TotalMessageText", ops, msgTotal["Data"], 1200, "Messages Sent :")
-
+    const balanceTotal =  getTotalBalance().then(
+        data => {
+            createSpeedoMeter("Balance", "BalanceText", ops, data["Data"], 50, "Balance $ ")
+            resolved += 1
+        }
+    )
+    const msgTotal = getTotalMessageLength().then(
+        data => {
+            createSpeedoMeter("TotalMessage", "TotalMessageText", ops, data["Data"], 1200, "Messages Sent :")
+            resolved += 1
+        }
+    )
+    const balanceToday =  getTodayPrice().then(
+        data => {
+            createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, data["Data"], 50, "Balance $ ")
+            resolved += 1
+        }
+    )
+    const msgToday = getTodayMessageLength().then(
+        data => {
+            createSpeedoMeter("Message", "MessageText", ops, data["Data"], 1200, "Messages Sent :")
+            resolved += 1
+        }
+    )
+    setTimeout(()=>{
+        if(resolved >= 2){
+            overlay.style.display = "none"
+        }
+    }, 5000)
 })

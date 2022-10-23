@@ -6,34 +6,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gauge.js/1.2.1/gauge.min.js" integrity="sha512-CvDF0JVxliK2VV8gGA7qEEyRPcORRA2miPvpDhXvlfw0TpbGAmoQHMmEP2eziwKLsNz8PaoNfs4yjnlcpn4E3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div class="container">
-
-<div class="row">
-    <div class="col-sm mt-5">
-      <h4> Total Msg Sent Today </h4>
+<div id="overlay">
+<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<div class="row mt-5">
+    <div class="col-sm">
+      <h4 class="text-center"> Total Messages (Today) </h4>
       <canvas id="Message"></canvas>
       <div class="d-flex justify-content-center">
-      <h4 id="MessageText"></h4>
+      <h4 class="text-center" id="MessageText"></h4>
       </div>
     </div>
-    <div class="col-sm mt-5">
-      <h4> Total Available Balance </h4>
+    <div class="col-sm">
+      <h4 class="text-center"> Total Available Balance </h4>
       <canvas id="Balance"></canvas>
       <div class="d-flex justify-content-center">
-      <h4 id="BalanceText"></h4>
+      <h4 class="text-center" id="BalanceText"></h4>
       </div>
     </div>
-    <div class="col-sm mt-5">
-      <h4> Total Cost Today</h4>
+    <div class="col-sm">
+      <h4 class="text-center"> Total Messages Cost </h4>
       <canvas id="BalanceToday"></canvas>
       <div class="d-flex justify-content-center">
-      <h4 id="BalanceTodayText"></h4>
+      <h4 class="text-center" id="BalanceTodayText"></h4>
       </div>
     </div>
-    <div class="col-sm mt-5">
-      <h4> Total Msg All Time </h4>
+    <div class="col-sm">
+      <h4 class="text-center"> Total Messages </h4>
       <canvas id="TotalMessage"></canvas>
       <div class="d-flex justify-content-center">
-      <h4 id="TotalMessageText"></h4>
+      <h4 class="text-center" id="TotalMessageText"></h4>
       </div>
     </div>
 </div>

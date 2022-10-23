@@ -48,7 +48,15 @@ func (sms *SmsTerminal) SendSingleSms(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := http.Post("http://localhost:3001/api/v1/sms/single_sms", "application/json", bytes.NewBuffer(jsonString))
 
-	fmt.Println(resp.StatusCode)
+	if resp.StatusCode == 500 {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	w.WriteHeader(http.StatusCreated)
 }
@@ -64,8 +72,6 @@ func (sms *SmsTerminal) SendBulkSms(w http.ResponseWriter, r *http.Request) {
 	payload := BulkSmsPayload{}
 
 	excelFile, err := parseExcelForm(r, &payload)
-
-	fmt.Println(payload)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

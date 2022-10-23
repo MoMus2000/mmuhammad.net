@@ -18,5 +18,24 @@ def write_total_message(email, message_count):
     con.commit()
     con.close()
 
+def get_account_id(email):
+    con = sqlite3.connect("../sms.mmuhammad.net/db/sms_mmuhammad.db")
+    cursor = con.execute("SELECT account_id from users WHERE email = ?", (email,))
+    res = cursor.fetchone()
+    if res == None:
+        return None
+    con.close()
+    return res[0]
+
+def get_account_token(email):
+    con = sqlite3.connect("../sms.mmuhammad.net/db/sms_mmuhammad.db")
+    cursor = con.execute("SELECT account_token from users WHERE email = ?", (email,))
+    res = cursor.fetchone()
+    if res == None:
+        return None
+    con.close()
+    return res[0]
+
+
 if __name__ == "__main__":
     write_total_message("muhammadmustafa4000@gmail.com", 20)
