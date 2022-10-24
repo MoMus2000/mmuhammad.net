@@ -62,7 +62,7 @@ func (landing *Landing) SubmitContactForm(w http.ResponseWriter, r *http.Request
 }
 
 func AddHomePageRoutes(r *mux.Router, landC *Landing) {
-	r.HandleFunc("/", landC.GetLandingPage).Methods("GET")
+	r.HandleFunc("/", WrapIPHandler(landC.GetLandingPage)).Methods("GET")
 	r.HandleFunc("/policy", landC.GetPrivacyPolicyPage).Methods("GET")
 	r.HandleFunc("/api/v1/landing/contact", landC.SubmitContactForm).Methods("POST")
 }
