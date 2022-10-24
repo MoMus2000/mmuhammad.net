@@ -126,11 +126,16 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     };
 
     function createSpeedoMeter(gaugeId, textId, ops, value, max, concatText){
-
+        reduce = false
+        if(value >= 1000){
+            value = Math.round(value/10)
+            reduce = true
+        }
         var target = document.getElementById(gaugeId); 
         var gauge = new Gauge(target).setOptions(ops);
         textVal = document.getElementById(textId)
-        textVal.innerHTML = concatText+value
+        if(reduce) textVal.innerHTML = concatText+value*10
+        else textVal.innerHTML = concatText+value
         gauge.maxValue = max;
         gauge.setMinValue(0); 
         gauge.set(value);
@@ -142,31 +147,38 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
     const balanceTotal =  getTotalBalance().then(
         data => {
-            createSpeedoMeter("Balance", "BalanceText", ops, data["Data"], 50, "Balance $ ")
+            createSpeedoMeter("Balance", "BalanceText", ops, data["Data"], data["Data"]*2.5, "Balance $ ")
             resolved += 1
+            if(resolved >= 3){
+                overlay.style.display = "none"
+            }
         }
     )
     const msgTotal = getTotalMessageLength().then(
         data => {
-            createSpeedoMeter("TotalMessage", "TotalMessageText", ops, data["Data"], 1200, "Messages Sent :")
+            createSpeedoMeter("TotalMessage", "TotalMessageText", ops, data["Data"], data["Data"]*2.5, "Messages Sent :")
             resolved += 1
+            if(resolved >= 3){
+                overlay.style.display = "none"
+            }
         }
     )
     const balanceToday =  getTodayPrice().then(
         data => {
-            createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, data["Data"], 50, "Balance $ ")
+            createSpeedoMeter("BalanceToday", "BalanceTodayText", ops, data["Data"], data["Data"]*2.5, "Balance $ ")
             resolved += 1
+            if(resolved >= 3){
+                overlay.style.display = "none"
+            }
         }
     )
     const msgToday = getTodayMessageLength().then(
         data => {
-            createSpeedoMeter("Message", "MessageText", ops, data["Data"], 1200, "Messages Sent :")
+            createSpeedoMeter("Message", "MessageText", ops, data["Data"], 1000, "Messages Sent :")
             resolved += 1
+            if(resolved >= 3){
+                overlay.style.display = "none"
+            }
         }
     )
-    setTimeout(()=>{
-        if(resolved >= 2){
-            overlay.style.display = "none"
-        }
-    }, 5000)
 })
