@@ -137,6 +137,9 @@ func (sms *SmsTerminal) GetMsgSentToday(w http.ResponseWriter, r *http.Request) 
 	err = json.NewDecoder(resp.Body).Decode(&j)
 
 	respPayload, err := json.Marshal(j)
+
+	fmt.Println(string(respPayload))
+
 	fmt.Fprintln(w, string(respPayload))
 }
 

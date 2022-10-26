@@ -9,7 +9,7 @@ import json
 from dotenv import load_dotenv
 import os
 from twilio.rest import Client
-from datetime import date
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(description="Just an example",
@@ -157,9 +157,10 @@ def get_total_messages_today():
         token = get_account_token(email)
         client = Client(account, token)
         twilio_phone = get_twilio_number(email)
-        messages = client.messages.list(date_sent=date.today(), 
+        messages = client.messages.list(date_sent=datetime.today(), 
         from_= twilio_phone)
         resp = jsonify(Data = len(messages))
+
     
     except Exception as e:
         print(e)
