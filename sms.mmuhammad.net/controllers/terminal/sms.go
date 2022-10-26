@@ -138,8 +138,6 @@ func (sms *SmsTerminal) GetMsgSentToday(w http.ResponseWriter, r *http.Request) 
 
 	respPayload, err := json.Marshal(j)
 
-	fmt.Println(string(respPayload))
-
 	fmt.Fprintln(w, string(respPayload))
 }
 
