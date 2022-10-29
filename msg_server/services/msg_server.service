@@ -5,7 +5,7 @@ Description=Run backend flask server
 User=root
 Type=simple
 EnvironmentFile=/etc/environment
-WorkingDirectory=/root/mustafa_m/flask_server
+WorkingDirectory=/root/msg_server
 ExecStart=/usr/bin/python3 app.py -prod
 
 [Install]
