@@ -33,7 +33,7 @@ func NewMonitorService(db *gorm.DB) *MonitorService {
 }
 
 func (ms *MonitorService) UsdToPkr() ([][]string, error) {
-	currentTime := time.Now().AddDate(0, 0, -5).Format("2006-01-02")
+	currentTime := time.Now().AddDate(0, -1, 0).Format("2006-01-02")
 	monitor := []Monitor{}
 	monitorString := [][]string{}
 	err := ms.db.Order("created_at ASC").
@@ -55,7 +55,7 @@ func (ms *MonitorService) UsdToPkr() ([][]string, error) {
 }
 
 func (ms *MonitorService) MetalPrices() ([][]string, error) {
-	currentTime := time.Now().AddDate(0, 0, -5).Format("2006-01-02")
+	currentTime := time.Now().AddDate(0, 0, -15).Format("2006-01-02")
 	monitor := []Monitor{}
 	monitorString := [][]string{}
 	err := ms.db.Order("created_at ASC").
@@ -79,7 +79,7 @@ func (ms *MonitorService) MetalPrices() ([][]string, error) {
 }
 
 func (ms *MonitorService) OilPrices() ([][]string, error) {
-	currentTime := time.Now().AddDate(0, 0, -5).Format("2006-01-02")
+	currentTime := time.Now().AddDate(0, -1, 0).Format("2006-01-02")
 	monitor := []Monitor{}
 	monitorString := [][]string{}
 	err := ms.db.Order("created_at ASC").
