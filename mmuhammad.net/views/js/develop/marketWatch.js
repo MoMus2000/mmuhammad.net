@@ -76,28 +76,6 @@ async function fetchApartmentRates(){
     return [data, timeStamp, dataMax, timeStampMax, dataMin, timeStampMin, dataLikely, timeStampLikely]
 }
 
-async function fetchSteelRates(){
-    resp = await fetch("/api/v1/monitoring/steel")
-    resp = await resp.json()
-    china = []
-    turkeyRebar = []
-    turkeyScrap = []
-    timeStamp = []
-    for(let i=0; i<resp.length; i++){
-        if(resp[i][0] == "CHINA_HOT_ROLL"){
-            china.push(resp[i][1])
-            timeStamp.push(resp[i][2].split(" ")[0])
-        }
-        else if(resp[i][0] == "TURKEY_REBAR"){
-            turkeyRebar.push(resp[i][1])
-        }
-        else if(resp[i][0] == "TURKEY_SC"){
-            turkeyScrap.push(resp[i][1])
-        }
-    }
-    return [china, timeStamp, turkeyRebar, turkeyScrap]
-}
-
 async function fetchOilRates(){
     resp = await fetch("/api/v1/monitoring/oil")
     resp = await resp.json()
@@ -122,13 +100,11 @@ async function fetchOilRates(){
 
 async function prepareCharts(){
     usdRates = await fetchUSD()
-    steelRates = await fetchSteelRates()
     oilRates = await fetchOilRates()
     basementRates = await fetchBasementRates()
     apartmentRates = await fetchApartmentRates()
 
     console.log("DATAPOINTS", usdRates[0])
-    console.log("DP2", steelRates)
 
     console.log(basementRates[4][0])
     console.log(basementRates[0][0])
@@ -169,68 +145,6 @@ async function prepareCharts(){
             }
         }
     });
-
-
-    const steelctx = document.getElementById('steel').getContext('2d');
-    const steelChart = new Chart(steelctx, {
-        type: 'line',
-        data: {
-            labels: steelRates[1],
-            datasets: [{
-                label: '# China Hot Roll (PKR price per ounce)',
-                data: steelRates[0],
-                backgroundColor: [
-                    'rgba(28, 213, 200, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(28, 213, 200, 0.2)',
-                ],
-                borderWidth: 2
-            },
-            {
-            label: '# Turkey Rebar (PKR price per ounce)',
-            data: steelRates[2],
-            backgroundColor: [
-                'rgba(255, 10, 0, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 10, 0, 0.2)',
-            ],
-            borderWidth: 2
-            },
-            {
-            label: '# Turkey Scrap (PKR price per ounce)',
-            data: steelRates[3],
-            backgroundColor: [
-                'rgba(0, 10, 255, 0.2)',
-            ],
-            borderColor: [
-                'rgba(0, 10, 255, 0.2)',
-            ],
-            borderWidth: 2
-            }
-            ]
-        },
-        options: {
-            plugins: {
-            title: {
-                display: true,
-                text: 'Steel rate per ounce (PKR)',
-                font: {
-                    size: 18
-                }
-            },
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
 
     const oilctx = document.getElementById('oil').getContext('2d');
     const oilChart = new Chart(oilctx, {
