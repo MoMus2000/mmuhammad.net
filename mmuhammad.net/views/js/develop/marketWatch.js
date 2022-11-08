@@ -58,6 +58,18 @@ async function fetchBasementRates(){
     return [data, timeStamp, dataMax, timeStampMax, dataMin, timeStampMin, dataLikely, timeStampLikely]
 }
 
+
+function calculatePercentageChange(array){
+    let result = [0]
+    for(let i=0;i<array.length;i++){
+        if(i>0){
+            let increase = array[i] - array[i-1]
+            let percentage = (increase/array[i])*100
+            result.push(percentage)
+        }
+    }
+    return result
+}
 async function fetchApartmentRates(){
     resp = await fetch("/api/v1/monitoring/apartment")
     resp = await resp.json()
@@ -329,5 +341,63 @@ async function prepareCharts(){
         }
     }
     });
+
+    chart = new Chart(document.getElementById('basement-percent').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: basementRates[1],
+            datasets: [
+                {
+                    type:'line',
+                    label: 'BASEMENT_LIKELY_PRICE',
+                    data: calculatePercentageChange(basementRates[6]),
+                    backgroundColor: 'rgb(255, 159, 64)',
+                    borderColor: 'rgb(255, 159, 64)',
+                    borderWidth: 4
+                },
+                {
+                    type:'line',
+                    label: 'APARTMENT_LIKELY_PRICE',
+                    data: calculatePercentageChange(apartmentRates[6]),
+                    backgroundColor: 'rgb(255, 255, 120)',
+                    borderColor: 'rgb(255, 255, 120)',
+                    borderWidth: 4
+                },
+                {
+                    label: 'BASEMENT_MEAN',
+                    data: calculatePercentageChange(basementRates[0]),
+                    backgroundColor: 'rgb(54, 162, 235, 0.6)',
+                    stack: 'Stack 0',
+                },
+                {
+                    label: 'APARTMENT_MEAN',
+                    data: calculatePercentageChange(apartmentRates[0]),
+                    backgroundColor: 'rgb(54, 162, 235, 0.6)',
+                    stack: 'Stack 1',
+                },
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'GTA rentals (Basement & Apartments) % CHG',
+                    font: {
+                        size: 18
+                    }
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+        });
 }
 prepareCharts()
