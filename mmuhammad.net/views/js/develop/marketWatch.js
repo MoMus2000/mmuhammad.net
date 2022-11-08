@@ -58,6 +58,63 @@ async function fetchBasementRates(){
     return [data, timeStamp, dataMax, timeStampMax, dataMin, timeStampMin, dataLikely, timeStampLikely]
 }
 
+
+function calculatePercentageChange(array){
+    let result = [0]
+    for(let i=0;i<array.length;i++){
+        if(i>0){
+            let increase = array[i] - array[i-1]
+            let percentage = (increase/array[i])*100
+            result.push(percentage)
+        }
+    }
+    return result
+}
+
+function backgroundColor(array, normalColor, hightlightIndex, colorChange){
+    let colorArray = []
+    for(let i=0;i<array.length; i++){
+        if(hightlightIndex.includes(i)){
+            colorArray.push(colorChange)
+        }
+        else{
+            colorArray.push(normalColor)
+        }
+    }
+    if(colorArray[0] == colorChange){
+        colorArray[0] = normalColor
+    }
+    return colorArray
+}
+
+function lowestContigousSum(array){
+    let minEndingHere = Infinity
+    let minSoFar = Infinity
+    let lastIndex = 0
+    let startIndex = 0
+    let endIndex = 0
+    let result = []
+
+    for(let i=0;i<array.length;i++){
+        if(minEndingHere > 0){
+            minEndingHere = array[i]
+            lastIndex = i
+        }
+        else{
+            minEndingHere += array[i]
+        }
+        if(minSoFar > minEndingHere){
+            minSoFar = minEndingHere
+            startIndex = lastIndex
+            endIndex = i
+        }
+    }
+    for(let j=startIndex; j<=endIndex; j++){
+        result.push(j)
+    }
+    return result
+}
+
 async function fetchApartmentRates(){
     resp = await fetch("/api/v1/monitoring/apartment")
     resp = await resp.json()
@@ -329,5 +386,68 @@ async function prepareCharts(){
         }
     }
     });
+
+    let test = lowestContigousSum(calculatePercentageChange(apartmentRates[0]))
+    let colors = backgroundColor(apartmentRates[0], 'rgb(54, 162, 235, 0.6)', test)
+    console.log(test)
+    console.log(colors)
+
+    chart = new Chart(document.getElementById('basement-percent').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: basementRates[1],
+            datasets: [
+                {
+                    type:'line',
+                    label: 'BASEMENT_LIKELY_PRICE',
+                    data: calculatePercentageChange(basementRates[6]),
+                    backgroundColor: 'rgb(255, 159, 64)',
+                    borderColor: 'rgb(255, 159, 64)',
+                    borderWidth: 4
+                },
+                {
+                    type:'line',
+                    label: 'APARTMENT_LIKELY_PRICE',
+                    data: calculatePercentageChange(apartmentRates[6]),
+                    backgroundColor: 'rgb(255, 255, 120)',
+                    borderColor: 'rgb(255, 255, 120)',
+                    borderWidth: 4
+                },
+                {
+                    label: 'BASEMENT_MEAN',
+                    data: calculatePercentageChange(basementRates[0]),
+                    backgroundColor: backgroundColor(basementRates[0], 'rgb(54, 162, 235, 0.6)', lowestContigousSum(calculatePercentageChange(basementRates[0])), "rgb(252, 0, 0, 0.5)"),
+                    stack: 'Stack 0',
+                },
+                {
+                    label: 'APARTMENT_MEAN',
+                    data: calculatePercentageChange(apartmentRates[0]),
+                    backgroundColor: backgroundColor(apartmentRates[0], 'rgb(54, 162, 235, 0.6)', lowestContigousSum(calculatePercentageChange(apartmentRates[0])), "rgb(252, 0, 0, 0.9)"),
+                    stack: 'Stack 1',
+                },
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'GTA rentals (Basement & Apartments) % CHG',
+                    font: {
+                        size: 18
+                    }
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+        });
 }
 prepareCharts()
