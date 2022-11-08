@@ -12,6 +12,20 @@ async function fetchUSD(){
     return [data, timeStamp]
 }
 
+async function fetchSPY(){
+    resp = await fetch("/api/v1/monitoring/spy")
+    resp = await resp.json()
+    data = []
+    timeStamp = []
+    for(let i=0; i<resp.length; i++){
+        if(resp[i][0] == "CLOSE_SPY"){
+            data.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+    }
+    return [data, timeStamp]
+}
+
 async function fetchBasementRates(){
     resp = await fetch("/api/v1/monitoring/basement")
     resp = await resp.json()
@@ -103,6 +117,7 @@ async function prepareCharts(){
     oilRates = await fetchOilRates()
     basementRates = await fetchBasementRates()
     apartmentRates = await fetchApartmentRates()
+    spyRates = await fetchSPY()
 
     console.log("DATAPOINTS", usdRates[0])
 
@@ -131,6 +146,43 @@ async function prepareCharts(){
             title: {
                 display: true,
                 text: '$USD To PKR rate',
+                font: {
+                    size: 18
+                }
+            },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+
+    const spyCtx = document.getElementById('spy').getContext('2d');
+    const spyChart = new Chart(spyCtx, {
+        type: 'line',
+        data: {
+            labels: spyRates[1],
+            datasets: [{
+                label: '# S&P 500',
+                data: spyRates[0],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+            title: {
+                display: true,
+                text: 'S&P 500 (SPY ETF)',
                 font: {
                     size: 18
                 }

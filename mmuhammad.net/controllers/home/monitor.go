@@ -76,6 +76,17 @@ func (monitor *Monitor) GetApartmentRates(w http.ResponseWriter, r *http.Request
 	fmt.Fprintln(w, string(jsonEncoding))
 }
 
+func (monitor *Monitor) GetSpyRates(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.SPYRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
 func AddMonitorRoutes(r *mux.Router, monC *Monitor) {
 	r.Handle("/market", monC.MonitorPage).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/usopen", monC.GetUsdToPkr).Methods("GET")
@@ -83,4 +94,5 @@ func AddMonitorRoutes(r *mux.Router, monC *Monitor) {
 	r.HandleFunc("/api/v1/monitoring/oil", monC.GetOilRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/basement", monC.GetBasementRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/apartment", monC.GetApartmentRates).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/spy", monC.GetSpyRates).Methods("GET")
 }

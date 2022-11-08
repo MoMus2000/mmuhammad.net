@@ -147,3 +147,26 @@ func (ms *MonitorService) ApartmentRates() ([][]string, error) {
 
 	return monitorString, nil
 }
+
+func (ms *MonitorService) SPYRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ?", "CLOSE_SPY").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+
+	return monitorString, nil
+}

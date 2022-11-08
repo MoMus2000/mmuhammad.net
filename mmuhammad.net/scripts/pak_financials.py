@@ -7,11 +7,34 @@ import json
 FOREX_API_TOKEN = os.environ.get("FOREX_API_TOKEN")
 METAL_API_TOKEN = os.environ.get("METAL_API_TOKEN")
 COMMODITY_API_TOKEN = os.environ.get("COMMODITY_API_TOKEN")
+ALPHA_API_TOKEN = os.environ.get("ALPHA_API_TOKEN")
 
 con = sqlite3.connect("../db/lenslocked_dev.db")
 
 today_date = datetime.today()
 today_date = today_date.strftime('%Y-%m-%d')
+
+url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=SPY&interval=1min&apikey={ALPHA_API_TOKEN}'
+r = requests.get(url)
+if r.status_code == 200:
+    data = r.json()
+    date = sorted(list(data['Time Series (1min)'].keys()))[-1]
+    close_price = data['Time Series (1min)'][date]['4. close']
+    cur = con.cursor()
+    data = (
+        [today_date, "CLOSE_SPY", close_price],
+    )
+    try:
+        cur.executemany("""INSERT INTO monitors 
+        (date, metric, value) VALUES (?, ?, ?)""", data)
+        con.commit()
+        print("Wrote SPY close")
+
+    except sqlite3.IntegrityError:
+        print("DUPLICATE insertion ", data)
+
+else:
+    print(data.status_code)
 
 url = f"https://api.apilayer.com/exchangerates_data/latest?symbols=PKR&base=USD"
 
