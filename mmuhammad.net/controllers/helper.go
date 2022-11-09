@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
@@ -88,8 +89,11 @@ func ValidateJWT(r *http.Request) bool {
 func GetIP(r *http.Request) {
 	ip := r.RemoteAddr
 	xforward := r.Header.Get("X-Forwarded-For")
-	ipAddr := fmt.Sprintf("IP: %s", ip)
-	forwardFor := fmt.Sprintf("X-Forwarded-For : %s", xforward)
+	if xforward == "IP_TO_AVOID" {
+		return
+	}
+	ipAddr := fmt.Sprintf("IP: %s ", ip)
+	forwardFor := fmt.Sprintf("X-Forwarded-For : %s Time: %s", xforward, time.Now().Format("2006.01.02 15:04:05"))
 	file, err := os.OpenFile("visitors.txt", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
 	defer file.Close()
 	if err != nil {
