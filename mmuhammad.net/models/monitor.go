@@ -170,3 +170,49 @@ func (ms *MonitorService) SPYRates() ([][]string, error) {
 
 	return monitorString, nil
 }
+
+func (ms *MonitorService) SPYRegimeProbs() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ?", "LOW_VOL_PROB_SPY", "MED_VOL_PROB_SPY", "HIGH_VOL_PROB_SPY").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+
+	return monitorString, nil
+}
+
+func (ms *MonitorService) CADHousingRegime() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ?", "LOW_VOL_PROB_XRE.TO", "MED_VOL_PROB_XRE.TO", "HIGH_VOL_PROB_XRE.TO").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+
+	return monitorString, nil
+}

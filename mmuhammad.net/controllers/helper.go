@@ -89,7 +89,7 @@ func ValidateJWT(r *http.Request) bool {
 func GetIP(r *http.Request) {
 	ip := r.RemoteAddr
 	xforward := r.Header.Get("X-Forwarded-For")
-	if xforward == "IP_TO_AVOID" {
+	if xforward == os.Getenv("HOME_IP") {
 		return
 	}
 	ipAddr := fmt.Sprintf("IP: %s ", ip)

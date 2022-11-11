@@ -26,6 +26,54 @@ async function fetchSPY(){
     return [data, timeStamp]
 }
 
+async function fetchSPYRegime(){
+    resp = await fetch("/api/v1/monitoring/spy/regime")
+    resp = await resp.json()
+    low = []
+    med = []
+    high = []
+    timeStamp = []
+    for(let i=0; i<resp.length; i++){
+        if(resp[i][0] == "LOW_VOL_PROB_SPY"){
+            low.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+        else if(resp[i][0] == "MED_VOL_PROB_SPY"){
+            med.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+        else if(resp[i][0] == "HIGH_VOL_PROB_SPY"){
+            high.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+    }
+    return [low, high, med, timeStamp]
+}
+
+async function fetchCADRegime(){
+    resp = await fetch("/api/v1/monitoring/cad_housing/regime")
+    resp = await resp.json()
+    low = []
+    med = []
+    high = []
+    timeStamp = []
+    for(let i=0; i<resp.length; i++){
+        if(resp[i][0] == "LOW_VOL_PROB_XRE.TO"){
+            low.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+        else if(resp[i][0] == "MED_VOL_PROB_XRE.TO"){
+            med.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+        else if(resp[i][0] == "HIGH_VOL_PROB_XRE.TO"){
+            high.push(resp[i][1])
+            timeStamp.push(resp[i][2])
+        }
+    }
+    return [low, high, med, timeStamp]
+}
+
 async function fetchBasementRates(){
     resp = await fetch("/api/v1/monitoring/basement")
     resp = await resp.json()
@@ -170,11 +218,15 @@ async function fetchOilRates(){
 }
 
 async function prepareCharts(){
+    overlay = document.getElementById("overlay")
+    overlay.style.display = "block"
     usdRates = await fetchUSD()
     oilRates = await fetchOilRates()
     basementRates = await fetchBasementRates()
     apartmentRates = await fetchApartmentRates()
     spyRates = await fetchSPY()
+    spyRegime = await fetchSPYRegime()
+    cadRegime = await fetchCADRegime()    
 
     console.log("DATAPOINTS", usdRates[0])
 
@@ -254,6 +306,103 @@ async function prepareCharts(){
             }
         }
     });
+
+
+    const spyRegimeCtx = document.getElementById('spy-regime').getContext('2d');
+    const spyRegimeChart = new Chart(spyRegimeCtx, {
+        type: 'line',
+        data: {
+            labels: spyRegime[spyRates.length-1],
+            datasets: [
+                {
+                label: '# Downturn Probability SPY',
+                data: spyRegime[2],
+                backgroundColor: [
+                    'rgba(192, 0, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(192, 0, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '# Med Risk SPY',
+                data: spyRegime[1],
+                backgroundColor: [
+                    'rgba(192, 192, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(192, 192, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '# Upturn Probability SPY',
+                data: spyRegime[0],
+                backgroundColor: [
+                    'rgba(0, 192, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(0, 192, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '# Downturn Probability CAN REIT',
+                data: cadRegime[2],
+                backgroundColor: [
+                    'rgba(192, 0, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(192, 0, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '# Med Risk CAN REIT',
+                data: cadRegime[1],
+                backgroundColor: [
+                    'rgba(192, 192, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(192, 192, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '# Upturn Probability CAN REIT',
+                data: cadRegime[0],
+                backgroundColor: [
+                    'rgba(0, 192, 0, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(0, 192, 0, 1)',
+                ],
+                borderWidth: 1
+            }
+        ]
+        },
+        options: {
+            plugins: {
+            title: {
+                display: true,
+                text: 'Markov Regime Switch Model',
+                font: {
+                    size: 18
+                },
+                link: "https://mmuhammad.net"
+            },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            },
+        }
+    });
+
 
     const oilctx = document.getElementById('oil').getContext('2d');
     const oilChart = new Chart(oilctx, {
@@ -383,7 +532,7 @@ async function prepareCharts(){
             y: {
                 stacked: true
             }
-        }
+        },
     }
     });
 
@@ -449,5 +598,6 @@ async function prepareCharts(){
             }
         }
         });
+    overlay.style.display = "none"
 }
 prepareCharts()
