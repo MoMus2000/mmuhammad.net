@@ -30,6 +30,8 @@ sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.servi
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/finance.timer /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.service /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/kijiji.timer /etc/systemd/system
+sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/regime.timer /etc/systemd/system
+sshpass -p $pwd ssh root@mmuhammad.net cp /root/mustafa_m/services/regime.service /etc/systemd/system
 sshpass -p $pwd ssh root@mmuhammad.net systemctl daemon-reload
 echo "restarting go server service"
 sshpass -p $pwd ssh root@mmuhammad.net systemctl restart go_server

@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedules the regime data collection service
+Requires=regime.service
+
+[Timer]
+Unit=kijiji.service
+OnCalendar=Sat *-*-* 2:00:00
+
+[Install]
+WantedBy=timers.target
