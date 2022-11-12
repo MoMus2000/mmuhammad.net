@@ -1,4 +1,6 @@
 {{define "yield"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <div class="container"> 
 
@@ -9,8 +11,8 @@
 
 <div class="col-sm mt-3">
 <div class="form-outline mt-3">
-  <input type="text" id="tickers" class="form-control" />
-  <label class="form-label" for="typeText">Enter your Stock Tickers (Comma Seperated)</label>
+  <input type="text" id="tickers" class="form-control" style="text-transform:uppercase" />
+  <label class="form-label" for="typeText">Enter your Stock Tickers (Space Seperated)</label>
 </div>
 
 <div class="form-outline mt-3">
@@ -28,7 +30,7 @@
   <option value="5y">5 years</option>
 </select>
 
-<button class="btn btn-success mt-5" id="crunch"> Crunch your numbers </button>
+<button class="btn btn-success mt-5" id="crunch"> Crunch Numbers </button>
 </div>
 
 <div class="col-sm">
@@ -48,6 +50,14 @@ exposure to volatile / risky stocks and decide the optimal allocation of investm
 </div>
 
 <div class="col-sm" id="third" style="display:none;">
+<div class="chart-container">
+<canvas id="data" width="200" height="300"></canvas>
+</div>
+
+<div class="chart-container">
+<canvas id="data-stock" width="200" height="300"></canvas>
+</div>
+
 </div>
 </div>
 </div>

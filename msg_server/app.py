@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import os
 from twilio.rest import Client
 from datetime import datetime, timedelta
+from markovitz import MarkovitzModel
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(description="Just an example",
@@ -186,6 +187,29 @@ def get_total_messages():
         print(e)
         resp = jsonify(Data = 0)
     
+    return resp, 201
+
+@app.route("/api/v1/optimize/crunch", methods=["POST"])
+def crunchMarkovitz():
+    req = request.get_json()
+
+    try:
+        tickers = req["Tickers"].upper()
+        amount = req["Amount"]
+        time = req["TimeHorizon"]
+        print(time)
+        print(amount)
+        print(tickers.split(" "))
+        markovitz = MarkovitzModel(time, "1d", tickers.split(" "))
+        stats, stock = markovitz.run()
+        print(stats, stock)
+        resp = jsonify(returns = stats[0], volatility=stats[1],
+        sharpe=stats[2],
+        stock = stock)
+    except Exception as e:
+        print(e)
+        resp = jsonify(stats=0, stock=0)
+
     return resp, 201
 
 
