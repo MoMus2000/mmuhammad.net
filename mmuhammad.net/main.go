@@ -78,6 +78,8 @@ func main() {
 
 	fmbC := fmb.NewTwilioController(fmbService)
 
+	poC := home.NewPortfolioOptimization()
+
 	r.NotFoundHandler = staticC.PageNotFound
 	r.MethodNotAllowedHandler = staticC.InternalServerError
 
@@ -90,6 +92,8 @@ func main() {
 	admin.AddAdminRoutes(r, adminC)
 	home.AddMonitorRoutes(r, monC)
 	home.AddMessageBoardRoutes(r, mbC)
+
+	home.AddPORoutes(r, poC)
 
 	fmb.AddTwilioRoutes(r, fmbC)
 
