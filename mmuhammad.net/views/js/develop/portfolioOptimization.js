@@ -28,8 +28,8 @@ window.onload = ()=>{
         method: "POST",
         body: JSON.stringify(
                 {
-                "tickerValue" : tickers.value,
-                "amountValue": amount.value,
+                "tickerValue" : tickers.value.trim(),
+                "amountValue": amount.value.trim(),
                 "timeHorizon" : timeValue
                 }
             )
