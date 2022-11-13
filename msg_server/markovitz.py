@@ -99,4 +99,8 @@ class MarkovitzModel:
     def run(self):
         self._initialize_weights()
         optimizer = self.optimizer()
+        self.plot_data()
         return self.print_optimum_values(optimizer)
+
+if __name__ == "__main__":
+    MarkovitzModel("1mo", "1d", ["RY.TO", "TSLA"]).run()
