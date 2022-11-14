@@ -28,8 +28,15 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link" href="/about">About</a>
-      <a class="nav-item nav-link" href="/market">Market Watch</a>
-      <a class="nav-item nav-link" href="/optimize">Asset Allocation</a>
+    </div>
+    <div class="dropdown">
+      <a class="btn dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Personal Finance</a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      {{/* <li><a class="dropdown-item" href="/randomJoke">Jokes</a></li> */}}
+      <li><a class="dropdown-item" href="/market">Market Watch</a></li>
+      <li><a class="dropdown-item" href="/optimize">Asset Allocation</a></li>
+      {{/* <li><a class="dropdown-item" href="/msg">Message Board</a></li> */}}
+      </ul>
     </div>
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Portfolio Links</a>
