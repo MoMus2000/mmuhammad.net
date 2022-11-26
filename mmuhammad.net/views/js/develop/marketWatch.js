@@ -312,7 +312,7 @@ async function prepareCharts(){
     const spyRegimeChart = new Chart(spyRegimeCtx, {
         type: 'line',
         data: {
-            labels: spyRegime[spyRates.length-1],
+            labels: Array.from(new Set(spyRegime[3])),
             datasets: [
                 {
                 label: '# Downturn Probability SPY',
@@ -390,7 +390,7 @@ async function prepareCharts(){
                 font: {
                     size: 18
                 },
-                link: "https://mmuhammad.net"
+                // link: "https://mmuhammad.net"
             },
             },
             responsive: true,
