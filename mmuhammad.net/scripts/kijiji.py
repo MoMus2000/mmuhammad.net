@@ -114,7 +114,7 @@ def basement():
     for i in tqdm(range(1,int(200))):
         try:
             time.sleep(3)
-            url = f"https://www.kijiji.ca/b-apartments-condos/markham-york-region/2+basement+apartment/page-{i}/c37l1700274a29276001?radius=68.0&ad=offering&address=266+Lady+Valentina+Ave%2C+Maple%2C+ON+L6A+0E1%2C+Canada&ll=43.872291,-79.482061"
+            url = f"https://www.kijiji.ca/b-apartments-condos/markham-york-region/2+bedrooms-basement+apartment/page-{i}/c37l1700274a27949001a29276001?ll=43.872291%2C-79.482061&address=266+Lady+Valentina+Ave%2C+Maple%2C+ON+L6A+0E1%2C+Canada&ad=offering&radius=68.0"
             x = requests.get(url,timeout=30)
             url_set.add(x.url)
             if url not in url_set and i>1:
@@ -174,7 +174,7 @@ def bedroom_apartment():
     for i in tqdm(range(1,int(200))):
         try:
             time.sleep(3)
-            url = f"https://www.kijiji.ca/b-for-rent/markham-york-region/2+bedroom-apartment/page-{i}/k0c30349001l1700274?radius=64.0&ad=offering&address=3051+York+Regional+Rd+14%2C+Whitchurch-Stouffville%2C+ON+L4A+7X5%2C+Canada&ll=43.947208,-79.353803"
+            url = f"https://www.kijiji.ca/b-apartments-condos/markham-york-region/2+bedrooms-apartment/page-{i}/c37l1700274a27949001a29276001?ll=43.872291%2C-79.482061&address=266+Lady+Valentina+Ave%2C+Maple%2C+ON+L6A+0E1%2C+Canada&ad=offering&radius=68.0"
             x = requests.get(url,timeout=30)
             url_set.add(x.url)
             if url not in url_set and i>1:
