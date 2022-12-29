@@ -216,3 +216,179 @@ func (ms *MonitorService) CADHousingRegime() ([][]string, error) {
 
 	return monitorString, nil
 }
+
+func (ms *MonitorService) DurhanApartmentRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_DURHAM_APARTMENT_MEAN", "TWO_BD_DURHAM_APARTMENT_MIN", "TWO_BD_DURHAM_APARTMENT_MEDIAN", "TWO_BD_DURHAM_APARTMENT_MAX", "TWO_BD_DURHAM_APARTMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) StCatharinesApartmentRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_ST_CATHARINES_APARTMENT_MEAN", "TWO_BD_ST_CATHARINES_APARTMENT_MIN", "TWO_BD_ST_CATHARINES_APARTMENT_MEDIAN", "TWO_BD_ST_CATHARINES_APARTMENT_MAX", "TWO_BD_ST_CATHARINES_APARTMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) HamiltonApartmentRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_HAMILTON_APARTMENT_MEAN", "TWO_BD_HAMILTON_APARTMENT_MIN", "TWO_BD_HAMILTON_APARTMENT_MEDIAN", "TWO_BD_ST_CATHARINES_APARTMENT_MAX", "TWO_BD_HAMILTON_APARTMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) WindsorApartmentRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_WINDSOR_APARTMENT_MEAN", "TWO_BD_WINDSOR_APARTMENT_MIN", "TWO_BD_WINDSOR_APARTMENT_MEDIAN", "TWO_BD_WINDSOR_APARTMENT_MAX", "TWO_BD_WINDSOR_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) WindsorBasementRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_WINDSOR_BASEMENT_MEAN", "TWO_BD_WINDSOR_BASEMENT_MIN", "TWO_BD_WINDSOR_BASEMENT_MEDIAN", "TWO_BD_WINDSOR_BASEMENT_MAX", "TWO_BD_WINDSOR_BASEMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) HamiltonBasementRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_HAMILTON_BASEMENT_MEAN", "TWO_BD_HAMILTON_BASEMENT_MIN", "TWO_BD_HAMILTON_BASEMENT_MEDIAN", "TWO_BD_HAMILTON_BASEMENT_MAX", "TWO_BD_HAMILTON_BASEMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) DurhamBasementRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_DURHAM_BASEMENT_MEAN", "TWO_BD_DURHAM_BASEMENT_MIN", "TWO_BD_DURHAM_BASEMENT_MEDIAN", "TWO_BD_DURHAM_BASEMENT_MAX", "TWO_BD_DURHAM_BASEMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}
+
+func (ms *MonitorService) StCatharinesBasementRates() ([][]string, error) {
+	currentTime := time.Now().AddDate(-1, 0, 0).Format("2006-01-02")
+	monitor := []Monitor{}
+	monitorString := [][]string{}
+	err := ms.db.Order("created_at ASC").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_ST_CATHARINES_BASEMENT_MEAN", "TWO_BD_ST_CATHARINES_BASEMENT_MIN", "TWO_BD_ST_CATHARINES_BASEMENT_MEDIAN", "TWO_BD_ST_CATHARINES_BASEMENT_MAX", "TWO_BD_ST_CATHARINES_BASEMENT_LIKELY_PRICE").
+		Where("date >= ?", currentTime).
+		Find(&monitor).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	for _, result := range monitor {
+		monitorString = append(monitorString, []string{
+			result.Metric,
+			result.Value,
+			result.Date,
+		})
+	}
+	return monitorString, nil
+}

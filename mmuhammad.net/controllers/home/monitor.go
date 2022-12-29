@@ -109,6 +109,94 @@ func (monitor *Monitor) GetCADHousingProbs(w http.ResponseWriter, r *http.Reques
 	fmt.Fprintln(w, string(jsonEncoding))
 }
 
+func (monitor *Monitor) GetDurhamApartment(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.DurhanApartmentRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetDurhamBasement(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.DurhamBasementRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetWindsorApartment(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.WindsorApartmentRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetWindsorBasement(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.WindsorBasementRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetStCatharinesApartment(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.StCatharinesApartmentRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetStCatharinesBasement(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.StCatharinesBasementRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetHamiltonApartment(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.HamiltonApartmentRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
+func (monitor *Monitor) GetHamiltonBasement(w http.ResponseWriter, r *http.Request) {
+	monitors, err := monitor.monitorService.HamiltonBasementRates()
+	internalServerError := controllers.InternalServerError()
+	if err != nil {
+		internalServerError.Render(w, nil)
+	}
+	fmt.Println(monitors)
+	jsonEncoding, err := json.Marshal(monitors)
+	fmt.Fprintln(w, string(jsonEncoding))
+}
+
 func AddMonitorRoutes(r *mux.Router, monC *Monitor) {
 	r.Handle("/market", monC.MonitorPage).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/usopen", monC.GetUsdToPkr).Methods("GET")
@@ -119,4 +207,12 @@ func AddMonitorRoutes(r *mux.Router, monC *Monitor) {
 	r.HandleFunc("/api/v1/monitoring/spy", monC.GetSpyRates).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/spy/regime", monC.GetSpyProbs).Methods("GET")
 	r.HandleFunc("/api/v1/monitoring/cad_housing/regime", monC.GetCADHousingProbs).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/stcatharines/apartment", monC.GetStCatharinesApartment).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/stcatharines/basement", monC.GetStCatharinesBasement).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/durham/apartment", monC.GetDurhamApartment).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/durham/basement", monC.GetDurhamBasement).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/windsor/apartment", monC.GetWindsorApartment).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/windsor/basement", monC.GetWindsorBasement).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/hamilton/apartment", monC.GetHamiltonApartment).Methods("GET")
+	r.HandleFunc("/api/v1/monitoring/hamilton/basement", monC.GetHamiltonBasement).Methods("GET")
 }
