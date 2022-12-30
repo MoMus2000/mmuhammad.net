@@ -279,19 +279,19 @@ async function fetchDurhamBasementRates(){
     dataLikely = []
     timeStampLikely = []
     for(let i=0; i<resp.length; i++){
-        if(resp[i][0] == "TWO_BD_DURHAM_APARTMENT_MEAN"){
+        if(resp[i][0] == "TWO_BD_DURHAM_BASEMENT_MEAN"){
             data.push(resp[i][1])
             timeStamp.push(resp[i][2])
         }
-        else if(resp[i][0] == "TWO_BD_DURHAM_APARTMENT_MAX"){
+        else if(resp[i][0] == "TWO_BD_DURHAM_BASEMENT_MAX"){
             dataMax.push(resp[i][1])
             timeStampMax.push(resp[i][2])
         }
-        else if(resp[i][0] == "TWO_BD_DURHAM_APARTMENT_MIN"){
+        else if(resp[i][0] == "TWO_BD_DURHAM_BASEMENT_MIN"){
             dataMin.push(resp[i][1])
             timeStampMin.push(resp[i][2])
         }
-        else if(resp[i][0] == "TWO_BD_DURHAM_APARTMENT_LIKELY_PRICE"){
+        else if(resp[i][0] == "TWO_BD_DURHAM_BASEMENT_LIKELY_PRICE"){
             dataLikely.push(resp[i][1])
             timeStampLikely.push(resp[i][2])
         }
@@ -493,10 +493,16 @@ async function prepareCharts(){
     durhamApartmentRates = await fetchDurhamApartmentRates()
     durhamBasementRates = await fetchDurhamBasementRates()
 
-    console.log("DATAPOINTS", usdRates[0])
+    
+
+    console.log(hamiltonApartmentRates, "M2")
+
+    console.log(hamiltonBasementRates, "M1")
 
     console.log(basementRates[4][0])
     console.log(basementRates[0][0])
+
+    console.log(durhamBasementRates)
     
     const ctx = document.getElementById('usd').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -801,9 +807,6 @@ async function prepareCharts(){
     }
     });
 
-    let test = lowestContigousSum(calculatePercentageChange(apartmentRates[0]))
-    let colors = backgroundColor(apartmentRates[0], 'rgb(54, 162, 235, 0.6)', test)
-
     chart = new Chart(document.getElementById('basement-percent').getContext('2d'), {
         type: 'bar',
         data: {
@@ -861,6 +864,9 @@ async function prepareCharts(){
             }
         }
         });
+        
+        console.log("Hello 123 ",durhamApartmentRates)
+        console.log("Hello 456", durhamBasementRates)
 
         durhamChart = new Chart(document.getElementById('durham').getContext('2d'), {
             type: 'bar',
@@ -970,7 +976,7 @@ async function prepareCharts(){
                         {
                             label: 'BASEMENT_MEAN',
                             data: calculatePercentageChange(durhamBasementRates[0]),
-                            backgroundColor: backgroundColor(durhamApartmentRates[0], 'rgb(54, 162, 235, 0.6)', lowestContigousSum(calculatePercentageChange(durhamBasementRates[0])), "rgb(252, 0, 0, 0.5)"),
+                            backgroundColor: backgroundColor(durhamBasementRates[0], 'rgb(54, 162, 235, 0.6)', lowestContigousSum(calculatePercentageChange(durhamBasementRates[0])), "rgb(252, 0, 0, 0.5)"),
                             stack: 'Stack 0',
                         },
                         {

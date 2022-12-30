@@ -192,7 +192,6 @@ func (monitor *Monitor) GetHamiltonBasement(w http.ResponseWriter, r *http.Reque
 	if err != nil {
 		internalServerError.Render(w, nil)
 	}
-	fmt.Println(monitors)
 	jsonEncoding, err := json.Marshal(monitors)
 	fmt.Fprintln(w, string(jsonEncoding))
 }
