@@ -288,7 +288,7 @@ func (ms *MonitorService) WindsorApartmentRates() ([][]string, error) {
 	monitor := []Monitor{}
 	monitorString := [][]string{}
 	err := ms.db.Order("created_at ASC").
-		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_WINDSOR_APARTMENT_MEAN", "TWO_BD_WINDSOR_APARTMENT_MIN", "TWO_BD_WINDSOR_APARTMENT_MEDIAN", "TWO_BD_WINDSOR_APARTMENT_MAX", "TWO_BD_WINDSOR_LIKELY_PRICE").
+		Where("metric = ? OR metric = ? OR metric = ? OR metric = ? OR metric = ?", "TWO_BD_WINDSOR_APARTMENT_MEAN", "TWO_BD_WINDSOR_APARTMENT_MIN", "TWO_BD_WINDSOR_APARTMENT_MEDIAN", "TWO_BD_WINDSOR_APARTMENT_MAX", "TWO_BD_WINDSOR_APARTMENT_LIKELY_PRICE").
 		Where("date >= ?", currentTime).
 		Find(&monitor).
 		Error
